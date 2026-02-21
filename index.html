@@ -241,6 +241,35 @@
       margin-bottom: 20px;
     }
 
+    /* Geri sayım */
+    .geri-sayim-kap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .geri-sayim-cubuk-kap {
+      flex: 1;
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .geri-sayim-cubuk-ic {
+      height: 100%;
+      border-radius: 999px;
+      background: #4f46e5;
+      transition: width 0.1s linear, background 0.3s;
+    }
+    .geri-sayim-sayi {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #4f46e5;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    /* Tuş göstergesi — sadece görsel, tıklanamaz */
     .tus-alani {
       display: flex;
       gap: 16px;
@@ -252,24 +281,32 @@
       border-radius: 12px;
       padding: 20px 40px;
       text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
       min-width: 160px;
       user-select: none;
+      pointer-events: none; /* Mouse tıklamasını tamamen engelle */
     }
-    .tus-kutu:hover { border-color: #4f46e5; background: #eef2ff; }
-    .tus-kutu.secildi-ceker { border-color: #059669; background: #d1fae5; }
-    .tus-kutu.secildi-cekmez { border-color: #dc2626; background: #fee2e2; }
+    .tus-kutu.secildi {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
     .tus-harf {
       font-size: 2.2rem;
       font-weight: 900;
       display: block;
       margin-bottom: 6px;
+      color: #1a1a2e;
     }
     .tus-aciklama {
       font-size: 0.9rem;
       color: #555;
       font-weight: 600;
+    }
+
+    .klavye-ipucu {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #aaa;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -470,8 +507,9 @@
     <div>Aktör Senaryoları</div>
   </div>
   <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryoda bir karar vermeniz gerekecektir.</p>
-  <p style="margin-top:12px;">Kararınızı klavyenizdeki <strong>D</strong> veya <strong>K</strong> tuşuyla belirteceksiniz. Her senaryoda hangi tuşun ne anlama geldiği ekranda açıkça gösterilecektir.</p>
-  <p style="margin-top:12px; font-style:italic; color:#666;">Lütfen her senaryoyu dikkatlice inceledikten sonra kararınızı verin.</p>
+  <p style="margin-top:12px;">Kararınızı klavyenizdeki <strong>D</strong> veya <strong>K</strong> tuşuyla belirteceksiniz. Her senaryoda hangi tuşun ne anlama geldiği ekranda gösterilecektir.</p>
+  <p style="margin-top:12px;">Her senaryo en fazla <strong>8 saniye</strong> ekranda kalacaktır. Süre dolmadan kararınızı vermeye çalışın. Süre dolarsa senaryo otomatik olarak geçecektir.</p>
+  <p style="margin-top:12px; font-style:italic; color:#666;">Lütfen yalnızca klavye tuşlarını kullanın.</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-gges-to')">← Geri</button>
     <button class="btn btn-primary" onclick="aktorBaslat()">Başla →</button>
@@ -491,28 +529,29 @@
     <div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div>
   </div>
 
+  <!-- Geri sayım arka planda çalışır, katılımcıya gösterilmez -->
+  <div style="display:none">
+    <div id="geri-sayim-cubuk"></div>
+    <div id="geri-sayim-sayi"></div>
+  </div>
+
   <div class="gorsel-sahne">
     <img id="aktor-gorsel" src="" alt="Senaryo görseli" />
   </div>
 
+  <!-- Sadece görsel gösterge — pointer-events:none ile tıklanamaz -->
   <div class="tus-alani">
-    <div class="tus-kutu" id="tus-d" onclick="aktorYanit('D')">
+    <div class="tus-kutu" id="tus-d">
       <span class="tus-harf">D</span>
       <span class="tus-aciklama" id="tus-d-label">Çekerim</span>
     </div>
-    <div class="tus-kutu" id="tus-k" onclick="aktorYanit('K')">
+    <div class="tus-kutu" id="tus-k">
       <span class="tus-harf">K</span>
       <span class="tus-aciklama" id="tus-k-label">Çekmem</span>
     </div>
   </div>
 
-  <p style="text-align:center; font-size:0.82rem; color:#aaa; margin-top:4px;">
-    Klavye ile D veya K tuşuna basabilirsiniz.
-  </p>
-
-  <div class="btn-satir">
-    <button class="btn btn-primary" id="aktor-ileri-btn" onclick="aktorIleri()" disabled>Sonraki →</button>
-  </div>
+  <p class="klavye-ipucu">Yalnızca klavye ile D veya K tuşuna basın.</p>
 </section>
 
 
@@ -538,6 +577,8 @@
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
 
+const AKTOR_SURE = 8; // saniye — her senaryo için maksimum süre
+
 const KIMLIK_SORULARI = [
   { id: "kimlik_1", metin: "Grubumla bir bütünüm." },
   { id: "kimlik_2", metin: "Grubumla bütünleşmiş hissediyorum." },
@@ -559,12 +600,9 @@ const GGES_SORULARI = [
   { id: "gges_8", metin: "Kötü" },
 ];
 
-// ================================================================
-// AKTÖR SENARYOLARI
 // mapping: "DK" → D=Çekerim, K=Çekmem
 //          "KD" → D=Çekmem,  K=Çekerim
-// Görseller her katılımcıda farklı sırada (randomize) gösterilir.
-// ================================================================
+// Sadece tuş basımı kaydedilir, "doğru/yanlış" yoktur.
 const AKTOR_SENARYOLARI = [
   { id: "A1", gorsel: "Aktorsenaryo1.png", mapping: "DK" },
   { id: "A2", gorsel: "Aktorsenaryo2.png", mapping: "DK" },
@@ -580,7 +618,10 @@ const AKTOR_SENARYOLARI = [
 let veri = {};
 let aktorSira = [];
 let aktorIndex = 0;
-let aktorMevcutYanit = null;
+let aktorYanitVerildi = false;
+let aktorTimerId = null;      // setTimeout ID (8 sn otomatik geçiş)
+let aktorIntervalId = null;   // setInterval ID (geri sayım animasyonu)
+let aktorBaslangicZamani = 0; // Görsel gösterilme zamanı
 
 // ================================================================
 // YARDIMCI FONKSİYONLAR
@@ -592,7 +633,6 @@ function ekranGec(id) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Fisher-Yates karıştırma — her katılımcıda farklı sıra
 function karistir(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -785,32 +825,68 @@ function ggesToOgrula() {
 }
 
 // ================================================================
+// AKTÖR – ZAMANLAYICI
+// ================================================================
+
+function aktorZamanlamaBaslat() {
+  aktorBaslangicZamani = Date.now();
+
+  // Geri sayım animasyonu (her 100ms güncelle)
+  aktorIntervalId = setInterval(() => {
+    const gecen = (Date.now() - aktorBaslangicZamani) / 1000;
+    const kalan = Math.max(0, AKTOR_SURE - gecen);
+    const yuzde = (kalan / AKTOR_SURE) * 100;
+
+    document.getElementById('geri-sayim-sayi').textContent = Math.ceil(kalan);
+    document.getElementById('geri-sayim-cubuk').style.width = yuzde + '%';
+
+    // Son 3 saniyede çubuğu kırmızıya çevir
+    document.getElementById('geri-sayim-cubuk').style.background =
+      kalan <= 3 ? '#dc2626' : '#4f46e5';
+    document.getElementById('geri-sayim-sayi').style.color =
+      kalan <= 3 ? '#dc2626' : '#4f46e5';
+  }, 100);
+
+  // 8 saniye dolunca otomatik geç
+  aktorTimerId = setTimeout(() => {
+    aktorZamanlamaDurdur();
+    aktorKaydetVeGec(null); // null = yanıt verilmedi (süre doldu)
+  }, AKTOR_SURE * 1000);
+}
+
+function aktorZamanlamaDurdur() {
+  if (aktorTimerId)    { clearTimeout(aktorTimerId);    aktorTimerId = null; }
+  if (aktorIntervalId) { clearInterval(aktorIntervalId); aktorIntervalId = null; }
+}
+
+// ================================================================
 // AKTÖR SENARYOLARI
 // ================================================================
 
 function aktorBaslat() {
-  // Her katılımcıda farklı rastgele sıra
   aktorSira  = karistir(AKTOR_SENARYOLARI);
   aktorIndex = 0;
   veri.aktor = [];
-  // Gösterilen sırayı da kaydet (hangi senaryo kaçıncı gösterildi)
   veri.aktor_sirasi = aktorSira.map(s => s.id);
   ekranGec('ekran-aktor');
   aktorGorselGoster();
 }
 
 function aktorGorselGoster() {
+  aktorYanitVerildi = false;
   const toplam  = aktorSira.length;
   const senaryo = aktorSira[aktorIndex];
 
+  // İlerleme çubuğu
   document.getElementById('aktor-ilerleme-metin').textContent =
     `Senaryo ${aktorIndex + 1} / ${toplam}`;
   document.getElementById('aktor-ilerleme-ic').style.width =
     `${(aktorIndex / toplam) * 100}%`;
 
+  // Görsel
   document.getElementById('aktor-gorsel').src = senaryo.gorsel;
 
-  // Counterbalance: mapping'e göre tuş etiketlerini ayarla
+  // Tuş etiketleri (counterbalance)
   if (senaryo.mapping === "DK") {
     document.getElementById('tus-d-label').textContent = "Çekerim";
     document.getElementById('tus-k-label').textContent = "Çekmem";
@@ -819,66 +895,56 @@ function aktorGorselGoster() {
     document.getElementById('tus-k-label').textContent = "Çekerim";
   }
 
-  // Tuşları sıfırla
+  // Tuş görselini sıfırla
   document.getElementById('tus-d').className = 'tus-kutu';
   document.getElementById('tus-k').className = 'tus-kutu';
-  document.getElementById('aktor-ileri-btn').disabled = true;
-  aktorMevcutYanit = null;
+
+  // Geri sayımı başlat
+  document.getElementById('geri-sayim-cubuk').style.width = '100%';
+  document.getElementById('geri-sayim-cubuk').style.background = '#4f46e5';
+  document.getElementById('geri-sayim-sayi').textContent = AKTOR_SURE;
+  document.getElementById('geri-sayim-sayi').style.color = '#4f46e5';
+  aktorZamanlamaBaslat();
 }
 
-function aktorYanit(tus) {
-  if (aktorMevcutYanit) return; // Zaten cevap verilmişse tekrar işleme
-  aktorMevcutYanit = tus;
-
+function aktorKaydetVeGec(basin_tus) {
+  // basin_tus: "D", "K" veya null (süre doldu)
   const senaryo = aktorSira[aktorIndex];
-  const gercekKarar = (senaryo.mapping === "DK")
-    ? (tus === "D" ? "Çekti" : "Çekmedi")
-    : (tus === "D" ? "Çekmedi" : "Çekti");
+  const tepki_suresi = parseFloat(((Date.now() - aktorBaslangicZamani) / 1000).toFixed(3));
 
-  // Görsel geri bildirim
-  document.getElementById('tus-d').className =
-    'tus-kutu' + (tus === 'D'
-      ? (gercekKarar === "Çekti" ? ' secildi-ceker' : ' secildi-cekmez')
-      : '');
-  document.getElementById('tus-k').className =
-    'tus-kutu' + (tus === 'K'
-      ? (gercekKarar === "Çekti" ? ' secildi-ceker' : ' secildi-cekmez')
-      : '');
+  // Seçilen tuşu görsel olarak vurgula
+  if (basin_tus === 'D') {
+    document.getElementById('tus-d').className = 'tus-kutu secildi';
+  } else if (basin_tus === 'K') {
+    document.getElementById('tus-k').className = 'tus-kutu secildi';
+  }
 
-  document.getElementById('aktor-ileri-btn').disabled = false;
-}
-
-function aktorIleri() {
-  if (!aktorMevcutYanit) return;
-
-  const senaryo = aktorSira[aktorIndex];
-  const gercekKarar = (senaryo.mapping === "DK")
-    ? (aktorMevcutYanit === "D" ? "Çekti" : "Çekmedi")
-    : (aktorMevcutYanit === "D" ? "Çekmedi" : "Çekti");
-
-  // CSV'ye gidecek veriler:
-  // senaryo_id   → hangi senaryo (A1-A6)
-  // gosterim_sirasi → bu katılımcıda kaçıncı sırada gösterildi
-  // mapping      → DK veya KD (counterbalance koşulu)
-  // basin_tus    → katılımcının bastığı tuş (D/K)
-  // gercek_karar → Çekti / Çekmedi
+  // Kayıt:
+  // - senaryo_id      : A1-A6
+  // - gosterim_sirasi : bu katılımcıda kaçıncı sırada gösterildi
+  // - mapping         : DK veya KD (counterbalance)
+  // - basin_tus       : D, K veya null (yanıt vermedi)
+  // - tepki_suresi    : kaç saniyede yanıt verdi (süre dolunca 8.0xx)
   veri.aktor.push({
     senaryo_id:      senaryo.id,
     gosterim_sirasi: aktorIndex + 1,
     mapping:         senaryo.mapping,
-    basin_tus:       aktorMevcutYanit,
-    gercek_karar:    gercekKarar,
+    basin_tus:       basin_tus !== null ? basin_tus : "YOK",
+    tepki_suresi:    basin_tus !== null ? tepki_suresi : AKTOR_SURE,
   });
 
   aktorIndex++;
 
-  if (aktorIndex < aktorSira.length) {
-    aktorGorselGoster();
-  } else {
-    // Aktör bitti → veriyi gönder
-    // Bystander ve SS eklenince bu satır güncellenecek
-    veriGonder();
-  }
+  // Kısa bekleme sonrası sonraki senaryoya geç
+  setTimeout(() => {
+    if (aktorIndex < aktorSira.length) {
+      aktorGorselGoster();
+    } else {
+      // Tüm aktör senaryoları bitti
+      // Bystander/SS eklenince burası güncellenecek
+      veriGonder();
+    }
+  }, 400);
 }
 
 // ================================================================
@@ -887,9 +953,14 @@ function aktorIleri() {
 
 function klavyeDinle(e) {
   const tus = e.key.toUpperCase();
-  if (tus !== 'D' && tus !== 'K') return;
+
+  // Aktör ekranında D/K tuşu
   if (document.getElementById('ekran-aktor').classList.contains('aktif')) {
-    aktorYanit(tus);
+    if ((tus === 'D' || tus === 'K') && !aktorYanitVerildi) {
+      aktorYanitVerildi = true;
+      aktorZamanlamaDurdur(); // Zamanlayıcıyı durdur
+      aktorKaydetVeGec(tus);
+    }
   }
 }
 
@@ -933,12 +1004,12 @@ function doPost(e) {
       "gges_to_1","gges_to_2","gges_to_3","gges_to_4",
       "gges_to_5","gges_to_6","gges_to_7","gges_to_8",
       "aktor_sirasi",
-      "A1_sira","A1_mapping","A1_basin_tus","A1_gercek_karar",
-      "A2_sira","A2_mapping","A2_basin_tus","A2_gercek_karar",
-      "A3_sira","A3_mapping","A3_basin_tus","A3_gercek_karar",
-      "A4_sira","A4_mapping","A4_basin_tus","A4_gercek_karar",
-      "A5_sira","A5_mapping","A5_basin_tus","A5_gercek_karar",
-      "A6_sira","A6_mapping","A6_basin_tus","A6_gercek_karar",
+      "A1_sira","A1_mapping","A1_basin_tus","A1_tepki_suresi",
+      "A2_sira","A2_mapping","A2_basin_tus","A2_tepki_suresi",
+      "A3_sira","A3_mapping","A3_basin_tus","A3_tepki_suresi",
+      "A4_sira","A4_mapping","A4_basin_tus","A4_tepki_suresi",
+      "A5_sira","A5_mapping","A5_basin_tus","A5_tepki_suresi",
+      "A6_sira","A6_mapping","A6_basin_tus","A6_tepki_suresi",
     ]);
   }
 
@@ -948,7 +1019,6 @@ function doPost(e) {
 
   const aktor = {};
   (d.aktor || []).forEach(a => { aktor[a.senaryo_id] = a; });
-
   function ac(id, alan) { return aktor[id] ? aktor[id][alan] : ""; }
 
   sheet.appendRow([
@@ -961,12 +1031,12 @@ function doPost(e) {
     gto.gges_to_gges_1, gto.gges_to_gges_2, gto.gges_to_gges_3, gto.gges_to_gges_4,
     gto.gges_to_gges_5, gto.gges_to_gges_6, gto.gges_to_gges_7, gto.gges_to_gges_8,
     (d.aktor_sirasi || []).join("-"),
-    ac("A1","gosterim_sirasi"), ac("A1","mapping"), ac("A1","basin_tus"), ac("A1","gercek_karar"),
-    ac("A2","gosterim_sirasi"), ac("A2","mapping"), ac("A2","basin_tus"), ac("A2","gercek_karar"),
-    ac("A3","gosterim_sirasi"), ac("A3","mapping"), ac("A3","basin_tus"), ac("A3","gercek_karar"),
-    ac("A4","gosterim_sirasi"), ac("A4","mapping"), ac("A4","basin_tus"), ac("A4","gercek_karar"),
-    ac("A5","gosterim_sirasi"), ac("A5","mapping"), ac("A5","basin_tus"), ac("A5","gercek_karar"),
-    ac("A6","gosterim_sirasi"), ac("A6","mapping"), ac("A6","basin_tus"), ac("A6","gercek_karar"),
+    ac("A1","gosterim_sirasi"), ac("A1","mapping"), ac("A1","basin_tus"), ac("A1","tepki_suresi"),
+    ac("A2","gosterim_sirasi"), ac("A2","mapping"), ac("A2","basin_tus"), ac("A2","tepki_suresi"),
+    ac("A3","gosterim_sirasi"), ac("A3","mapping"), ac("A3","basin_tus"), ac("A3","tepki_suresi"),
+    ac("A4","gosterim_sirasi"), ac("A4","mapping"), ac("A4","basin_tus"), ac("A4","tepki_suresi"),
+    ac("A5","gosterim_sirasi"), ac("A5","mapping"), ac("A5","basin_tus"), ac("A5","tepki_suresi"),
+    ac("A6","gosterim_sirasi"), ac("A6","mapping"), ac("A6","basin_tus"), ac("A6","tepki_suresi"),
   ]);
 
   return ContentService
