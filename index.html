@@ -137,8 +137,8 @@
   <p>Deneyde monitör aracılığıyla ekranda tramvay ikilemi senaryoları izleyecek ve ahlaki kararlar vereceksiniz. Öncelikle <strong>Aktör</strong> olacak ve ikilemlerin çözümüne dair kendi ahlaki kararınızı vermeniz beklenecek, sonrasında ise <strong>Seyirci</strong> senaryoları gösterilecek ve yaşanan durumun ne kadar ahlaki olup olmadığına dair geri bildirim vermeniz istenecektir. Bu esnada beyin elektriksel aktiviteniz kayıt altına alınacaktır; ancak bu kayıtlar yalnızca mevcut araştırma için kullanılacaktır.</p>
   <p>Size ait tüm bilgiler saklı tutulacak, yayın, raporlama ve analiz bölümlerinde kimlik bilgileriniz kullanılmayacaktır. Katılımınız esnasında kendinizi rahatsız hissederseniz, deneyi istediğiniz an sonlandırmakta serbestsiniz.</p>
   <p>Çalışma hakkında bilgi almak için:<br>
-  Dr. Öğr. Üyesi Esin Tuna Demircioğlu — esintuna1@gmail.com<br>
-  Fatih Selçuk — fselcuk5@gmail.com · 0537 686 34 02</p>
+  Dr. Öğr. Üyesi Esin Tuna Demircioğlu — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dbbea8b2b5afaeb5baea9bbcb6bab2b7f5b8b4b6">[email&#160;protected]</a><br>
+  Fatih Selçuk — <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f69085939a95839dc3b6919b979f9ad895999b">[email&#160;protected]</a> · 0537 686 34 02</p>
   <div class="bilgi-kutusu" style="margin-top:20px; font-size:0.9rem;">
     Bilgilendirilmiş gönüllü onam formundaki tüm açıklamaları okudum. Araştırmaya gönüllü olarak katıldığımı, istediğim zaman gerekçeli veya gerekçesiz olarak araştırmadan ayrılabileceğimi biliyorum. Söz konusu araştırmaya hiçbir baskı ve zorlama olmaksızın kendi rızamla katılmayı kabul ettiğimi bildiririm.
   </div>
@@ -340,7 +340,7 @@
   </div>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-ss-aktor-aciklama')">← Geri</button>
-    <button class="btn btn-primary" onclick="ssBaslat()">Senaryolara Başla →</button>
+    <button class="btn btn-primary" onclick="ssBystanderBaslat()">Senaryolara Başla →</button>
   </div>
 </section>
 
@@ -394,7 +394,7 @@
   <p>Katılımınız için teşekkür ederiz. Yanıtlarınız başarıyla kaydedildi.</p>
 </section>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var GOOGLE_SCRIPT_URL   = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
 var AKTOR_SURE          = 8;
 var BYSTANDER_ONCE_SURE = 4000;
@@ -439,9 +439,11 @@ var BYSTANDER_SENARYOLARI = [
   { id:"B11", once:"Bystandergorsel11.png", sonra:"Bystandergorsel11_11.png" },
   { id:"B12", once:"Bystandergorsel12.png", sonra:"Bystandergorsel12_12.png" }
 ];
-var SS_SENARYOLARI = [
-  { id:"SS1", once:"SSsenaryo1.png", sonra:"SSsenaryo1_1.png", tip:"dk"     },
-  { id:"SS2", once:"SSsenaryo2.png", sonra:"SSsenaryo2_2.png", tip:"dk"     },
+var SS_AKTOR_SENARYOLARI = [
+  { id:"SS1", once:"SSsenaryo1.png", sonra:"SSsenaryo1_1.png", tip:"dk" },
+  { id:"SS2", once:"SSsenaryo2.png", sonra:"SSsenaryo2_2.png", tip:"dk" }
+];
+var SS_BYSTANDER_SENARYOLARI = [
   { id:"SS3", once:"SSsenaryo3.png", sonra:"SSsenaryo3_3.png", tip:"likert" },
   { id:"SS4", once:"SSsenaryo4.png", sonra:"SSsenaryo4_4.png", tip:"likert" },
   { id:"SS5", once:"SSsenaryo5.png", sonra:"SSsenaryo5_5.png", tip:"likert" },
@@ -453,6 +455,9 @@ var aktorSira=[], aktorIndex=0, aktorYanitVerildi=false;
 var aktorTimerId=null, aktorBaslangicZamani=0;
 var bystanderSira=[], bystanderIndex=0;
 var bystanderOncesiAktif=false, bystanderSonrasiAktif=false, bystanderTimerId=null;
+var ssAktorSira=[], ssAktorIndex=0;
+var ssBystSira=[], ssBystIndex=0;
+var ssAktif = 'aktor'; // 'aktor' veya 'bystander'
 var ssSira=[], ssIndex=0;
 var ssOncesiAktif=false, ssSonrasiAktif=false, ssTimerId=null;
 var ssDkYanitVerildi=false, ssDkTimerId=null, ssDkBaslangicZamani=0;
@@ -679,8 +684,21 @@ function bystanderKaydetVeGec(puan) {
 }
 
 function ssBaslat() {
-  ssSira = karistir(SS_SENARYOLARI); ssIndex=0; veri.ss=[];
-  veri.ss_sirasi = ssSira.map(function(s){return s.id;});
+  // Sadece SS Aktör bloğunu (1-2) başlat
+  ssAktorSira = karistir(SS_AKTOR_SENARYOLARI);
+  ssBystSira  = karistir(SS_BYSTANDER_SENARYOLARI);
+  ssAktorIndex = 0; ssBystIndex = 0;
+  veri.ss = [];
+  veri.ss_aktor_sirasi   = ssAktorSira.map(function(s){return s.id;});
+  veri.ss_bystander_sirasi = ssBystSira.map(function(s){return s.id;});
+  ssAktif = 'aktor';
+  ssSira  = ssAktorSira; ssIndex = 0;
+  ssOncesiGoster();
+}
+function ssBystanderBaslat() {
+  // Bystander instruction sonrası SS Bystander bloğunu (3-6) başlat
+  ssAktif = 'bystander';
+  ssSira  = ssBystSira; ssIndex = 0;
   ssOncesiGoster();
 }
 function ssOncesiGoster() {
@@ -736,8 +754,15 @@ function ssKaydetVeGec(basin_tus, puan) {
   veri.ss.push(kayit);
   ssIndex++;
   setTimeout(function(){
-    if (ssIndex < ssSira.length) ssOncesiGoster();
-    else veriGonder();
+    if (ssIndex < ssSira.length) {
+      ssOncesiGoster();
+    } else if (ssAktif === 'aktor') {
+      // Aktör bloğu bitti → Bystander instruction ekranına git
+      ekranGec('ekran-ss-bystander-aciklama');
+    } else {
+      // Her iki blok da bitti → veri gönder
+      veriGonder();
+    }
   }, 300);
 }
 
@@ -770,8 +795,8 @@ function klavyeDinle(e) {
 
 function veriGonder() {
   ekranGec('ekran-gonderim');
-  veri.zaman     = new Date().toISOString();
-  veri.tarayici  = navigator.userAgent;
+  veri.zaman    = new Date().toISOString();
+  veri.tarayici = navigator.userAgent;
   fetch(GOOGLE_SCRIPT_URL, {
     method:'POST', mode:'no-cors',
     headers:{'Content-Type':'application/json'},
