@@ -208,14 +208,14 @@
       .gges-secenekler { flex-wrap: wrap; }
     }
 
-    /* AKTÖR */
+    /* GÖRSEL EKRANLAR (Aktör + Bystander) */
     .gorsel-sahne {
       text-align: center;
       margin-bottom: 24px;
     }
     .gorsel-sahne img {
       max-width: 100%;
-      max-height: 400px;
+      max-height: 420px;
       border-radius: 10px;
       border: 2px solid #e5e7eb;
       object-fit: contain;
@@ -241,35 +241,7 @@
       margin-bottom: 20px;
     }
 
-    /* Geri sayım */
-    .geri-sayim-kap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .geri-sayim-cubuk-kap {
-      flex: 1;
-      background: #e5e7eb;
-      border-radius: 999px;
-      height: 6px;
-      overflow: hidden;
-    }
-    .geri-sayim-cubuk-ic {
-      height: 100%;
-      border-radius: 999px;
-      background: #4f46e5;
-      transition: width 0.1s linear, background 0.3s;
-    }
-    .geri-sayim-sayi {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #4f46e5;
-      min-width: 28px;
-      text-align: right;
-    }
-
-    /* Tuş göstergesi — sadece görsel, tıklanamaz */
+    /* AKTÖR tuş göstergesi */
     .tus-alani {
       display: flex;
       gap: 16px;
@@ -283,7 +255,7 @@
       text-align: center;
       min-width: 160px;
       user-select: none;
-      pointer-events: none; /* Mouse tıklamasını tamamen engelle */
+      pointer-events: none;
     }
     .tus-kutu.secildi {
       border-color: #4f46e5;
@@ -301,12 +273,56 @@
       color: #555;
       font-weight: 600;
     }
-
     .klavye-ipucu {
       text-align: center;
       font-size: 0.82rem;
       color: #aaa;
       margin-top: 8px;
+    }
+
+    /* BYSTANDER Likert */
+    .bys-soru {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .bys-likert {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: nowrap;
+      margin-bottom: 8px;
+    }
+    .bys-likert input[type="radio"] { display: none; }
+    .bys-likert label {
+      width: 44px; height: 44px;
+      border: 2px solid #d1d5db;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: all 0.15s;
+      color: #555;
+      flex-shrink: 0;
+    }
+    .bys-likert input[type="radio"]:checked + label {
+      background: #4f46e5;
+      border-color: #4f46e5;
+      color: #fff;
+    }
+    .bys-likert label:hover {
+      border-color: #4f46e5;
+      color: #4f46e5;
+    }
+    .bys-uc-satirlar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: #888;
+      margin-top: 4px;
+      padding: 0 4px;
     }
   </style>
 </head>
@@ -432,7 +448,7 @@
 </section>
 
 
-<!-- EKRAN 2b: KİMLİK KAYNAŞIM SORULARI -->
+<!-- EKRAN 2b: KİMLİK KAYNAŞIM -->
 <section id="ekran-kimlik" class="ekran">
   <div class="bolum-bant">
     <div class="bolum-no">2</div>
@@ -466,7 +482,7 @@
 </section>
 
 
-<!-- EKRAN 3b: GGES – TÜRK GRUPLAR -->
+<!-- EKRAN 3b: GGES TÜRK -->
 <section id="ekran-gges-turk" class="ekran">
   <div class="bolum-bant">
     <div class="bolum-no">3</div>
@@ -483,7 +499,7 @@
 </section>
 
 
-<!-- EKRAN 3c: GGES – TÜRK OLMAYAN GRUPLAR -->
+<!-- EKRAN 3c: GGES TÜRK OLMAYAN -->
 <section id="ekran-gges-to" class="ekran">
   <div class="bolum-bant">
     <div class="bolum-no">3</div>
@@ -508,7 +524,7 @@
   </div>
   <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryoda bir karar vermeniz gerekecektir.</p>
   <p style="margin-top:12px;">Kararınızı klavyenizdeki <strong>D</strong> veya <strong>K</strong> tuşuyla belirteceksiniz. Her senaryoda hangi tuşun ne anlama geldiği ekranda gösterilecektir.</p>
-  <p style="margin-top:12px;">Her senaryo en fazla <strong>8 saniye</strong> ekranda kalacaktır. Süre dolmadan kararınızı vermeye çalışın. Süre dolarsa senaryo otomatik olarak geçecektir.</p>
+  <p style="margin-top:12px;">Her senaryo en fazla <strong>8 saniye</strong> ekranda kalacaktır. Süre dolmadan kararınızı vermeye çalışın.</p>
   <p style="margin-top:12px; font-style:italic; color:#666;">Lütfen yalnızca klavye tuşlarını kullanın.</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-gges-to')">← Geri</button>
@@ -517,29 +533,23 @@
 </section>
 
 
-<!-- EKRAN 4b: AKTÖR SENARYOLARI -->
+<!-- EKRAN 4b: AKTÖR -->
 <section id="ekran-aktor" class="ekran">
   <div class="bolum-bant">
     <div class="bolum-no">4</div>
     <div>Aktör Senaryoları</div>
   </div>
-
   <div class="ilerleme-metin" id="aktor-ilerleme-metin"></div>
   <div class="ilerleme-kap">
     <div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div>
   </div>
-
-  <!-- Geri sayım arka planda çalışır, katılımcıya gösterilmez -->
   <div style="display:none">
     <div id="geri-sayim-cubuk"></div>
     <div id="geri-sayim-sayi"></div>
   </div>
-
   <div class="gorsel-sahne">
     <img id="aktor-gorsel" src="" alt="Senaryo görseli" />
   </div>
-
-  <!-- Sadece görsel gösterge — pointer-events:none ile tıklanamaz -->
   <div class="tus-alani">
     <div class="tus-kutu" id="tus-d">
       <span class="tus-harf">D</span>
@@ -550,8 +560,69 @@
       <span class="tus-aciklama" id="tus-k-label">Çekmem</span>
     </div>
   </div>
-
   <p class="klavye-ipucu">Yalnızca klavye ile D veya K tuşuna basın.</p>
+</section>
+
+
+<!-- EKRAN 5a: BYSTANDER AÇIKLAMA -->
+<section id="ekran-bystander-aciklama" class="ekran">
+  <div class="bolum-bant">
+    <div class="bolum-no">5</div>
+    <div>Bystander Senaryoları</div>
+  </div>
+  <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryo iki aşamadan oluşmaktadır.</p>
+  <p style="margin-top:12px;">İlk aşamada raylarda kimlerin olduğunu göreceksiniz. Devam etmeye hazır olduğunuzda <strong>Devam</strong> butonuna basın.</p>
+  <p style="margin-top:12px;">İkinci aşamada senaryonun sonucunu görecek ve ardından <strong>verilen kararı ne kadar ahlaki bulduğunuzu</strong> 1-6 arasında değerlendirmeniz istenecektir.</p>
+  <div class="btn-satir">
+    <button class="btn btn-gray" onclick="ekranGec('ekran-aktor-aciklama')">← Geri</button>
+    <button class="btn btn-primary" onclick="bystanderBaslat()">Başla →</button>
+  </div>
+</section>
+
+
+<!-- EKRAN 5b: BYSTANDER – ÖNCESİ -->
+<section id="ekran-bystander-once" class="ekran">
+  <div class="bolum-bant">
+    <div class="bolum-no">5</div>
+    <div id="bys-once-baslik">Bystander Senaryoları</div>
+  </div>
+  <div class="ilerleme-metin" id="bys-ilerleme-metin"></div>
+  <div class="ilerleme-kap">
+    <div class="ilerleme-ic" id="bys-ilerleme-ic" style="width:0%"></div>
+  </div>
+  <div class="gorsel-sahne">
+    <img id="bys-gorsel-once" src="" alt="Senaryo öncesi" />
+  </div>
+  <div class="btn-satir">
+    <button class="btn btn-primary" onclick="bystanderSonrasiGoster()">Devam →</button>
+  </div>
+</section>
+
+
+<!-- EKRAN 5c: BYSTANDER – SONRASI + LİKERT -->
+<section id="ekran-bystander-sonra" class="ekran">
+  <div class="bolum-bant">
+    <div class="bolum-no">5</div>
+    <div>Bystander Senaryoları</div>
+  </div>
+  <div class="gorsel-sahne">
+    <img id="bys-gorsel-sonra" src="" alt="Senaryo sonrası" />
+  </div>
+
+  <p class="bys-soru">Bu senaryoda verilen kararı ne kadar ahlaki buldunuz?</p>
+
+  <div class="bys-likert" id="bys-likert-secenekler">
+    <!-- 1-6 radio butonları JS tarafından üretilir -->
+  </div>
+  <div class="bys-uc-satirlar">
+    <span>Hiç ahlaki değil</span>
+    <span>Tamamen ahlaki</span>
+  </div>
+
+  <div id="bys-hata" class="hata">Lütfen bir seçenek işaretleyin.</div>
+  <div class="btn-satir">
+    <button class="btn btn-primary" onclick="bystanderKaydetVeGec()">Devam →</button>
+  </div>
 </section>
 
 
@@ -576,8 +647,7 @@
 // ================================================================
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
-
-const AKTOR_SURE = 8; // saniye — her senaryo için maksimum süre
+const AKTOR_SURE = 8;
 
 const KIMLIK_SORULARI = [
   { id: "kimlik_1", metin: "Grubumla bir bütünüm." },
@@ -600,9 +670,6 @@ const GGES_SORULARI = [
   { id: "gges_8", metin: "Kötü" },
 ];
 
-// mapping: "DK" → D=Çekerim, K=Çekmem
-//          "KD" → D=Çekmem,  K=Çekerim
-// Sadece tuş basımı kaydedilir, "doğru/yanlış" yoktur.
 const AKTOR_SENARYOLARI = [
   { id: "A1", gorsel: "Aktorsenaryo1.png", mapping: "DK" },
   { id: "A2", gorsel: "Aktorsenaryo2.png", mapping: "DK" },
@@ -612,19 +679,41 @@ const AKTOR_SENARYOLARI = [
   { id: "A6", gorsel: "Aktorsenaryo6.png", mapping: "KD" },
 ];
 
+// 12 bystander senaryosu — çiftler birlikte kalır, sıralar randomize olur
+const BYSTANDER_SENARYOLARI = [
+  { id: "B1",  once: "Bystandergorsel1.png",  sonra: "Bystandergorsel1_1.png"  },
+  { id: "B2",  once: "Bystandergorsel2.png",  sonra: "Bystandergorsel2_2.png"  },
+  { id: "B3",  once: "Bystandergorsel3.png",  sonra: "Bystandergorsel3_3.png"  },
+  { id: "B4",  once: "Bystandergorsel4.png",  sonra: "Bystandergorsel4_4.png"  },
+  { id: "B5",  once: "Bystandergorsel5.png",  sonra: "Bystandergorsel5_5.png"  },
+  { id: "B6",  once: "Bystandergorsel6.png",  sonra: "Bystandergorsel6_6.png"  },
+  { id: "B7",  once: "Bystandergorsel7.png",  sonra: "Bystandergorsel7_7.png"  },
+  { id: "B8",  once: "Bystandergorsel8.png",  sonra: "Bystandergorsel8_8.png"  },
+  { id: "B9",  once: "Bystandergorsel9.png",  sonra: "Bystandergorsel9_9.png"  },
+  { id: "B10", once: "Bystandergorsel10.png", sonra: "Bystandergorsel10_10.png" },
+  { id: "B11", once: "Bystandergorsel11.png", sonra: "Bystandergorsel11_11.png" },
+  { id: "B12", once: "Bystandergorsel12.png", sonra: "Bystandergorsel12_12.png" },
+];
+
 // ================================================================
 // DURUM DEĞİŞKENLERİ
 // ================================================================
 let veri = {};
+
+// Aktör
 let aktorSira = [];
 let aktorIndex = 0;
 let aktorYanitVerildi = false;
-let aktorTimerId = null;      // setTimeout ID (8 sn otomatik geçiş)
-let aktorIntervalId = null;   // setInterval ID (geri sayım animasyonu)
-let aktorBaslangicZamani = 0; // Görsel gösterilme zamanı
+let aktorTimerId = null;
+let aktorIntervalId = null;
+let aktorBaslangicZamani = 0;
+
+// Bystander
+let bystanderSira = [];
+let bystanderIndex = 0;
 
 // ================================================================
-// YARDIMCI FONKSİYONLAR
+// YARDIMCI
 // ================================================================
 
 function ekranGec(id) {
@@ -735,12 +824,23 @@ window.addEventListener('load', () => {
   ggesGrupUret('gges-turk-sorular', GGES_SORULARI, 'gges_turk');
   ggesGrupUret('gges-to-sorular',   GGES_SORULARI, 'gges_to');
 
+  // Siyasi konum 1-7
   const rg = document.getElementById('dem-siyasi-konum-rg');
   rg.innerHTML = '';
   for (let i = 1; i <= 7; i++) {
     rg.innerHTML += `
       <input type="radio" name="dem-siyasi-konum" id="siyasi_${i}" value="${i}" />
       <label class="radio-label" for="siyasi_${i}">${i}</label>
+    `;
+  }
+
+  // Bystander Likert 1-6
+  const bysLikert = document.getElementById('bys-likert-secenekler');
+  bysLikert.innerHTML = '';
+  for (let i = 1; i <= 6; i++) {
+    bysLikert.innerHTML += `
+      <input type="radio" name="bys_ahlak" id="bys_ahlak_${i}" value="${i}" />
+      <label for="bys_ahlak_${i}">${i}</label>
     `;
   }
 
@@ -795,7 +895,7 @@ function kimlikDogrula() {
 }
 
 // ================================================================
-// GGES – TÜRK
+// GGES
 // ================================================================
 
 function ggesTogrula() {
@@ -808,10 +908,6 @@ function ggesTogrula() {
   veri.gges_turk = sonuc;
   ekranGec('ekran-gges-to');
 }
-
-// ================================================================
-// GGES – TÜRK OLMAYAN
-// ================================================================
 
 function ggesToOgrula() {
   const sonuc = ggesGrupVeriTopla(GGES_SORULARI, 'gges_to');
@@ -830,37 +926,19 @@ function ggesToOgrula() {
 
 function aktorZamanlamaBaslat() {
   aktorBaslangicZamani = Date.now();
-
-  // Geri sayım animasyonu (her 100ms güncelle)
-  aktorIntervalId = setInterval(() => {
-    const gecen = (Date.now() - aktorBaslangicZamani) / 1000;
-    const kalan = Math.max(0, AKTOR_SURE - gecen);
-    const yuzde = (kalan / AKTOR_SURE) * 100;
-
-    document.getElementById('geri-sayim-sayi').textContent = Math.ceil(kalan);
-    document.getElementById('geri-sayim-cubuk').style.width = yuzde + '%';
-
-    // Son 3 saniyede çubuğu kırmızıya çevir
-    document.getElementById('geri-sayim-cubuk').style.background =
-      kalan <= 3 ? '#dc2626' : '#4f46e5';
-    document.getElementById('geri-sayim-sayi').style.color =
-      kalan <= 3 ? '#dc2626' : '#4f46e5';
-  }, 100);
-
-  // 8 saniye dolunca otomatik geç
   aktorTimerId = setTimeout(() => {
     aktorZamanlamaDurdur();
-    aktorKaydetVeGec(null); // null = yanıt verilmedi (süre doldu)
+    aktorKaydetVeGec(null);
   }, AKTOR_SURE * 1000);
 }
 
 function aktorZamanlamaDurdur() {
-  if (aktorTimerId)    { clearTimeout(aktorTimerId);    aktorTimerId = null; }
+  if (aktorTimerId)    { clearTimeout(aktorTimerId);     aktorTimerId = null; }
   if (aktorIntervalId) { clearInterval(aktorIntervalId); aktorIntervalId = null; }
 }
 
 // ================================================================
-// AKTÖR SENARYOLARI
+// AKTÖR
 // ================================================================
 
 function aktorBaslat() {
@@ -877,16 +955,13 @@ function aktorGorselGoster() {
   const toplam  = aktorSira.length;
   const senaryo = aktorSira[aktorIndex];
 
-  // İlerleme çubuğu
   document.getElementById('aktor-ilerleme-metin').textContent =
     `Senaryo ${aktorIndex + 1} / ${toplam}`;
   document.getElementById('aktor-ilerleme-ic').style.width =
     `${(aktorIndex / toplam) * 100}%`;
 
-  // Görsel
   document.getElementById('aktor-gorsel').src = senaryo.gorsel;
 
-  // Tuş etiketleri (counterbalance)
   if (senaryo.mapping === "DK") {
     document.getElementById('tus-d-label').textContent = "Çekerim";
     document.getElementById('tus-k-label').textContent = "Çekmem";
@@ -895,36 +970,18 @@ function aktorGorselGoster() {
     document.getElementById('tus-k-label').textContent = "Çekerim";
   }
 
-  // Tuş görselini sıfırla
   document.getElementById('tus-d').className = 'tus-kutu';
   document.getElementById('tus-k').className = 'tus-kutu';
-
-  // Geri sayımı başlat
-  document.getElementById('geri-sayim-cubuk').style.width = '100%';
-  document.getElementById('geri-sayim-cubuk').style.background = '#4f46e5';
-  document.getElementById('geri-sayim-sayi').textContent = AKTOR_SURE;
-  document.getElementById('geri-sayim-sayi').style.color = '#4f46e5';
   aktorZamanlamaBaslat();
 }
 
 function aktorKaydetVeGec(basin_tus) {
-  // basin_tus: "D", "K" veya null (süre doldu)
   const senaryo = aktorSira[aktorIndex];
   const tepki_suresi = parseFloat(((Date.now() - aktorBaslangicZamani) / 1000).toFixed(3));
 
-  // Seçilen tuşu görsel olarak vurgula
-  if (basin_tus === 'D') {
-    document.getElementById('tus-d').className = 'tus-kutu secildi';
-  } else if (basin_tus === 'K') {
-    document.getElementById('tus-k').className = 'tus-kutu secildi';
-  }
+  if (basin_tus === 'D') document.getElementById('tus-d').className = 'tus-kutu secildi';
+  else if (basin_tus === 'K') document.getElementById('tus-k').className = 'tus-kutu secildi';
 
-  // Kayıt:
-  // - senaryo_id      : A1-A6
-  // - gosterim_sirasi : bu katılımcıda kaçıncı sırada gösterildi
-  // - mapping         : DK veya KD (counterbalance)
-  // - basin_tus       : D, K veya null (yanıt vermedi)
-  // - tepki_suresi    : kaç saniyede yanıt verdi (süre dolunca 8.0xx)
   veri.aktor.push({
     senaryo_id:      senaryo.id,
     gosterim_sirasi: aktorIndex + 1,
@@ -935,16 +992,84 @@ function aktorKaydetVeGec(basin_tus) {
 
   aktorIndex++;
 
-  // Kısa bekleme sonrası sonraki senaryoya geç
   setTimeout(() => {
     if (aktorIndex < aktorSira.length) {
       aktorGorselGoster();
     } else {
-      // Tüm aktör senaryoları bitti
-      // Bystander/SS eklenince burası güncellenecek
-      veriGonder();
+      // Aktör bitti → Bystander açıklamasına geç
+      ekranGec('ekran-bystander-aciklama');
     }
   }, 400);
+}
+
+// ================================================================
+// BYSTANDER
+// ================================================================
+
+function bystanderBaslat() {
+  bystanderSira  = karistir(BYSTANDER_SENARYOLARI); // Çiftler randomize
+  bystanderIndex = 0;
+  veri.bystander = [];
+  veri.bystander_sirasi = bystanderSira.map(s => s.id);
+  bystanderOncesiGoster();
+}
+
+function bystanderOncesiGoster() {
+  const toplam  = bystanderSira.length;
+  const senaryo = bystanderSira[bystanderIndex];
+
+  // İlerleme
+  document.getElementById('bys-ilerleme-metin').textContent =
+    `Senaryo ${bystanderIndex + 1} / ${toplam}`;
+  document.getElementById('bys-ilerleme-ic').style.width =
+    `${(bystanderIndex / toplam) * 100}%`;
+
+  // Öncesi görseli
+  document.getElementById('bys-gorsel-once').src = senaryo.once;
+
+  ekranGec('ekran-bystander-once');
+}
+
+function bystanderSonrasiGoster() {
+  const senaryo = bystanderSira[bystanderIndex];
+
+  // Sonrası görseli
+  document.getElementById('bys-gorsel-sonra').src = senaryo.sonra;
+
+  // Likert'i sıfırla
+  document.querySelectorAll('input[name="bys_ahlak"]').forEach(r => r.checked = false);
+  document.getElementById('bys-hata').style.display = 'none';
+
+  ekranGec('ekran-bystander-sonra');
+}
+
+function bystanderKaydetVeGec() {
+  const puan = likertDegerOku('bys_ahlak');
+  if (!puan) {
+    document.getElementById('bys-hata').style.display = 'block';
+    return;
+  }
+  document.getElementById('bys-hata').style.display = 'none';
+
+  const senaryo = bystanderSira[bystanderIndex];
+
+  // CSV'ye gidecek veriler:
+  // senaryo_id, gosterim_sirasi, ahlak_puani
+  veri.bystander.push({
+    senaryo_id:      senaryo.id,
+    gosterim_sirasi: bystanderIndex + 1,
+    ahlak_puani:     puan,
+  });
+
+  bystanderIndex++;
+
+  if (bystanderIndex < bystanderSira.length) {
+    bystanderOncesiGoster();
+  } else {
+    // Bystander bitti → veriyi gönder
+    // SS eklenince burası güncellenecek
+    veriGonder();
+  }
 }
 
 // ================================================================
@@ -953,19 +1078,17 @@ function aktorKaydetVeGec(basin_tus) {
 
 function klavyeDinle(e) {
   const tus = e.key.toUpperCase();
-
-  // Aktör ekranında D/K tuşu
   if (document.getElementById('ekran-aktor').classList.contains('aktif')) {
     if ((tus === 'D' || tus === 'K') && !aktorYanitVerildi) {
       aktorYanitVerildi = true;
-      aktorZamanlamaDurdur(); // Zamanlayıcıyı durdur
+      aktorZamanlamaDurdur();
       aktorKaydetVeGec(tus);
     }
   }
 }
 
 // ================================================================
-// VERİ GÖNDER → GOOGLE APPS SCRIPT
+// VERİ GÖNDER
 // ================================================================
 
 function veriGonder() {
@@ -986,7 +1109,7 @@ function veriGonder() {
 
 /*
 ================================================================
-GOOGLE APPS SCRIPT KODU – script.google.com'a yapıştırın
+GOOGLE APPS SCRIPT KODU
 ================================================================
 
 function doPost(e) {
@@ -1010,6 +1133,19 @@ function doPost(e) {
       "A4_sira","A4_mapping","A4_basin_tus","A4_tepki_suresi",
       "A5_sira","A5_mapping","A5_basin_tus","A5_tepki_suresi",
       "A6_sira","A6_mapping","A6_basin_tus","A6_tepki_suresi",
+      "bystander_sirasi",
+      "B1_sira","B1_ahlak",
+      "B2_sira","B2_ahlak",
+      "B3_sira","B3_ahlak",
+      "B4_sira","B4_ahlak",
+      "B5_sira","B5_ahlak",
+      "B6_sira","B6_ahlak",
+      "B7_sira","B7_ahlak",
+      "B8_sira","B8_ahlak",
+      "B9_sira","B9_ahlak",
+      "B10_sira","B10_ahlak",
+      "B11_sira","B11_ahlak",
+      "B12_sira","B12_ahlak",
     ]);
   }
 
@@ -1021,6 +1157,10 @@ function doPost(e) {
   (d.aktor || []).forEach(a => { aktor[a.senaryo_id] = a; });
   function ac(id, alan) { return aktor[id] ? aktor[id][alan] : ""; }
 
+  const bystander = {};
+  (d.bystander || []).forEach(b => { bystander[b.senaryo_id] = b; });
+  function bc(id, alan) { return bystander[id] ? bystander[id][alan] : ""; }
+
   sheet.appendRow([
     d.zaman, d.tarayici,
     d.takma_isim, d.yas, d.cinsiyet, d.gelir, d.din, d.dindarlik,
@@ -1030,13 +1170,26 @@ function doPost(e) {
     gt.gges_turk_gges_5, gt.gges_turk_gges_6, gt.gges_turk_gges_7, gt.gges_turk_gges_8,
     gto.gges_to_gges_1, gto.gges_to_gges_2, gto.gges_to_gges_3, gto.gges_to_gges_4,
     gto.gges_to_gges_5, gto.gges_to_gges_6, gto.gges_to_gges_7, gto.gges_to_gges_8,
-    (d.aktor_sirasi || []).join("-"),
-    ac("A1","gosterim_sirasi"), ac("A1","mapping"), ac("A1","basin_tus"), ac("A1","tepki_suresi"),
-    ac("A2","gosterim_sirasi"), ac("A2","mapping"), ac("A2","basin_tus"), ac("A2","tepki_suresi"),
-    ac("A3","gosterim_sirasi"), ac("A3","mapping"), ac("A3","basin_tus"), ac("A3","tepki_suresi"),
-    ac("A4","gosterim_sirasi"), ac("A4","mapping"), ac("A4","basin_tus"), ac("A4","tepki_suresi"),
-    ac("A5","gosterim_sirasi"), ac("A5","mapping"), ac("A5","basin_tus"), ac("A5","tepki_suresi"),
-    ac("A6","gosterim_sirasi"), ac("A6","mapping"), ac("A6","basin_tus"), ac("A6","tepki_suresi"),
+    (d.aktor_sirasi||[]).join("-"),
+    ac("A1","gosterim_sirasi"),ac("A1","mapping"),ac("A1","basin_tus"),ac("A1","tepki_suresi"),
+    ac("A2","gosterim_sirasi"),ac("A2","mapping"),ac("A2","basin_tus"),ac("A2","tepki_suresi"),
+    ac("A3","gosterim_sirasi"),ac("A3","mapping"),ac("A3","basin_tus"),ac("A3","tepki_suresi"),
+    ac("A4","gosterim_sirasi"),ac("A4","mapping"),ac("A4","basin_tus"),ac("A4","tepki_suresi"),
+    ac("A5","gosterim_sirasi"),ac("A5","mapping"),ac("A5","basin_tus"),ac("A5","tepki_suresi"),
+    ac("A6","gosterim_sirasi"),ac("A6","mapping"),ac("A6","basin_tus"),ac("A6","tepki_suresi"),
+    (d.bystander_sirasi||[]).join("-"),
+    bc("B1","gosterim_sirasi"),bc("B1","ahlak_puani"),
+    bc("B2","gosterim_sirasi"),bc("B2","ahlak_puani"),
+    bc("B3","gosterim_sirasi"),bc("B3","ahlak_puani"),
+    bc("B4","gosterim_sirasi"),bc("B4","ahlak_puani"),
+    bc("B5","gosterim_sirasi"),bc("B5","ahlak_puani"),
+    bc("B6","gosterim_sirasi"),bc("B6","ahlak_puani"),
+    bc("B7","gosterim_sirasi"),bc("B7","ahlak_puani"),
+    bc("B8","gosterim_sirasi"),bc("B8","ahlak_puani"),
+    bc("B9","gosterim_sirasi"),bc("B9","ahlak_puani"),
+    bc("B10","gosterim_sirasi"),bc("B10","ahlak_puani"),
+    bc("B11","gosterim_sirasi"),bc("B11","ahlak_puani"),
+    bc("B12","gosterim_sirasi"),bc("B12","ahlak_puani"),
   ]);
 
   return ContentService
