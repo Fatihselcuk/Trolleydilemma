@@ -86,17 +86,8 @@
       align-items: center;
       flex-wrap: nowrap;
     }
-    .likert-secenekler .uc-label {
-      font-size: 0.72rem;
-      color: #777;
-      white-space: nowrap;
-    }
-    .likert-secenekler .radio-grup {
-      display: flex;
-      gap: 4px;
-      flex: 1;
-      justify-content: center;
-    }
+    .likert-secenekler .uc-label { font-size: 0.72rem; color: #777; white-space: nowrap; }
+    .likert-secenekler .radio-grup { display: flex; gap: 4px; flex: 1; justify-content: center; }
     .likert-secenekler input[type="radio"] { display: none; }
     .likert-secenekler label.radio-label {
       width: 34px; height: 34px;
@@ -105,32 +96,21 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 0.82rem; font-weight: 700;
       cursor: pointer; transition: all 0.15s;
-      color: #555;
-      flex-shrink: 0;
+      color: #555; flex-shrink: 0;
     }
     .likert-secenekler input[type="radio"]:checked + label.radio-label {
-      background: #4f46e5;
-      border-color: #4f46e5;
-      color: #fff;
+      background: #4f46e5; border-color: #4f46e5; color: #fff;
     }
-    .likert-secenekler label.radio-label:hover {
-      border-color: #4f46e5;
-      color: #4f46e5;
-    }
+    .likert-secenekler label.radio-label:hover { border-color: #4f46e5; color: #4f46e5; }
 
     .bolum-bant {
-      background: #1a1a2e;
-      color: #fff;
-      border-radius: 8px;
-      padding: 12px 20px;
+      background: #1a1a2e; color: #fff;
+      border-radius: 8px; padding: 12px 20px;
       margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: flex; align-items: center; gap: 12px;
     }
     .bolum-bant .bolum-no {
-      background: #4f46e5;
-      border-radius: 50%;
+      background: #4f46e5; border-radius: 50%;
       width: 32px; height: 32px;
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 0.95rem; flex-shrink: 0;
@@ -140,8 +120,7 @@
 
     .spinner {
       width: 48px; height: 48px;
-      border: 5px solid #e5e7eb;
-      border-top-color: #4f46e5;
+      border: 5px solid #e5e7eb; border-top-color: #4f46e5;
       border-radius: 50%;
       animation: spin 0.9s linear infinite;
       margin: 20px auto;
@@ -155,174 +134,93 @@
 
     /* GGES */
     .gges-madde {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid #f3f4f6;
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 0; border-bottom: 1px solid #f3f4f6;
     }
     .gges-madde:last-child { border-bottom: none; }
-    .gges-sifat {
-      font-weight: 700;
-      font-size: 1rem;
-      color: #1a1a2e;
-      min-width: 100px;
-      flex-shrink: 0;
-    }
-    .gges-secenekler {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 6px;
-      flex: 1;
-    }
+    .gges-sifat { font-weight: 700; font-size: 1rem; color: #1a1a2e; min-width: 100px; flex-shrink: 0; }
+    .gges-secenekler { display: flex; flex-wrap: nowrap; gap: 6px; flex: 1; }
     .gges-radio-label {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-      padding: 6px 10px;
-      border: 2px solid #d1d5db;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      color: #444;
-      transition: all 0.15s;
-      background: #fff;
-      user-select: none;
-      white-space: nowrap;
-      flex: 1;
-      justify-content: center;
+      display: flex; align-items: center; gap: 4px;
+      cursor: pointer; padding: 6px 10px;
+      border: 2px solid #d1d5db; border-radius: 8px;
+      font-size: 0.78rem; color: #444;
+      transition: all 0.15s; background: #fff;
+      user-select: none; white-space: nowrap;
+      flex: 1; justify-content: center;
     }
     .gges-radio-label input[type="radio"] { display: none; }
-    .gges-radio-label:hover {
-      border-color: #4f46e5;
-      color: #4f46e5;
-      background: #eef2ff;
-    }
-    .gges-radio-label:has(input:checked) {
-      border-color: #4f46e5;
-      background: #4f46e5;
-      color: #fff;
-    }
+    .gges-radio-label:hover { border-color: #4f46e5; color: #4f46e5; background: #eef2ff; }
+    .gges-radio-label:has(input:checked) { border-color: #4f46e5; background: #4f46e5; color: #fff; }
     @media (max-width: 700px) {
       .gges-madde { flex-direction: column; align-items: flex-start; }
       .gges-secenekler { flex-wrap: wrap; }
     }
 
-    /* GÖRSEL EKRANLAR (Aktör + Bystander) */
-    .gorsel-sahne {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+    /* GÖRSEL */
+    .gorsel-sahne { text-align: center; margin-bottom: 24px; }
     .gorsel-sahne img {
-      max-width: 100%;
-      max-height: 420px;
-      border-radius: 10px;
-      border: 2px solid #e5e7eb;
+      max-width: 100%; max-height: 420px;
+      border-radius: 10px; border: 2px solid #e5e7eb;
       object-fit: contain;
     }
 
     .ilerleme-kap {
-      background: #e5e7eb;
-      border-radius: 999px;
-      height: 8px;
-      margin-bottom: 8px;
-      overflow: hidden;
+      background: #e5e7eb; border-radius: 999px;
+      height: 8px; margin-bottom: 8px; overflow: hidden;
     }
     .ilerleme-ic {
-      background: #4f46e5;
-      height: 100%;
-      border-radius: 999px;
-      transition: width 0.4s ease;
+      background: #4f46e5; height: 100%;
+      border-radius: 999px; transition: width 0.4s ease;
     }
-    .ilerleme-metin {
-      font-size: 0.82rem;
-      color: #888;
-      text-align: right;
-      margin-bottom: 20px;
-    }
+    .ilerleme-metin { font-size: 0.82rem; color: #888; text-align: right; margin-bottom: 20px; }
 
-    /* AKTÖR tuş göstergesi */
-    .tus-alani {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin: 20px 0;
-    }
+    /* AKTÖR tuşlar */
+    .tus-alani { display: flex; gap: 16px; justify-content: center; margin: 20px 0; }
     .tus-kutu {
-      border: 3px solid #d1d5db;
-      border-radius: 12px;
-      padding: 20px 40px;
-      text-align: center;
-      min-width: 160px;
-      user-select: none;
+      border: 3px solid #d1d5db; border-radius: 12px;
+      padding: 20px 40px; text-align: center;
+      min-width: 160px; user-select: none;
       pointer-events: none;
     }
-    .tus-kutu.secildi {
-      border-color: #4f46e5;
-      background: #eef2ff;
-    }
-    .tus-harf {
-      font-size: 2.2rem;
-      font-weight: 900;
-      display: block;
-      margin-bottom: 6px;
-      color: #1a1a2e;
-    }
-    .tus-aciklama {
-      font-size: 0.9rem;
-      color: #555;
-      font-weight: 600;
-    }
-    .klavye-ipucu {
-      text-align: center;
-      font-size: 0.82rem;
-      color: #aaa;
-      margin-top: 8px;
-    }
+    .tus-kutu.secildi { border-color: #4f46e5; background: #eef2ff; }
+    .tus-harf { font-size: 2.2rem; font-weight: 900; display: block; margin-bottom: 6px; color: #1a1a2e; }
+    .tus-aciklama { font-size: 0.9rem; color: #555; font-weight: 600; }
+    .klavye-ipucu { text-align: center; font-size: 0.82rem; color: #aaa; margin-top: 8px; }
 
-    /* BYSTANDER Likert */
+    /* BYSTANDER Likert — sadece görsel, mouse kapalı */
     .bys-soru {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1a1a2e;
-      margin-bottom: 20px;
+      font-size: 1rem; font-weight: 600;
+      color: #1a1a2e; margin-bottom: 24px;
       text-align: center;
     }
-    .bys-likert {
+    .bys-likert-kap {
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: nowrap;
-      margin-bottom: 8px;
+      align-items: flex-end;
+      gap: 12px;
+      margin-bottom: 12px;
+      pointer-events: none; /* Mouse tıklaması tamamen kapalı */
+      user-select: none;
     }
-    .bys-likert input[type="radio"] { display: none; }
-    .bys-likert label {
-      width: 44px; height: 44px;
-      border: 2px solid #d1d5db;
-      border-radius: 50%;
+    .bys-tus {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+    }
+    .bys-tus-numara {
+      width: 48px; height: 48px;
+      border: 3px solid #d1d5db; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; font-weight: 700;
-      cursor: pointer; transition: all 0.15s;
-      color: #555;
-      flex-shrink: 0;
+      font-size: 1.1rem; font-weight: 800;
+      color: #555; transition: all 0.15s;
     }
-    .bys-likert input[type="radio"]:checked + label {
-      background: #4f46e5;
-      border-color: #4f46e5;
-      color: #fff;
+    .bys-tus.secildi .bys-tus-numara {
+      background: #4f46e5; border-color: #4f46e5; color: #fff;
     }
-    .bys-likert label:hover {
-      border-color: #4f46e5;
-      color: #4f46e5;
-    }
-    .bys-uc-satirlar {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: #888;
-      margin-top: 4px;
-      padding: 0 4px;
+    .bys-tus-etiket { font-size: 0.68rem; color: #888; text-align: center; max-width: 60px; }
+    .bys-klavye-ipucu {
+      text-align: center; font-size: 0.82rem;
+      color: #aaa; margin-top: 8px;
     }
   </style>
 </head>
@@ -342,7 +240,6 @@
   </div>
 </section>
 
-
 <!-- EKRAN 1: DEMOGRAFİK -->
 <section id="ekran-demografik" class="ekran">
   <div class="bolum-bant">
@@ -361,44 +258,32 @@
     <label>3. Cinsiyetiniz</label>
     <select id="dem-cinsiyet">
       <option value="">-- Seçiniz --</option>
-      <option>Erkek</option>
-      <option>Kadın</option>
-      <option>Belirtmek istemiyorum</option>
+      <option>Erkek</option><option>Kadın</option><option>Belirtmek istemiyorum</option>
     </select>
   </div>
   <div class="form-grup">
     <label>4. Gelir Durumunuz</label>
     <select id="dem-gelir">
       <option value="">-- Seçiniz --</option>
-      <option>0 - 17.000 ₺</option>
-      <option>17.000 - 35.000 ₺</option>
-      <option>35.000 - 57.000 ₺</option>
-      <option>57.000 ₺ ve üstü</option>
+      <option>0 - 17.000 ₺</option><option>17.000 - 35.000 ₺</option>
+      <option>35.000 - 57.000 ₺</option><option>57.000 ₺ ve üstü</option>
     </select>
   </div>
   <div class="form-grup">
     <label>5. Dini İnancınız</label>
     <select id="dem-din">
       <option value="">-- Seçiniz --</option>
-      <option>Hristiyan</option>
-      <option>Budist</option>
-      <option>Hindu</option>
-      <option>Müslüman</option>
-      <option>Yahudi</option>
-      <option>Ateist</option>
-      <option>Deist</option>
-      <option>Agnostik</option>
-      <option>Diğer</option>
+      <option>Hristiyan</option><option>Budist</option><option>Hindu</option>
+      <option>Müslüman</option><option>Yahudi</option><option>Ateist</option>
+      <option>Deist</option><option>Agnostik</option><option>Diğer</option>
     </select>
   </div>
   <div class="form-grup">
     <label>6. Kendinizi hangi düzeyde dindar olarak görüyorsunuz?</label>
     <select id="dem-dindarlik">
       <option value="">-- Seçiniz --</option>
-      <option>Dindar değilim</option>
-      <option>Biraz dindarım</option>
-      <option>Orta derecede dindarım</option>
-      <option>Çok dindarım</option>
+      <option>Dindar değilim</option><option>Biraz dindarım</option>
+      <option>Orta derecede dindarım</option><option>Çok dindarım</option>
       <option>Bilmiyorum</option>
     </select>
   </div>
@@ -416,10 +301,8 @@
     <label>8. Kendinizi siyasi görüşünüze hangi düzeyde bağlı olarak görüyorsunuz?</label>
     <select id="dem-siyasi-baglilik">
       <option value="">-- Seçiniz --</option>
-      <option>Hiç bağlı değilim</option>
-      <option>Az bağlıyım</option>
-      <option>Orta düzeyde bağlıyım</option>
-      <option>Oldukça bağlıyım</option>
+      <option>Hiç bağlı değilim</option><option>Az bağlıyım</option>
+      <option>Orta düzeyde bağlıyım</option><option>Oldukça bağlıyım</option>
       <option>Tamamen bağlıyım</option>
     </select>
   </div>
@@ -430,33 +313,21 @@
   </div>
 </section>
 
-
-<!-- EKRAN 2a: KİMLİK KAYNAŞIM AÇIKLAMA -->
+<!-- EKRAN 2a: KİMLİK AÇIKLAMA -->
 <section id="ekran-kimlik-aciklama" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">2</div>
-    <div>Kimlik Kaynaşım Ölçeği</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">2</div><div>Kimlik Kaynaşım Ölçeği</div></div>
   <p>Birazdan göreceğiniz soruların doğru cevabı yoktur. Lütfen ekranda göreceğiniz soruları kendi bakış açınıza göre mümkün olduğunca objektif bir biçimde cevaplayınız.</p>
-  <p style="margin-top:16px; font-weight:600; font-size:1.05rem; color:#1a1a2e;">
-    Bağlı bulunduğunuz grubu Türklük üzerinden tanımladığınızda;
-  </p>
+  <p style="margin-top:16px; font-weight:600; font-size:1.05rem; color:#1a1a2e;">Bağlı bulunduğunuz grubu Türklük üzerinden tanımladığınızda;</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-demografik')">← Geri</button>
     <button class="btn btn-primary" onclick="ekranGec('ekran-kimlik')">Devam →</button>
   </div>
 </section>
 
-
-<!-- EKRAN 2b: KİMLİK KAYNAŞIM -->
+<!-- EKRAN 2b: KİMLİK -->
 <section id="ekran-kimlik" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">2</div>
-    <div>Kimlik Kaynaşım Ölçeği</div>
-  </div>
-  <p class="bilgi-kutusu">
-    Aşağıdaki ifadelerin sizin için ne kadar doğru olduğunu 1 (Kesinlikle Katılmıyorum) ile 7 (Kesinlikle Katılıyorum) arasında değerlendirin.
-  </p>
+  <div class="bolum-bant"><div class="bolum-no">2</div><div>Kimlik Kaynaşım Ölçeği</div></div>
+  <p class="bilgi-kutusu">Aşağıdaki ifadelerin sizin için ne kadar doğru olduğunu 1 (Kesinlikle Katılmıyorum) ile 7 (Kesinlikle Katılıyorum) arasında değerlendirin.</p>
   <div id="kimlik-sorular"></div>
   <div id="kimlik-hata" class="hata">Lütfen tüm soruları yanıtlayın.</div>
   <div class="btn-satir">
@@ -465,29 +336,21 @@
   </div>
 </section>
 
-
 <!-- EKRAN 3a: GGES AÇIKLAMA -->
 <section id="ekran-gges-aciklama" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">3</div>
-    <div>GGES Ölçeği</div>
-  </div>
-  <p>Aşağıda Türk ve Türk olmayan insanlarla ilgili birtakım sıfatlar yer almaktadır. Türk ve Türk olmayan grupları ayrı ayrı düşünerek, her sıfatın her grubu ne kadar iyi tanımladığını belirtiniz.</p>
+  <div class="bolum-bant"><div class="bolum-no">3</div><div>GGES Ölçeği</div></div>
+  <p>Aşağıda Türk ve Türk olmayan insanlarla ilgili birtakım sıfatlar yer almaktadır.</p>
   <p style="margin-top:12px;">Soruların doğru veya yanlış cevabı yoktur, bizim için önemli olan sizin ne düşündüğünüzdür.</p>
-  <p style="margin-top:12px;">Lütfen <strong>1 (Hiç tanımlamıyor)</strong> ile <strong>5 (Tamamen tanımlıyor)</strong> arasında derecelendirilmiş sorular üzerinde her bir sıfatın <strong>Türk</strong> ve <strong>Türk olmayan</strong> grubu sizce ne kadar iyi tanımladığını işaretleyiniz.</p>
+  <p style="margin-top:12px;">Lütfen <strong>1 (Hiç tanımlamıyor)</strong> ile <strong>5 (Tamamen tanımlıyor)</strong> arasında her sıfatın <strong>Türk</strong> ve <strong>Türk olmayan</strong> grubu ne kadar iyi tanımladığını işaretleyiniz.</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-kimlik')">← Geri</button>
     <button class="btn btn-primary" onclick="ekranGec('ekran-gges-turk')">Devam →</button>
   </div>
 </section>
 
-
 <!-- EKRAN 3b: GGES TÜRK -->
 <section id="ekran-gges-turk" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">3</div>
-    <div>GGES Ölçeği – Türk Gruplar</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">3</div><div>GGES Ölçeği – Türk Gruplar</div></div>
   <p class="bilgi-kutusu">1 = Hiç tanımlamıyor &nbsp;·&nbsp; 5 = Tamamen tanımlıyor</p>
   <p style="margin-bottom:20px; font-weight:600; font-size:1.05rem; color:#1a1a2e;">Türk gruplar için;</p>
   <div id="gges-turk-sorular"></div>
@@ -498,13 +361,9 @@
   </div>
 </section>
 
-
 <!-- EKRAN 3c: GGES TÜRK OLMAYAN -->
 <section id="ekran-gges-to" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">3</div>
-    <div>GGES Ölçeği – Türk Olmayan Gruplar</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">3</div><div>GGES Ölçeği – Türk Olmayan Gruplar</div></div>
   <p class="bilgi-kutusu">1 = Hiç tanımlamıyor &nbsp;·&nbsp; 5 = Tamamen tanımlıyor</p>
   <p style="margin-bottom:20px; font-weight:600; font-size:1.05rem; color:#1a1a2e;">Türk olmayan gruplar için;</p>
   <div id="gges-to-sorular"></div>
@@ -515,16 +374,12 @@
   </div>
 </section>
 
-
 <!-- EKRAN 4a: AKTÖR AÇIKLAMA -->
 <section id="ekran-aktor-aciklama" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">4</div>
-    <div>Aktör Senaryoları</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">4</div><div>Aktör Senaryoları</div></div>
   <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryoda bir karar vermeniz gerekecektir.</p>
   <p style="margin-top:12px;">Kararınızı klavyenizdeki <strong>D</strong> veya <strong>K</strong> tuşuyla belirteceksiniz. Her senaryoda hangi tuşun ne anlama geldiği ekranda gösterilecektir.</p>
-  <p style="margin-top:12px;">Her senaryo en fazla <strong>8 saniye</strong> ekranda kalacaktır. Süre dolmadan kararınızı vermeye çalışın.</p>
+  <p style="margin-top:12px;">Her senaryo en fazla <strong>8 saniye</strong> ekranda kalacaktır.</p>
   <p style="margin-top:12px; font-style:italic; color:#666;">Lütfen yalnızca klavye tuşlarını kullanın.</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-gges-to')">← Geri</button>
@@ -532,17 +387,11 @@
   </div>
 </section>
 
-
 <!-- EKRAN 4b: AKTÖR -->
 <section id="ekran-aktor" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">4</div>
-    <div>Aktör Senaryoları</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">4</div><div>Aktör Senaryoları</div></div>
   <div class="ilerleme-metin" id="aktor-ilerleme-metin"></div>
-  <div class="ilerleme-kap">
-    <div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div>
-  </div>
+  <div class="ilerleme-kap"><div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div></div>
   <div style="display:none">
     <div id="geri-sayim-cubuk"></div>
     <div id="geri-sayim-sayi"></div>
@@ -563,68 +412,67 @@
   <p class="klavye-ipucu">Yalnızca klavye ile D veya K tuşuna basın.</p>
 </section>
 
-
 <!-- EKRAN 5a: BYSTANDER AÇIKLAMA -->
 <section id="ekran-bystander-aciklama" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">5</div>
-    <div>Bystander Senaryoları</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
   <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryo iki aşamadan oluşmaktadır.</p>
-  <p style="margin-top:12px;">İlk aşamada raylarda kimlerin olduğunu göreceksiniz. Devam etmeye hazır olduğunuzda <strong>Devam</strong> butonuna basın.</p>
-  <p style="margin-top:12px;">İkinci aşamada senaryonun sonucunu görecek ve ardından <strong>verilen kararı ne kadar ahlaki bulduğunuzu</strong> 1-6 arasında değerlendirmeniz istenecektir.</p>
+  <p style="margin-top:12px;">İlk aşamada raylarda kimlerin olduğunu göreceksiniz. Bu görsel birkaç saniye ekranda kalacak ve otomatik olarak geçecektir.</p>
+  <p style="margin-top:12px;">İkinci aşamada senaryonun sonucunu görecek ve <strong>verilen kararı ne kadar ahlaki bulduğunuzu</strong> klavyenizdeki <strong>1-6</strong> tuşlarına basarak değerlendireceksiniz.</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-aktor-aciklama')">← Geri</button>
     <button class="btn btn-primary" onclick="bystanderBaslat()">Başla →</button>
   </div>
 </section>
 
-
-<!-- EKRAN 5b: BYSTANDER – ÖNCESİ -->
+<!-- EKRAN 5b: BYSTANDER – ÖNCESİ (4 saniye, geçilemez) -->
 <section id="ekran-bystander-once" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">5</div>
-    <div id="bys-once-baslik">Bystander Senaryoları</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
   <div class="ilerleme-metin" id="bys-ilerleme-metin"></div>
-  <div class="ilerleme-kap">
-    <div class="ilerleme-ic" id="bys-ilerleme-ic" style="width:0%"></div>
-  </div>
+  <div class="ilerleme-kap"><div class="ilerleme-ic" id="bys-ilerleme-ic" style="width:0%"></div></div>
+  <!-- Görsel -->
   <div class="gorsel-sahne">
     <img id="bys-gorsel-once" src="" alt="Senaryo öncesi" />
   </div>
-  <div class="btn-satir">
-    <button class="btn btn-primary" onclick="bystanderSonrasiGoster()">Devam →</button>
-  </div>
+  <!-- Buton yok, hiçbir şey tıklanamaz — 4 saniye sonra otomatik geçer -->
 </section>
 
-
-<!-- EKRAN 5c: BYSTANDER – SONRASI + LİKERT -->
+<!-- EKRAN 5c: BYSTANDER – SONRASI + LİKERT (klavye 1-6) -->
 <section id="ekran-bystander-sonra" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">5</div>
-    <div>Bystander Senaryoları</div>
-  </div>
+  <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
   <div class="gorsel-sahne">
     <img id="bys-gorsel-sonra" src="" alt="Senaryo sonrası" />
   </div>
-
   <p class="bys-soru">Bu senaryoda verilen kararı ne kadar ahlaki buldunuz?</p>
 
-  <div class="bys-likert" id="bys-likert-secenekler">
-    <!-- 1-6 radio butonları JS tarafından üretilir -->
+  <!-- Sadece görsel gösterge — pointer-events:none ile mouse tamamen kapalı -->
+  <div class="bys-likert-kap" id="bys-likert-kap">
+    <div class="bys-tus" id="bys-tus-1">
+      <div class="bys-tus-numara">1</div>
+      <div class="bys-tus-etiket">Hiç ahlaki değil</div>
+    </div>
+    <div class="bys-tus" id="bys-tus-2">
+      <div class="bys-tus-numara">2</div>
+      <div class="bys-tus-etiket"></div>
+    </div>
+    <div class="bys-tus" id="bys-tus-3">
+      <div class="bys-tus-numara">3</div>
+      <div class="bys-tus-etiket"></div>
+    </div>
+    <div class="bys-tus" id="bys-tus-4">
+      <div class="bys-tus-numara">4</div>
+      <div class="bys-tus-etiket"></div>
+    </div>
+    <div class="bys-tus" id="bys-tus-5">
+      <div class="bys-tus-numara">5</div>
+      <div class="bys-tus-etiket"></div>
+    </div>
+    <div class="bys-tus" id="bys-tus-6">
+      <div class="bys-tus-numara">6</div>
+      <div class="bys-tus-etiket">Tamamen ahlaki</div>
+    </div>
   </div>
-  <div class="bys-uc-satirlar">
-    <span>Hiç ahlaki değil</span>
-    <span>Tamamen ahlaki</span>
-  </div>
-
-  <div id="bys-hata" class="hata">Lütfen bir seçenek işaretleyin.</div>
-  <div class="btn-satir">
-    <button class="btn btn-primary" onclick="bystanderKaydetVeGec()">Devam →</button>
-  </div>
+  <p class="bys-klavye-ipucu">Klavyeden 1, 2, 3, 4, 5 veya 6 tuşuna basın.</p>
 </section>
-
 
 <!-- EKRAN: GÖNDERİM -->
 <section id="ekran-gonderim" class="ekran">
@@ -632,7 +480,6 @@
   <div class="spinner"></div>
   <p style="text-align:center; color:#555;">Lütfen bu sayfayı kapatmayın.</p>
 </section>
-
 
 <!-- EKRAN: BİTİŞ -->
 <section id="ekran-bitis" class="ekran">
@@ -647,7 +494,8 @@
 // ================================================================
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
-const AKTOR_SURE = 8;
+const AKTOR_SURE        = 8;   // Aktör: maks saniye
+const BYSTANDER_ONCE_SURE = 4; // Bystander öncesi: sabit 4 saniye
 
 const KIMLIK_SORULARI = [
   { id: "kimlik_1", metin: "Grubumla bir bütünüm." },
@@ -679,17 +527,17 @@ const AKTOR_SENARYOLARI = [
   { id: "A6", gorsel: "Aktorsenaryo6.png", mapping: "KD" },
 ];
 
-// 12 bystander senaryosu — çiftler birlikte kalır, sıralar randomize olur
+// 12 bystander çifti — öncesi 4 sn otomatik geçer, sonrası klavye 1-6
 const BYSTANDER_SENARYOLARI = [
-  { id: "B1",  once: "Bystandergorsel1.png",  sonra: "Bystandergorsel1_1.png"  },
-  { id: "B2",  once: "Bystandergorsel2.png",  sonra: "Bystandergorsel2_2.png"  },
-  { id: "B3",  once: "Bystandergorsel3.png",  sonra: "Bystandergorsel3_3.png"  },
-  { id: "B4",  once: "Bystandergorsel4.png",  sonra: "Bystandergorsel4_4.png"  },
-  { id: "B5",  once: "Bystandergorsel5.png",  sonra: "Bystandergorsel5_5.png"  },
-  { id: "B6",  once: "Bystandergorsel6.png",  sonra: "Bystandergorsel6_6.png"  },
-  { id: "B7",  once: "Bystandergorsel7.png",  sonra: "Bystandergorsel7_7.png"  },
-  { id: "B8",  once: "Bystandergorsel8.png",  sonra: "Bystandergorsel8_8.png"  },
-  { id: "B9",  once: "Bystandergorsel9.png",  sonra: "Bystandergorsel9_9.png"  },
+  { id: "B1",  once: "Bystandergorsel1.png",  sonra: "Bystandergorsel1_1.png"   },
+  { id: "B2",  once: "Bystandergorsel2.png",  sonra: "Bystandergorsel2_2.png"   },
+  { id: "B3",  once: "Bystandergorsel3.png",  sonra: "Bystandergorsel3_3.png"   },
+  { id: "B4",  once: "Bystandergorsel4.png",  sonra: "Bystandergorsel4_4.png"   },
+  { id: "B5",  once: "Bystandergorsel5.png",  sonra: "Bystandergorsel5_5.png"   },
+  { id: "B6",  once: "Bystandergorsel6.png",  sonra: "Bystandergorsel6_6.png"   },
+  { id: "B7",  once: "Bystandergorsel7.png",  sonra: "Bystandergorsel7_7.png"   },
+  { id: "B8",  once: "Bystandergorsel8.png",  sonra: "Bystandergorsel8_8.png"   },
+  { id: "B9",  once: "Bystandergorsel9.png",  sonra: "Bystandergorsel9_9.png"   },
   { id: "B10", once: "Bystandergorsel10.png", sonra: "Bystandergorsel10_10.png" },
   { id: "B11", once: "Bystandergorsel11.png", sonra: "Bystandergorsel11_11.png" },
   { id: "B12", once: "Bystandergorsel12.png", sonra: "Bystandergorsel12_12.png" },
@@ -701,16 +549,19 @@ const BYSTANDER_SENARYOLARI = [
 let veri = {};
 
 // Aktör
-let aktorSira = [];
-let aktorIndex = 0;
-let aktorYanitVerildi = false;
-let aktorTimerId = null;
-let aktorIntervalId = null;
+let aktorSira          = [];
+let aktorIndex         = 0;
+let aktorYanitVerildi  = false;
+let aktorTimerId       = null;
+let aktorIntervalId    = null;
 let aktorBaslangicZamani = 0;
 
 // Bystander
-let bystanderSira = [];
-let bystanderIndex = 0;
+let bystanderSira      = [];
+let bystanderIndex     = 0;
+let bystanderOncesiAktif = false; // Öncesi ekranı aktifken tuş girişini engeller
+let bystanderSonrasiAktif = false; // Sonrası ekranı aktifken 1-6 dinlenir
+let bystanderTimerId   = null;
 
 // ================================================================
 // YARDIMCI
@@ -824,23 +675,12 @@ window.addEventListener('load', () => {
   ggesGrupUret('gges-turk-sorular', GGES_SORULARI, 'gges_turk');
   ggesGrupUret('gges-to-sorular',   GGES_SORULARI, 'gges_to');
 
-  // Siyasi konum 1-7
   const rg = document.getElementById('dem-siyasi-konum-rg');
   rg.innerHTML = '';
   for (let i = 1; i <= 7; i++) {
     rg.innerHTML += `
       <input type="radio" name="dem-siyasi-konum" id="siyasi_${i}" value="${i}" />
       <label class="radio-label" for="siyasi_${i}">${i}</label>
-    `;
-  }
-
-  // Bystander Likert 1-6
-  const bysLikert = document.getElementById('bys-likert-secenekler');
-  bysLikert.innerHTML = '';
-  for (let i = 1; i <= 6; i++) {
-    bysLikert.innerHTML += `
-      <input type="radio" name="bys_ahlak" id="bys_ahlak_${i}" value="${i}" />
-      <label for="bys_ahlak_${i}">${i}</label>
     `;
   }
 
@@ -880,15 +720,12 @@ function demografikDogrula() {
 }
 
 // ================================================================
-// KİMLİK KAYNAŞIM
+// KİMLİK
 // ================================================================
 
 function kimlikDogrula() {
   const sonuc = olcekVeriTopla(KIMLIK_SORULARI);
-  if (!sonuc) {
-    document.getElementById('kimlik-hata').style.display = 'block';
-    return;
-  }
+  if (!sonuc) { document.getElementById('kimlik-hata').style.display = 'block'; return; }
   document.getElementById('kimlik-hata').style.display = 'none';
   veri.kimlik = sonuc;
   ekranGec('ekran-gges-aciklama');
@@ -900,10 +737,7 @@ function kimlikDogrula() {
 
 function ggesTogrula() {
   const sonuc = ggesGrupVeriTopla(GGES_SORULARI, 'gges_turk');
-  if (!sonuc) {
-    document.getElementById('gges-turk-hata').style.display = 'block';
-    return;
-  }
+  if (!sonuc) { document.getElementById('gges-turk-hata').style.display = 'block'; return; }
   document.getElementById('gges-turk-hata').style.display = 'none';
   veri.gges_turk = sonuc;
   ekranGec('ekran-gges-to');
@@ -911,10 +745,7 @@ function ggesTogrula() {
 
 function ggesToOgrula() {
   const sonuc = ggesGrupVeriTopla(GGES_SORULARI, 'gges_to');
-  if (!sonuc) {
-    document.getElementById('gges-to-hata').style.display = 'block';
-    return;
-  }
+  if (!sonuc) { document.getElementById('gges-to-hata').style.display = 'block'; return; }
   document.getElementById('gges-to-hata').style.display = 'none';
   veri.gges_turkolmayan = sonuc;
   ekranGec('ekran-aktor-aciklama');
@@ -955,11 +786,8 @@ function aktorGorselGoster() {
   const toplam  = aktorSira.length;
   const senaryo = aktorSira[aktorIndex];
 
-  document.getElementById('aktor-ilerleme-metin').textContent =
-    `Senaryo ${aktorIndex + 1} / ${toplam}`;
-  document.getElementById('aktor-ilerleme-ic').style.width =
-    `${(aktorIndex / toplam) * 100}%`;
-
+  document.getElementById('aktor-ilerleme-metin').textContent = `Senaryo ${aktorIndex + 1} / ${toplam}`;
+  document.getElementById('aktor-ilerleme-ic').style.width = `${(aktorIndex / toplam) * 100}%`;
   document.getElementById('aktor-gorsel').src = senaryo.gorsel;
 
   if (senaryo.mapping === "DK") {
@@ -996,7 +824,6 @@ function aktorKaydetVeGec(basin_tus) {
     if (aktorIndex < aktorSira.length) {
       aktorGorselGoster();
     } else {
-      // Aktör bitti → Bystander açıklamasına geç
       ekranGec('ekran-bystander-aciklama');
     }
   }, 400);
@@ -1007,7 +834,7 @@ function aktorKaydetVeGec(basin_tus) {
 // ================================================================
 
 function bystanderBaslat() {
-  bystanderSira  = karistir(BYSTANDER_SENARYOLARI); // Çiftler randomize
+  bystanderSira  = karistir(BYSTANDER_SENARYOLARI);
   bystanderIndex = 0;
   veri.bystander = [];
   veri.bystander_sirasi = bystanderSira.map(s => s.id);
@@ -1018,43 +845,48 @@ function bystanderOncesiGoster() {
   const toplam  = bystanderSira.length;
   const senaryo = bystanderSira[bystanderIndex];
 
-  // İlerleme
-  document.getElementById('bys-ilerleme-metin').textContent =
-    `Senaryo ${bystanderIndex + 1} / ${toplam}`;
-  document.getElementById('bys-ilerleme-ic').style.width =
-    `${(bystanderIndex / toplam) * 100}%`;
-
-  // Öncesi görseli
+  document.getElementById('bys-ilerleme-metin').textContent = `Senaryo ${bystanderIndex + 1} / ${toplam}`;
+  document.getElementById('bys-ilerleme-ic').style.width = `${(bystanderIndex / toplam) * 100}%`;
   document.getElementById('bys-gorsel-once').src = senaryo.once;
 
+  // Öncesi ekranı aktif — hiçbir tuşa yanıt verilmez
+  bystanderOncesiAktif  = true;
+  bystanderSonrasiAktif = false;
+
   ekranGec('ekran-bystander-once');
+
+  // 4 saniye sonra otomatik sonrasına geç
+  bystanderTimerId = setTimeout(() => {
+    bystanderOncesiAktif = false;
+    bystanderSonrasiGoster();
+  }, BYSTANDER_ONCE_SURE * 1000);
 }
 
 function bystanderSonrasiGoster() {
   const senaryo = bystanderSira[bystanderIndex];
-
-  // Sonrası görseli
   document.getElementById('bys-gorsel-sonra').src = senaryo.sonra;
 
-  // Likert'i sıfırla
-  document.querySelectorAll('input[name="bys_ahlak"]').forEach(r => r.checked = false);
-  document.getElementById('bys-hata').style.display = 'none';
+  // Tüm tuş görsellerini sıfırla
+  for (let i = 1; i <= 6; i++) {
+    document.getElementById(`bys-tus-${i}`).classList.remove('secildi');
+  }
+
+  // Sonrası ekranı aktif — klavye 1-6 dinleniyor
+  bystanderSonrasiAktif = true;
 
   ekranGec('ekran-bystander-sonra');
 }
 
-function bystanderKaydetVeGec() {
-  const puan = likertDegerOku('bys_ahlak');
-  if (!puan) {
-    document.getElementById('bys-hata').style.display = 'block';
-    return;
+function bystanderKaydetVeGec(puan) {
+  bystanderSonrasiAktif = false;
+
+  // Seçilen tuşu vurgula
+  for (let i = 1; i <= 6; i++) {
+    document.getElementById(`bys-tus-${i}`).classList.remove('secildi');
   }
-  document.getElementById('bys-hata').style.display = 'none';
+  document.getElementById(`bys-tus-${puan}`).classList.add('secildi');
 
   const senaryo = bystanderSira[bystanderIndex];
-
-  // CSV'ye gidecek veriler:
-  // senaryo_id, gosterim_sirasi, ahlak_puani
   veri.bystander.push({
     senaryo_id:      senaryo.id,
     gosterim_sirasi: bystanderIndex + 1,
@@ -1063,13 +895,15 @@ function bystanderKaydetVeGec() {
 
   bystanderIndex++;
 
-  if (bystanderIndex < bystanderSira.length) {
-    bystanderOncesiGoster();
-  } else {
-    // Bystander bitti → veriyi gönder
-    // SS eklenince burası güncellenecek
-    veriGonder();
-  }
+  // Kısa bekleme sonrası sonraki çifte geç
+  setTimeout(() => {
+    if (bystanderIndex < bystanderSira.length) {
+      bystanderOncesiGoster();
+    } else {
+      // Bystander bitti → SS eklenince burası değişecek
+      veriGonder();
+    }
+  }, 300);
 }
 
 // ================================================================
@@ -1078,11 +912,28 @@ function bystanderKaydetVeGec() {
 
 function klavyeDinle(e) {
   const tus = e.key.toUpperCase();
+
+  // AKTÖR: D veya K
   if (document.getElementById('ekran-aktor').classList.contains('aktif')) {
     if ((tus === 'D' || tus === 'K') && !aktorYanitVerildi) {
       aktorYanitVerildi = true;
       aktorZamanlamaDurdur();
       aktorKaydetVeGec(tus);
+    }
+    return;
+  }
+
+  // BYSTANDER ÖNCESİ: hiçbir tuş kabul edilmez
+  if (bystanderOncesiAktif) {
+    e.preventDefault();
+    return;
+  }
+
+  // BYSTANDER SONRASI: sadece 1-6 tuşları
+  if (bystanderSonrasiAktif) {
+    const sayi = parseInt(e.key);
+    if (sayi >= 1 && sayi <= 6) {
+      bystanderKaydetVeGec(sayi);
     }
   }
 }
