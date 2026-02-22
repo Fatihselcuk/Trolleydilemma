@@ -6,286 +6,135 @@
   <title>Trolley Dilemma Deneyi</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f2f5;
-      color: #222;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      background: #f0f2f5; color: #222;
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center; padding: 20px;
     }
-
     .ekran {
-      display: none;
-      background: #fff;
-      border-radius: 12px;
+      display: none; background: #fff; border-radius: 12px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-      padding: 40px 48px;
-      max-width: 820px;
-      width: 100%;
+      padding: 40px 48px; max-width: 820px; width: 100%;
       animation: fadeIn 0.3s ease;
     }
     .ekran.aktif { display: block; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-    h1 { font-size: 1.8rem; margin-bottom: 12px; color: #1a1a2e; }
-    h2 { font-size: 1.3rem; margin-bottom: 20px; color: #16213e; }
-    p  { line-height: 1.7; margin-bottom: 12px; color: #444; }
-
-    .bilgi-kutusu {
-      background: #eef2ff;
-      border-left: 4px solid #4f46e5;
-      border-radius: 6px;
-      padding: 14px 18px;
-      margin-bottom: 20px;
-      font-size: 0.95rem;
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    h1 { font-size:1.8rem; margin-bottom:12px; color:#1a1a2e; }
+    h2 { font-size:1.3rem; margin-bottom:20px; color:#16213e; }
+    p  { line-height:1.7; margin-bottom:12px; color:#444; }
+    .bilgi-kutusu { background:#eef2ff; border-left:4px solid #4f46e5; border-radius:6px; padding:14px 18px; margin-bottom:20px; font-size:0.95rem; }
+    .btn { display:inline-block; padding:12px 28px; border:none; border-radius:8px; font-size:1rem; cursor:pointer; transition:background 0.2s,transform 0.1s; }
+    .btn:active { transform:scale(0.97); }
+    .btn-primary { background:#4f46e5; color:#fff; }
+    .btn-primary:hover { background:#4338ca; }
+    .btn-gray { background:#e5e7eb; color:#333; }
+    .btn-gray:hover { background:#d1d5db; }
+    .btn:disabled { opacity:0.5; cursor:not-allowed; }
+    .btn-satir { margin-top:28px; display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap; }
+    .form-grup { margin-bottom:22px; }
+    .form-grup label { display:block; font-weight:600; margin-bottom:8px; font-size:0.95rem; }
+    .form-grup input[type="text"], .form-grup input[type="number"], .form-grup select {
+      width:100%; padding:10px 14px; border:1.5px solid #d1d5db;
+      border-radius:7px; font-size:0.95rem; outline:none; transition:border 0.2s;
     }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 28px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .btn:active { transform: scale(0.97); }
-    .btn-primary { background: #4f46e5; color: #fff; }
-    .btn-primary:hover { background: #4338ca; }
-    .btn-gray { background: #e5e7eb; color: #333; }
-    .btn-gray:hover { background: #d1d5db; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-satir { margin-top: 28px; display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
-
-    .form-grup { margin-bottom: 22px; }
-    .form-grup label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
-    .form-grup input[type="text"],
-    .form-grup input[type="number"],
-    .form-grup select {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid #d1d5db;
-      border-radius: 7px;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border 0.2s;
-    }
-    .form-grup input:focus,
-    .form-grup select:focus { border-color: #4f46e5; }
-
-    .likert-grup { margin-bottom: 26px; }
-    .likert-grup .soru-metni { font-size: 0.95rem; margin-bottom: 10px; font-weight: 500; }
-    .likert-secenekler {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-wrap: nowrap;
-    }
-    .likert-secenekler .uc-label { font-size: 0.72rem; color: #777; white-space: nowrap; }
-    .likert-secenekler .radio-grup { display: flex; gap: 4px; flex: 1; justify-content: center; }
-    .likert-secenekler input[type="radio"] { display: none; }
+    .form-grup input:focus, .form-grup select:focus { border-color:#4f46e5; }
+    .likert-grup { margin-bottom:26px; }
+    .likert-grup .soru-metni { font-size:0.95rem; margin-bottom:10px; font-weight:500; }
+    .likert-secenekler { display:flex; gap:6px; align-items:center; flex-wrap:nowrap; }
+    .likert-secenekler .uc-label { font-size:0.72rem; color:#777; white-space:nowrap; }
+    .likert-secenekler .radio-grup { display:flex; gap:4px; flex:1; justify-content:center; }
+    .likert-secenekler input[type="radio"] { display:none; }
     .likert-secenekler label.radio-label {
-      width: 34px; height: 34px;
-      border: 2px solid #d1d5db;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.82rem; font-weight: 700;
-      cursor: pointer; transition: all 0.15s;
-      color: #555; flex-shrink: 0;
+      width:34px; height:34px; border:2px solid #d1d5db; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:0.82rem; font-weight:700; cursor:pointer; transition:all 0.15s; color:#555; flex-shrink:0;
     }
-    .likert-secenekler input[type="radio"]:checked + label.radio-label {
-      background: #4f46e5; border-color: #4f46e5; color: #fff;
-    }
-    .likert-secenekler label.radio-label:hover { border-color: #4f46e5; color: #4f46e5; }
+    .likert-secenekler input[type="radio"]:checked + label.radio-label { background:#4f46e5; border-color:#4f46e5; color:#fff; }
+    .likert-secenekler label.radio-label:hover { border-color:#4f46e5; color:#4f46e5; }
+    .bolum-bant { background:#1a1a2e; color:#fff; border-radius:8px; padding:12px 20px; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+    .bolum-bant .bolum-no { background:#4f46e5; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.95rem; flex-shrink:0; }
+    .hata { color:#dc2626; font-size:0.85rem; margin-top:6px; display:none; }
+    .spinner { width:48px; height:48px; border:5px solid #e5e7eb; border-top-color:#4f46e5; border-radius:50%; animation:spin 0.9s linear infinite; margin:20px auto; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    @media (max-width:600px) { .ekran { padding:24px 18px; } .likert-secenekler { flex-wrap:wrap; } }
+    .gges-madde { display:flex; align-items:center; gap:16px; padding:14px 0; border-bottom:1px solid #f3f4f6; }
+    .gges-madde:last-child { border-bottom:none; }
+    .gges-sifat { font-weight:700; font-size:1rem; color:#1a1a2e; min-width:100px; flex-shrink:0; }
+    .gges-secenekler { display:flex; flex-wrap:nowrap; gap:6px; flex:1; }
+    .gges-radio-label { display:flex; align-items:center; gap:4px; cursor:pointer; padding:6px 10px; border:2px solid #d1d5db; border-radius:8px; font-size:0.78rem; color:#444; transition:all 0.15s; background:#fff; user-select:none; white-space:nowrap; flex:1; justify-content:center; }
+    .gges-radio-label input[type="radio"] { display:none; }
+    .gges-radio-label:hover { border-color:#4f46e5; color:#4f46e5; background:#eef2ff; }
+    .gges-radio-label:has(input:checked) { border-color:#4f46e5; background:#4f46e5; color:#fff; }
+    @media (max-width:700px) { .gges-madde { flex-direction:column; align-items:flex-start; } .gges-secenekler { flex-wrap:wrap; } }
+    .gorsel-sahne { text-align:center; margin-bottom:24px; }
+    .gorsel-sahne img { max-width:100%; max-height:420px; border-radius:10px; border:2px solid #e5e7eb; object-fit:contain; }
+    .ilerleme-kap { background:#e5e7eb; border-radius:999px; height:8px; margin-bottom:8px; overflow:hidden; }
+    .ilerleme-ic { background:#4f46e5; height:100%; border-radius:999px; transition:width 0.4s ease; }
+    .ilerleme-metin { font-size:0.82rem; color:#888; text-align:right; margin-bottom:20px; }
+    .tus-alani { display:flex; gap:16px; justify-content:center; margin:20px 0; }
+    .tus-kutu { border:3px solid #d1d5db; border-radius:12px; padding:20px 40px; text-align:center; min-width:160px; user-select:none; pointer-events:none; }
+    .tus-kutu.secildi { border-color:#4f46e5; background:#eef2ff; }
+    .tus-harf { font-size:2.2rem; font-weight:900; display:block; margin-bottom:6px; color:#1a1a2e; }
+    .tus-aciklama { font-size:0.9rem; color:#555; font-weight:600; }
+    .klavye-ipucu { text-align:center; font-size:0.82rem; color:#aaa; margin-top:8px; }
 
-    .bolum-bant {
-      background: #1a1a2e; color: #fff;
-      border-radius: 8px; padding: 12px 20px;
-      margin-bottom: 24px;
-      display: flex; align-items: center; gap: 12px;
+    /* FİXATİON CROSS */
+    .fixation-ekran {
+      display:none; position:fixed; inset:0;
+      background:#fff; align-items:center; justify-content:center; z-index:9999;
     }
-    .bolum-bant .bolum-no {
-      background: #4f46e5; border-radius: 50%;
-      width: 32px; height: 32px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 0.95rem; flex-shrink: 0;
-    }
+    .fixation-ekran.aktif { display:flex; }
+    .fixation-cross { font-size:5rem; font-weight:300; color:#222; line-height:1; user-select:none; }
 
-    .hata { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: none; }
-
-    .spinner {
-      width: 48px; height: 48px;
-      border: 5px solid #e5e7eb; border-top-color: #4f46e5;
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-      margin: 20px auto;
+    /* BYSTANDER LİKERT */
+    .bys-soru { font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:20px; text-align:center; }
+    .bys-likert-dis { pointer-events:none; user-select:none; display:flex; justify-content:center; }
+    .bys-likert-ic { display:inline-flex; flex-direction:column; align-items:stretch; gap:8px; }
+    .bys-sayilar-satir { display:flex; align-items:center; gap:12px; }
+    .bys-numara {
+      width:52px; height:52px; border:3px solid #d1d5db; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; font-weight:800; color:#555; transition:all 0.15s; flex-shrink:0;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    @media (max-width: 600px) {
-      .ekran { padding: 24px 18px; }
-      .likert-secenekler { flex-wrap: wrap; }
-    }
-
-    /* GGES */
-    .gges-madde {
-      display: flex; align-items: center; gap: 16px;
-      padding: 14px 0; border-bottom: 1px solid #f3f4f6;
-    }
-    .gges-madde:last-child { border-bottom: none; }
-    .gges-sifat { font-weight: 700; font-size: 1rem; color: #1a1a2e; min-width: 100px; flex-shrink: 0; }
-    .gges-secenekler { display: flex; flex-wrap: nowrap; gap: 6px; flex: 1; }
-    .gges-radio-label {
-      display: flex; align-items: center; gap: 4px;
-      cursor: pointer; padding: 6px 10px;
-      border: 2px solid #d1d5db; border-radius: 8px;
-      font-size: 0.78rem; color: #444;
-      transition: all 0.15s; background: #fff;
-      user-select: none; white-space: nowrap;
-      flex: 1; justify-content: center;
-    }
-    .gges-radio-label input[type="radio"] { display: none; }
-    .gges-radio-label:hover { border-color: #4f46e5; color: #4f46e5; background: #eef2ff; }
-    .gges-radio-label:has(input:checked) { border-color: #4f46e5; background: #4f46e5; color: #fff; }
-    @media (max-width: 700px) {
-      .gges-madde { flex-direction: column; align-items: flex-start; }
-      .gges-secenekler { flex-wrap: wrap; }
-    }
-
-    /* GÖRSEL */
-    .gorsel-sahne { text-align: center; margin-bottom: 24px; }
-    .gorsel-sahne img {
-      max-width: 100%; max-height: 420px;
-      border-radius: 10px; border: 2px solid #e5e7eb;
-      object-fit: contain;
-    }
-
-    .ilerleme-kap {
-      background: #e5e7eb; border-radius: 999px;
-      height: 8px; margin-bottom: 8px; overflow: hidden;
-    }
-    .ilerleme-ic {
-      background: #4f46e5; height: 100%;
-      border-radius: 999px; transition: width 0.4s ease;
-    }
-    .ilerleme-metin { font-size: 0.82rem; color: #888; text-align: right; margin-bottom: 20px; }
-
-    /* AKTÖR tuşlar */
-    .tus-alani { display: flex; gap: 16px; justify-content: center; margin: 20px 0; }
-    .tus-kutu {
-      border: 3px solid #d1d5db; border-radius: 12px;
-      padding: 20px 40px; text-align: center;
-      min-width: 160px; user-select: none;
-      pointer-events: none;
-    }
-    .tus-kutu.secildi { border-color: #4f46e5; background: #eef2ff; }
-    .tus-harf { font-size: 2.2rem; font-weight: 900; display: block; margin-bottom: 6px; color: #1a1a2e; }
-    .tus-aciklama { font-size: 0.9rem; color: #555; font-weight: 600; }
-    .klavye-ipucu { text-align: center; font-size: 0.82rem; color: #aaa; margin-top: 8px; }
-
-    /* BYSTANDER Likert — sadece görsel, mouse kapalı */
-    .bys-soru {
-      font-size: 1rem; font-weight: 600;
-      color: #1a1a2e; margin-bottom: 24px;
-      text-align: center;
-    }
-    .bys-likert-kap {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 12px;
-      margin-bottom: 12px;
-      pointer-events: none; /* Mouse tıklaması tamamen kapalı */
-      user-select: none;
-    }
-    .bys-tus {
-      display: flex; flex-direction: column;
-      align-items: center; gap: 8px;
-    }
-    .bys-tus-numara {
-      width: 48px; height: 48px;
-      border: 3px solid #d1d5db; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; font-weight: 800;
-      color: #555; transition: all 0.15s;
-    }
-    .bys-tus.secildi .bys-tus-numara {
-      background: #4f46e5; border-color: #4f46e5; color: #fff;
-    }
-    .bys-tus-etiket { font-size: 0.68rem; color: #888; text-align: center; max-width: 60px; }
-    .bys-klavye-ipucu {
-      text-align: center; font-size: 0.82rem;
-      color: #aaa; margin-top: 8px;
-    }
+    .bys-numara.secildi { background:#4f46e5; border-color:#4f46e5; color:#fff; }
+    .bys-etiket-satir { display:flex; justify-content:space-between; font-size:0.72rem; color:#888; }
+    .bys-klavye-ipucu { text-align:center; font-size:0.82rem; color:#aaa; margin-top:12px; }
   </style>
 </head>
 <body>
 
+<!-- FİXATİON CROSS -->
+<div class="fixation-ekran" id="fixation-ekran">
+  <span class="fixation-cross">+</span>
+</div>
+
 <!-- EKRAN 0: KARŞILAMA -->
 <section id="ekran-hosgeldin" class="ekran aktif">
   <h1>Trolley Problemi Deneyi</h1>
-  <div class="bilgi-kutusu">
-    Bu çalışma, ahlaki karar verme süreçlerini incelemek amacıyla tasarlanmış bir psikoloji deneyidir.
-  </div>
+  <div class="bilgi-kutusu">Bu çalışma, ahlaki karar verme süreçlerini incelemek amacıyla tasarlanmış bir psikoloji deneyidir.</div>
   <p>Çalışmaya katılım <strong>gönüllülük esasına</strong> dayanmaktadır. Verilen yanıtlar tamamen anonim tutulacak ve yalnızca bilimsel amaçlarla kullanılacaktır.</p>
   <p>Deneyi istediğiniz herhangi bir aşamada sonlandırabilirsiniz. Tahmini tamamlanma süresi <strong>15-20 dakikadır</strong>.</p>
   <p>Devam ederek aydınlatılmış onam formunu kabul etmiş sayılırsınız.</p>
-  <div class="btn-satir">
-    <button class="btn btn-primary" onclick="ekranGec('ekran-demografik')">Başla →</button>
-  </div>
+  <div class="btn-satir"><button class="btn btn-primary" onclick="ekranGec('ekran-demografik')">Başla →</button></div>
 </section>
 
 <!-- EKRAN 1: DEMOGRAFİK -->
 <section id="ekran-demografik" class="ekran">
-  <div class="bolum-bant">
-    <div class="bolum-no">1</div>
-    <div>Demografik Bilgiler</div>
+  <div class="bolum-bant"><div class="bolum-no">1</div><div>Demografik Bilgiler</div></div>
+  <div class="form-grup"><label>1. Bir takma isim giriniz</label><input type="text" id="dem-takma-isim" placeholder="Takma isminizi yazın" /></div>
+  <div class="form-grup"><label>2. Yaşınız</label><input type="number" id="dem-yas" min="18" max="99" placeholder="Örn: 24" /></div>
+  <div class="form-grup"><label>3. Cinsiyetiniz</label>
+    <select id="dem-cinsiyet"><option value="">-- Seçiniz --</option><option>Erkek</option><option>Kadın</option><option>Belirtmek istemiyorum</option></select>
   </div>
-  <div class="form-grup">
-    <label>1. Bir takma isim giriniz</label>
-    <input type="text" id="dem-takma-isim" placeholder="Takma isminizi yazın" />
+  <div class="form-grup"><label>4. Gelir Durumunuz</label>
+    <select id="dem-gelir"><option value="">-- Seçiniz --</option><option>0 - 17.000 ₺</option><option>17.000 - 35.000 ₺</option><option>35.000 - 57.000 ₺</option><option>57.000 ₺ ve üstü</option></select>
   </div>
-  <div class="form-grup">
-    <label>2. Yaşınız</label>
-    <input type="number" id="dem-yas" min="18" max="99" placeholder="Örn: 24" />
+  <div class="form-grup"><label>5. Dini İnancınız</label>
+    <select id="dem-din"><option value="">-- Seçiniz --</option><option>Hristiyan</option><option>Budist</option><option>Hindu</option><option>Müslüman</option><option>Yahudi</option><option>Ateist</option><option>Deist</option><option>Agnostik</option><option>Diğer</option></select>
   </div>
-  <div class="form-grup">
-    <label>3. Cinsiyetiniz</label>
-    <select id="dem-cinsiyet">
-      <option value="">-- Seçiniz --</option>
-      <option>Erkek</option><option>Kadın</option><option>Belirtmek istemiyorum</option>
-    </select>
-  </div>
-  <div class="form-grup">
-    <label>4. Gelir Durumunuz</label>
-    <select id="dem-gelir">
-      <option value="">-- Seçiniz --</option>
-      <option>0 - 17.000 ₺</option><option>17.000 - 35.000 ₺</option>
-      <option>35.000 - 57.000 ₺</option><option>57.000 ₺ ve üstü</option>
-    </select>
-  </div>
-  <div class="form-grup">
-    <label>5. Dini İnancınız</label>
-    <select id="dem-din">
-      <option value="">-- Seçiniz --</option>
-      <option>Hristiyan</option><option>Budist</option><option>Hindu</option>
-      <option>Müslüman</option><option>Yahudi</option><option>Ateist</option>
-      <option>Deist</option><option>Agnostik</option><option>Diğer</option>
-    </select>
-  </div>
-  <div class="form-grup">
-    <label>6. Kendinizi hangi düzeyde dindar olarak görüyorsunuz?</label>
-    <select id="dem-dindarlik">
-      <option value="">-- Seçiniz --</option>
-      <option>Dindar değilim</option><option>Biraz dindarım</option>
-      <option>Orta derecede dindarım</option><option>Çok dindarım</option>
-      <option>Bilmiyorum</option>
-    </select>
+  <div class="form-grup"><label>6. Kendinizi hangi düzeyde dindar olarak görüyorsunuz?</label>
+    <select id="dem-dindarlik"><option value="">-- Seçiniz --</option><option>Dindar değilim</option><option>Biraz dindarım</option><option>Orta derecede dindarım</option><option>Çok dindarım</option><option>Bilmiyorum</option></select>
   </div>
   <div class="form-grup">
     <label>7. Siyasi açıdan Türkiye'de yıllardır sol, sağ ve merkez diye bir siyasi gelenek vardır. Siz kendinizi aşağıdaki ölçekte hangi konumda görüyorsunuz?</label>
@@ -297,14 +146,8 @@
       </div>
     </div>
   </div>
-  <div class="form-grup">
-    <label>8. Kendinizi siyasi görüşünüze hangi düzeyde bağlı olarak görüyorsunuz?</label>
-    <select id="dem-siyasi-baglilik">
-      <option value="">-- Seçiniz --</option>
-      <option>Hiç bağlı değilim</option><option>Az bağlıyım</option>
-      <option>Orta düzeyde bağlıyım</option><option>Oldukça bağlıyım</option>
-      <option>Tamamen bağlıyım</option>
-    </select>
+  <div class="form-grup"><label>8. Kendinizi siyasi görüşünüze hangi düzeyde bağlı olarak görüyorsunuz?</label>
+    <select id="dem-siyasi-baglilik"><option value="">-- Seçiniz --</option><option>Hiç bağlı değilim</option><option>Az bağlıyım</option><option>Orta düzeyde bağlıyım</option><option>Oldukça bağlıyım</option><option>Tamamen bağlıyım</option></select>
   </div>
   <div id="dem-hata" class="hata">Lütfen tüm alanları doldurun.</div>
   <div class="btn-satir">
@@ -392,22 +235,11 @@
   <div class="bolum-bant"><div class="bolum-no">4</div><div>Aktör Senaryoları</div></div>
   <div class="ilerleme-metin" id="aktor-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div></div>
-  <div style="display:none">
-    <div id="geri-sayim-cubuk"></div>
-    <div id="geri-sayim-sayi"></div>
-  </div>
-  <div class="gorsel-sahne">
-    <img id="aktor-gorsel" src="" alt="Senaryo görseli" />
-  </div>
+  <div style="display:none"><div id="geri-sayim-cubuk"></div><div id="geri-sayim-sayi"></div></div>
+  <div class="gorsel-sahne"><img id="aktor-gorsel" src="" alt="Senaryo görseli" /></div>
   <div class="tus-alani">
-    <div class="tus-kutu" id="tus-d">
-      <span class="tus-harf">D</span>
-      <span class="tus-aciklama" id="tus-d-label">Çekerim</span>
-    </div>
-    <div class="tus-kutu" id="tus-k">
-      <span class="tus-harf">K</span>
-      <span class="tus-aciklama" id="tus-k-label">Çekmem</span>
-    </div>
+    <div class="tus-kutu" id="tus-d"><span class="tus-harf">D</span><span class="tus-aciklama" id="tus-d-label">Çekerim</span></div>
+    <div class="tus-kutu" id="tus-k"><span class="tus-harf">K</span><span class="tus-aciklama" id="tus-k-label">Çekmem</span></div>
   </div>
   <p class="klavye-ipucu">Yalnızca klavye ile D veya K tuşuna basın.</p>
 </section>
@@ -417,639 +249,304 @@
   <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
   <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryo iki aşamadan oluşmaktadır.</p>
   <p style="margin-top:12px;">İlk aşamada raylarda kimlerin olduğunu göreceksiniz. Bu görsel birkaç saniye ekranda kalacak ve otomatik olarak geçecektir.</p>
-  <p style="margin-top:12px;">İkinci aşamada senaryonun sonucunu görecek ve <strong>verilen kararı ne kadar ahlaki bulduğunuzu</strong> klavyenizdeki <strong>1-6</strong> tuşlarına basarak değerlendireceksiniz.</p>
+  <p style="margin-top:12px;">İkinci aşamada senaryonun sonucunu görecek ve <strong>verilen kararı ne kadar ahlaki bulduğunuzu</strong> klavyenizdeki <strong>1–6</strong> tuşlarından birine basarak değerlendireceksiniz.</p>
   <div class="btn-satir">
     <button class="btn btn-gray" onclick="ekranGec('ekran-aktor-aciklama')">← Geri</button>
     <button class="btn btn-primary" onclick="bystanderBaslat()">Başla →</button>
   </div>
 </section>
 
-<!-- EKRAN 5b: BYSTANDER – ÖNCESİ (4 saniye, geçilemez) -->
+<!-- EKRAN 5b: BYSTANDER ÖNCESİ (4 sn, geçilemez) -->
 <section id="ekran-bystander-once" class="ekran">
   <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
   <div class="ilerleme-metin" id="bys-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="bys-ilerleme-ic" style="width:0%"></div></div>
-  <!-- Görsel -->
-  <div class="gorsel-sahne">
-    <img id="bys-gorsel-once" src="" alt="Senaryo öncesi" />
-  </div>
-  <!-- Buton yok, hiçbir şey tıklanamaz — 4 saniye sonra otomatik geçer -->
+  <div class="gorsel-sahne"><img id="bys-gorsel-once" src="" alt="Senaryo öncesi" /></div>
 </section>
 
-<!-- EKRAN 5c: BYSTANDER – SONRASI + LİKERT (klavye 1-6) -->
+<!-- EKRAN 5c: BYSTANDER SONRASI + LİKERT -->
 <section id="ekran-bystander-sonra" class="ekran">
   <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
-  <div class="gorsel-sahne">
-    <img id="bys-gorsel-sonra" src="" alt="Senaryo sonrası" />
-  </div>
+  <div class="gorsel-sahne"><img id="bys-gorsel-sonra" src="" alt="Senaryo sonrası" /></div>
   <p class="bys-soru">Bu senaryoda verilen kararı ne kadar ahlaki buldunuz?</p>
-
-  <!-- Sadece görsel gösterge — pointer-events:none ile mouse tamamen kapalı -->
-  <div class="bys-likert-kap" id="bys-likert-kap">
-    <div class="bys-tus" id="bys-tus-1">
-      <div class="bys-tus-numara">1</div>
-      <div class="bys-tus-etiket">Hiç ahlaki değil</div>
-    </div>
-    <div class="bys-tus" id="bys-tus-2">
-      <div class="bys-tus-numara">2</div>
-      <div class="bys-tus-etiket"></div>
-    </div>
-    <div class="bys-tus" id="bys-tus-3">
-      <div class="bys-tus-numara">3</div>
-      <div class="bys-tus-etiket"></div>
-    </div>
-    <div class="bys-tus" id="bys-tus-4">
-      <div class="bys-tus-numara">4</div>
-      <div class="bys-tus-etiket"></div>
-    </div>
-    <div class="bys-tus" id="bys-tus-5">
-      <div class="bys-tus-numara">5</div>
-      <div class="bys-tus-etiket"></div>
-    </div>
-    <div class="bys-tus" id="bys-tus-6">
-      <div class="bys-tus-numara">6</div>
-      <div class="bys-tus-etiket">Tamamen ahlaki</div>
+  <div class="bys-likert-dis">
+    <div class="bys-likert-ic">
+      <div class="bys-sayilar-satir">
+        <div class="bys-numara" id="bys-n-1">1</div>
+        <div class="bys-numara" id="bys-n-2">2</div>
+        <div class="bys-numara" id="bys-n-3">3</div>
+        <div class="bys-numara" id="bys-n-4">4</div>
+        <div class="bys-numara" id="bys-n-5">5</div>
+        <div class="bys-numara" id="bys-n-6">6</div>
+      </div>
+      <div class="bys-etiket-satir">
+        <span>Hiç ahlaki değil</span>
+        <span>Tamamen ahlaki</span>
+      </div>
     </div>
   </div>
   <p class="bys-klavye-ipucu">Klavyeden 1, 2, 3, 4, 5 veya 6 tuşuna basın.</p>
 </section>
 
-<!-- EKRAN: GÖNDERİM -->
+<!-- GÖNDERİM -->
 <section id="ekran-gonderim" class="ekran">
   <h2 style="text-align:center;">Verileriniz gönderiliyor…</h2>
   <div class="spinner"></div>
   <p style="text-align:center; color:#555;">Lütfen bu sayfayı kapatmayın.</p>
 </section>
 
-<!-- EKRAN: BİTİŞ -->
+<!-- BİTİŞ -->
 <section id="ekran-bitis" class="ekran">
   <h1>Teşekkürler! 🎉</h1>
   <p>Katılımınız için teşekkür ederiz. Yanıtlarınız başarıyla kaydedildi.</p>
 </section>
 
-
 <script>
-// ================================================================
-// YAPILANDIRMA
-// ================================================================
-
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
-const AKTOR_SURE        = 8;   // Aktör: maks saniye
-const BYSTANDER_ONCE_SURE = 4; // Bystander öncesi: sabit 4 saniye
+const GOOGLE_SCRIPT_URL   = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
+const AKTOR_SURE          = 8;
+const BYSTANDER_ONCE_SURE = 4000;
+const FIXATION_SURE       = 250;
 
 const KIMLIK_SORULARI = [
-  { id: "kimlik_1", metin: "Grubumla bir bütünüm." },
-  { id: "kimlik_2", metin: "Grubumla bütünleşmiş hissediyorum." },
-  { id: "kimlik_3", metin: "Grubumla aramda derin bir duygusal bağım var." },
-  { id: "kimlik_4", metin: "Grubum ben demektir." },
-  { id: "kimlik_5", metin: "Grubum için diğer grup üyelerinin yapacağından daha fazlasını yaparım." },
-  { id: "kimlik_6", metin: "Grubum sayesinde güçlüyüm." },
-  { id: "kimlik_7", metin: "Bağlı bulunduğum grubu güçlü hale getiriyorum." },
+  { id:"kimlik_1", metin:"Grubumla bir bütünüm." },
+  { id:"kimlik_2", metin:"Grubumla bütünleşmiş hissediyorum." },
+  { id:"kimlik_3", metin:"Grubumla aramda derin bir duygusal bağım var." },
+  { id:"kimlik_4", metin:"Grubum ben demektir." },
+  { id:"kimlik_5", metin:"Grubum için diğer grup üyelerinin yapacağından daha fazlasını yaparım." },
+  { id:"kimlik_6", metin:"Grubum sayesinde güçlüyüm." },
+  { id:"kimlik_7", metin:"Bağlı bulunduğum grubu güçlü hale getiriyorum." },
 ];
 
 const GGES_SORULARI = [
-  { id: "gges_1", metin: "İyi" },
-  { id: "gges_2", metin: "Nazik" },
-  { id: "gges_3", metin: "Dürüst" },
-  { id: "gges_4", metin: "Güvenilir" },
-  { id: "gges_5", metin: "Aksi" },
-  { id: "gges_6", metin: "Kaba" },
-  { id: "gges_7", metin: "Güvenilmez" },
-  { id: "gges_8", metin: "Kötü" },
+  { id:"gges_1", metin:"İyi" }, { id:"gges_2", metin:"Nazik" },
+  { id:"gges_3", metin:"Dürüst" }, { id:"gges_4", metin:"Güvenilir" },
+  { id:"gges_5", metin:"Aksi" }, { id:"gges_6", metin:"Kaba" },
+  { id:"gges_7", metin:"Güvenilmez" }, { id:"gges_8", metin:"Kötü" },
 ];
 
 const AKTOR_SENARYOLARI = [
-  { id: "A1", gorsel: "Aktorsenaryo1.png", mapping: "DK" },
-  { id: "A2", gorsel: "Aktorsenaryo2.png", mapping: "DK" },
-  { id: "A3", gorsel: "Aktorsenaryo3.png", mapping: "DK" },
-  { id: "A4", gorsel: "Aktorsenaryo4.png", mapping: "KD" },
-  { id: "A5", gorsel: "Aktorsenaryo5.png", mapping: "KD" },
-  { id: "A6", gorsel: "Aktorsenaryo6.png", mapping: "KD" },
+  { id:"A1", gorsel:"Aktorsenaryo1.png", mapping:"DK" },
+  { id:"A2", gorsel:"Aktorsenaryo2.png", mapping:"DK" },
+  { id:"A3", gorsel:"Aktorsenaryo3.png", mapping:"DK" },
+  { id:"A4", gorsel:"Aktorsenaryo4.png", mapping:"KD" },
+  { id:"A5", gorsel:"Aktorsenaryo5.png", mapping:"KD" },
+  { id:"A6", gorsel:"Aktorsenaryo6.png", mapping:"KD" },
 ];
 
-// 12 bystander çifti — öncesi 4 sn otomatik geçer, sonrası klavye 1-6
 const BYSTANDER_SENARYOLARI = [
-  { id: "B1",  once: "Bystandergorsel1.png",  sonra: "Bystandergorsel1_1.png"   },
-  { id: "B2",  once: "Bystandergorsel2.png",  sonra: "Bystandergorsel2_2.png"   },
-  { id: "B3",  once: "Bystandergorsel3.png",  sonra: "Bystandergorsel3_3.png"   },
-  { id: "B4",  once: "Bystandergorsel4.png",  sonra: "Bystandergorsel4_4.png"   },
-  { id: "B5",  once: "Bystandergorsel5.png",  sonra: "Bystandergorsel5_5.png"   },
-  { id: "B6",  once: "Bystandergorsel6.png",  sonra: "Bystandergorsel6_6.png"   },
-  { id: "B7",  once: "Bystandergorsel7.png",  sonra: "Bystandergorsel7_7.png"   },
-  { id: "B8",  once: "Bystandergorsel8.png",  sonra: "Bystandergorsel8_8.png"   },
-  { id: "B9",  once: "Bystandergorsel9.png",  sonra: "Bystandergorsel9_9.png"   },
-  { id: "B10", once: "Bystandergorsel10.png", sonra: "Bystandergorsel10_10.png" },
-  { id: "B11", once: "Bystandergorsel11.png", sonra: "Bystandergorsel11_11.png" },
-  { id: "B12", once: "Bystandergorsel12.png", sonra: "Bystandergorsel12_12.png" },
+  { id:"B1",  once:"Bystandergorsel1.png",  sonra:"Bystandergorsel1_1.png"   },
+  { id:"B2",  once:"Bystandergorsel2.png",  sonra:"Bystandergorsel2_2.png"   },
+  { id:"B3",  once:"Bystandergorsel3.png",  sonra:"Bystandergorsel3_3.png"   },
+  { id:"B4",  once:"Bystandergorsel4.png",  sonra:"Bystandergorsel4_4.png"   },
+  { id:"B5",  once:"Bystandergorsel5.png",  sonra:"Bystandergorsel5_5.png"   },
+  { id:"B6",  once:"Bystandergorsel6.png",  sonra:"Bystandergorsel6_6.png"   },
+  { id:"B7",  once:"Bystandergorsel7.png",  sonra:"Bystandergorsel7_7.png"   },
+  { id:"B8",  once:"Bystandergorsel8.png",  sonra:"Bystandergorsel8_8.png"   },
+  { id:"B9",  once:"Bystandergorsel9.png",  sonra:"Bystandergorsel9_9.png"   },
+  { id:"B10", once:"Bystandergorsel10.png", sonra:"Bystandergorsel10_10.png" },
+  { id:"B11", once:"Bystandergorsel11.png", sonra:"Bystandergorsel11_11.png" },
+  { id:"B12", once:"Bystandergorsel12.png", sonra:"Bystandergorsel12_12.png" },
 ];
 
-// ================================================================
-// DURUM DEĞİŞKENLERİ
-// ================================================================
 let veri = {};
-
-// Aktör
-let aktorSira          = [];
-let aktorIndex         = 0;
-let aktorYanitVerildi  = false;
-let aktorTimerId       = null;
-let aktorIntervalId    = null;
-let aktorBaslangicZamani = 0;
-
-// Bystander
-let bystanderSira      = [];
-let bystanderIndex     = 0;
-let bystanderOncesiAktif = false; // Öncesi ekranı aktifken tuş girişini engeller
-let bystanderSonrasiAktif = false; // Sonrası ekranı aktifken 1-6 dinlenir
-let bystanderTimerId   = null;
-
-// ================================================================
-// YARDIMCI
-// ================================================================
+let aktorSira=[], aktorIndex=0, aktorYanitVerildi=false;
+let aktorTimerId=null, aktorIntervalId=null, aktorBaslangicZamani=0;
+let bystanderSira=[], bystanderIndex=0;
+let bystanderOncesiAktif=false, bystanderSonrasiAktif=false, bystanderTimerId=null;
 
 function ekranGec(id) {
-  document.querySelectorAll('.ekran').forEach(e => e.classList.remove('aktif'));
+  document.querySelectorAll('.ekran').forEach(e=>e.classList.remove('aktif'));
   document.getElementById(id).classList.add('aktif');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function fixationGoster(callback) {
+  const el = document.getElementById('fixation-ekran');
+  el.classList.add('aktif');
+  setTimeout(() => { el.classList.remove('aktif'); callback(); }, FIXATION_SURE);
 }
 
 function karistir(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
 
-function likertRadioUret(containerId, isim, max = 6) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = '';
-  for (let i = 1; i <= max; i++) {
-    el.innerHTML += `
-      <input type="radio" name="${isim}" id="${isim}_${i}" value="${i}" />
-      <label class="radio-label" for="${isim}_${i}">${i}</label>
-    `;
-  }
+function likertRadioUret(containerId, isim, max=6) {
+  const el=document.getElementById(containerId); if(!el)return;
+  el.innerHTML='';
+  for(let i=1;i<=max;i++) el.innerHTML+=`<input type="radio" name="${isim}" id="${isim}_${i}" value="${i}"/><label class="radio-label" for="${isim}_${i}">${i}</label>`;
 }
 
-function likertDegerOku(isim) {
-  const s = document.querySelector(`input[name="${isim}"]:checked`);
-  return s ? parseInt(s.value) : null;
-}
+function likertDegerOku(isim) { const s=document.querySelector(`input[name="${isim}"]:checked`); return s?parseInt(s.value):null; }
 
-function olcekUret(containerId, sorular, isim, max = 6) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = '';
-  sorular.forEach(soru => {
-    el.innerHTML += `
-      <div class="likert-grup">
-        <div class="soru-metni">${soru.metin}</div>
-        <div class="likert-secenekler">
-          <span class="uc-label">Kesinlikle Katılmıyorum</span>
-          <div class="radio-grup" id="rg_${soru.id}"></div>
-          <span class="uc-label">Kesinlikle Katılıyorum</span>
-        </div>
-      </div>
-    `;
-    likertRadioUret(`rg_${soru.id}`, soru.id, max);
+function olcekUret(containerId, sorular, isim, max=6) {
+  const el=document.getElementById(containerId); el.innerHTML='';
+  sorular.forEach(soru=>{
+    el.innerHTML+=`<div class="likert-grup"><div class="soru-metni">${soru.metin}</div><div class="likert-secenekler"><span class="uc-label">Kesinlikle Katılmıyorum</span><div class="radio-grup" id="rg_${soru.id}"></div><span class="uc-label">Kesinlikle Katılıyorum</span></div></div>`;
+    likertRadioUret(`rg_${soru.id}`,soru.id,max);
   });
 }
 
 function olcekVeriTopla(sorular) {
-  const sonuc = {};
-  for (const soru of sorular) {
-    const d = likertDegerOku(soru.id);
-    if (d === null) return null;
-    sonuc[soru.id] = d;
-  }
+  const sonuc={};
+  for(const soru of sorular){const d=likertDegerOku(soru.id);if(d===null)return null;sonuc[soru.id]=d;}
   return sonuc;
 }
 
 function ggesGrupUret(containerId, sorular, prefix) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = '';
-  const etiketler = [
-    { deger: 1, metin: "Hiç tanımlamıyor" },
-    { deger: 2, metin: "Tanımlamıyor" },
-    { deger: 3, metin: "Kararsızım" },
-    { deger: 4, metin: "Tanımlıyor" },
-    { deger: 5, metin: "Tamamen tanımlıyor" },
-  ];
-  sorular.forEach(soru => {
-    let radios = '';
-    etiketler.forEach(e => {
-      const id = `${prefix}_${soru.id}_${e.deger}`;
-      radios += `
-        <label class="gges-radio-label" for="${id}">
-          <input type="radio" name="${prefix}_${soru.id}" id="${id}" value="${e.deger}" />
-          <span>${e.metin}</span>
-        </label>
-      `;
-    });
-    el.innerHTML += `
-      <div class="gges-madde">
-        <div class="gges-sifat">${soru.metin}</div>
-        <div class="gges-secenekler">${radios}</div>
-      </div>
-    `;
+  const el=document.getElementById(containerId); el.innerHTML='';
+  const etiketler=[{deger:1,metin:"Hiç tanımlamıyor"},{deger:2,metin:"Tanımlamıyor"},{deger:3,metin:"Kararsızım"},{deger:4,metin:"Tanımlıyor"},{deger:5,metin:"Tamamen tanımlıyor"}];
+  sorular.forEach(soru=>{
+    let radios='';
+    etiketler.forEach(e=>{const id=`${prefix}_${soru.id}_${e.deger}`;radios+=`<label class="gges-radio-label" for="${id}"><input type="radio" name="${prefix}_${soru.id}" id="${id}" value="${e.deger}"/><span>${e.metin}</span></label>`;});
+    el.innerHTML+=`<div class="gges-madde"><div class="gges-sifat">${soru.metin}</div><div class="gges-secenekler">${radios}</div></div>`;
   });
 }
 
 function ggesGrupVeriTopla(sorular, prefix) {
-  const sonuc = {};
-  for (const soru of sorular) {
-    const s = document.querySelector(`input[name="${prefix}_${soru.id}"]:checked`);
-    if (!s) return null;
-    sonuc[`${prefix}_${soru.id}`] = parseInt(s.value);
-  }
+  const sonuc={};
+  for(const soru of sorular){const s=document.querySelector(`input[name="${prefix}_${soru.id}"]:checked`);if(!s)return null;sonuc[`${prefix}_${soru.id}`]=parseInt(s.value);}
   return sonuc;
 }
 
-// ================================================================
-// BAŞLATMA
-// ================================================================
-
-window.addEventListener('load', () => {
-  olcekUret('kimlik-sorular', KIMLIK_SORULARI, 'kimlik', 7);
-  ggesGrupUret('gges-turk-sorular', GGES_SORULARI, 'gges_turk');
-  ggesGrupUret('gges-to-sorular',   GGES_SORULARI, 'gges_to');
-
-  const rg = document.getElementById('dem-siyasi-konum-rg');
-  rg.innerHTML = '';
-  for (let i = 1; i <= 7; i++) {
-    rg.innerHTML += `
-      <input type="radio" name="dem-siyasi-konum" id="siyasi_${i}" value="${i}" />
-      <label class="radio-label" for="siyasi_${i}">${i}</label>
-    `;
-  }
-
-  document.addEventListener('keydown', klavyeDinle);
+window.addEventListener('load',()=>{
+  olcekUret('kimlik-sorular',KIMLIK_SORULARI,'kimlik',7);
+  ggesGrupUret('gges-turk-sorular',GGES_SORULARI,'gges_turk');
+  ggesGrupUret('gges-to-sorular',GGES_SORULARI,'gges_to');
+  const rg=document.getElementById('dem-siyasi-konum-rg'); rg.innerHTML='';
+  for(let i=1;i<=7;i++) rg.innerHTML+=`<input type="radio" name="dem-siyasi-konum" id="siyasi_${i}" value="${i}"/><label class="radio-label" for="siyasi_${i}">${i}</label>`;
+  document.addEventListener('keydown',klavyeDinle);
 });
 
-// ================================================================
-// DEMOGRAFİK
-// ================================================================
-
 function demografikDogrula() {
-  const takmaIsim      = document.getElementById('dem-takma-isim').value.trim();
-  const yas            = document.getElementById('dem-yas').value.trim();
-  const cinsiyet       = document.getElementById('dem-cinsiyet').value;
-  const gelir          = document.getElementById('dem-gelir').value;
-  const din            = document.getElementById('dem-din').value;
-  const dindarlik      = document.getElementById('dem-dindarlik').value;
-  const siyasiKonum    = likertDegerOku('dem-siyasi-konum');
-  const siyasiBaglilik = document.getElementById('dem-siyasi-baglilik').value;
-
-  if (!takmaIsim || !yas || !cinsiyet || !gelir || !din || !dindarlik || !siyasiKonum || !siyasiBaglilik) {
-    document.getElementById('dem-hata').style.display = 'block';
-    return;
-  }
-  document.getElementById('dem-hata').style.display = 'none';
-
-  veri.takma_isim      = takmaIsim;
-  veri.yas             = yas;
-  veri.cinsiyet        = cinsiyet;
-  veri.gelir           = gelir;
-  veri.din             = din;
-  veri.dindarlik       = dindarlik;
-  veri.siyasi_konum    = siyasiKonum;
-  veri.siyasi_baglilik = siyasiBaglilik;
-
+  const t=document.getElementById('dem-takma-isim').value.trim();
+  const y=document.getElementById('dem-yas').value.trim();
+  const c=document.getElementById('dem-cinsiyet').value;
+  const g=document.getElementById('dem-gelir').value;
+  const d=document.getElementById('dem-din').value;
+  const dk=document.getElementById('dem-dindarlik').value;
+  const sk=likertDegerOku('dem-siyasi-konum');
+  const sb=document.getElementById('dem-siyasi-baglilik').value;
+  if(!t||!y||!c||!g||!d||!dk||!sk||!sb){document.getElementById('dem-hata').style.display='block';return;}
+  document.getElementById('dem-hata').style.display='none';
+  veri.takma_isim=t;veri.yas=y;veri.cinsiyet=c;veri.gelir=g;veri.din=d;veri.dindarlik=dk;veri.siyasi_konum=sk;veri.siyasi_baglilik=sb;
   ekranGec('ekran-kimlik-aciklama');
 }
 
-// ================================================================
-// KİMLİK
-// ================================================================
-
 function kimlikDogrula() {
-  const sonuc = olcekVeriTopla(KIMLIK_SORULARI);
-  if (!sonuc) { document.getElementById('kimlik-hata').style.display = 'block'; return; }
-  document.getElementById('kimlik-hata').style.display = 'none';
-  veri.kimlik = sonuc;
-  ekranGec('ekran-gges-aciklama');
+  const s=olcekVeriTopla(KIMLIK_SORULARI);
+  if(!s){document.getElementById('kimlik-hata').style.display='block';return;}
+  document.getElementById('kimlik-hata').style.display='none';
+  veri.kimlik=s; ekranGec('ekran-gges-aciklama');
 }
 
-// ================================================================
-// GGES
-// ================================================================
-
 function ggesTogrula() {
-  const sonuc = ggesGrupVeriTopla(GGES_SORULARI, 'gges_turk');
-  if (!sonuc) { document.getElementById('gges-turk-hata').style.display = 'block'; return; }
-  document.getElementById('gges-turk-hata').style.display = 'none';
-  veri.gges_turk = sonuc;
-  ekranGec('ekran-gges-to');
+  const s=ggesGrupVeriTopla(GGES_SORULARI,'gges_turk');
+  if(!s){document.getElementById('gges-turk-hata').style.display='block';return;}
+  document.getElementById('gges-turk-hata').style.display='none';
+  veri.gges_turk=s; ekranGec('ekran-gges-to');
 }
 
 function ggesToOgrula() {
-  const sonuc = ggesGrupVeriTopla(GGES_SORULARI, 'gges_to');
-  if (!sonuc) { document.getElementById('gges-to-hata').style.display = 'block'; return; }
-  document.getElementById('gges-to-hata').style.display = 'none';
-  veri.gges_turkolmayan = sonuc;
-  ekranGec('ekran-aktor-aciklama');
+  const s=ggesGrupVeriTopla(GGES_SORULARI,'gges_to');
+  if(!s){document.getElementById('gges-to-hata').style.display='block';return;}
+  document.getElementById('gges-to-hata').style.display='none';
+  veri.gges_turkolmayan=s; ekranGec('ekran-aktor-aciklama');
 }
 
-// ================================================================
-// AKTÖR – ZAMANLAYICI
-// ================================================================
-
 function aktorZamanlamaBaslat() {
-  aktorBaslangicZamani = Date.now();
-  aktorTimerId = setTimeout(() => {
-    aktorZamanlamaDurdur();
-    aktorKaydetVeGec(null);
-  }, AKTOR_SURE * 1000);
+  aktorBaslangicZamani=Date.now();
+  aktorTimerId=setTimeout(()=>{aktorZamanlamaDurdur();aktorKaydetVeGec(null);},AKTOR_SURE*1000);
 }
 
 function aktorZamanlamaDurdur() {
-  if (aktorTimerId)    { clearTimeout(aktorTimerId);     aktorTimerId = null; }
-  if (aktorIntervalId) { clearInterval(aktorIntervalId); aktorIntervalId = null; }
+  if(aktorTimerId){clearTimeout(aktorTimerId);aktorTimerId=null;}
+  if(aktorIntervalId){clearInterval(aktorIntervalId);aktorIntervalId=null;}
 }
 
-// ================================================================
-// AKTÖR
-// ================================================================
-
 function aktorBaslat() {
-  aktorSira  = karistir(AKTOR_SENARYOLARI);
-  aktorIndex = 0;
-  veri.aktor = [];
-  veri.aktor_sirasi = aktorSira.map(s => s.id);
-  ekranGec('ekran-aktor');
-  aktorGorselGoster();
+  aktorSira=karistir(AKTOR_SENARYOLARI);aktorIndex=0;veri.aktor=[];
+  veri.aktor_sirasi=aktorSira.map(s=>s.id);
+  ekranGec('ekran-aktor'); aktorGorselGoster();
 }
 
 function aktorGorselGoster() {
-  aktorYanitVerildi = false;
-  const toplam  = aktorSira.length;
-  const senaryo = aktorSira[aktorIndex];
-
-  document.getElementById('aktor-ilerleme-metin').textContent = `Senaryo ${aktorIndex + 1} / ${toplam}`;
-  document.getElementById('aktor-ilerleme-ic').style.width = `${(aktorIndex / toplam) * 100}%`;
-  document.getElementById('aktor-gorsel').src = senaryo.gorsel;
-
-  if (senaryo.mapping === "DK") {
-    document.getElementById('tus-d-label').textContent = "Çekerim";
-    document.getElementById('tus-k-label').textContent = "Çekmem";
-  } else {
-    document.getElementById('tus-d-label').textContent = "Çekmem";
-    document.getElementById('tus-k-label').textContent = "Çekerim";
-  }
-
-  document.getElementById('tus-d').className = 'tus-kutu';
-  document.getElementById('tus-k').className = 'tus-kutu';
+  aktorYanitVerildi=false;
+  const toplam=aktorSira.length, senaryo=aktorSira[aktorIndex];
+  document.getElementById('aktor-ilerleme-metin').textContent=`Senaryo ${aktorIndex+1} / ${toplam}`;
+  document.getElementById('aktor-ilerleme-ic').style.width=`${(aktorIndex/toplam)*100}%`;
+  document.getElementById('aktor-gorsel').src=senaryo.gorsel;
+  document.getElementById('tus-d-label').textContent=senaryo.mapping==="DK"?"Çekerim":"Çekmem";
+  document.getElementById('tus-k-label').textContent=senaryo.mapping==="DK"?"Çekmem":"Çekerim";
+  document.getElementById('tus-d').className='tus-kutu';
+  document.getElementById('tus-k').className='tus-kutu';
   aktorZamanlamaBaslat();
 }
 
 function aktorKaydetVeGec(basin_tus) {
-  const senaryo = aktorSira[aktorIndex];
-  const tepki_suresi = parseFloat(((Date.now() - aktorBaslangicZamani) / 1000).toFixed(3));
-
-  if (basin_tus === 'D') document.getElementById('tus-d').className = 'tus-kutu secildi';
-  else if (basin_tus === 'K') document.getElementById('tus-k').className = 'tus-kutu secildi';
-
-  veri.aktor.push({
-    senaryo_id:      senaryo.id,
-    gosterim_sirasi: aktorIndex + 1,
-    mapping:         senaryo.mapping,
-    basin_tus:       basin_tus !== null ? basin_tus : "YOK",
-    tepki_suresi:    basin_tus !== null ? tepki_suresi : AKTOR_SURE,
-  });
-
+  const senaryo=aktorSira[aktorIndex];
+  const tepki=parseFloat(((Date.now()-aktorBaslangicZamani)/1000).toFixed(3));
+  if(basin_tus==='D') document.getElementById('tus-d').className='tus-kutu secildi';
+  else if(basin_tus==='K') document.getElementById('tus-k').className='tus-kutu secildi';
+  veri.aktor.push({senaryo_id:senaryo.id,gosterim_sirasi:aktorIndex+1,mapping:senaryo.mapping,basin_tus:basin_tus!==null?basin_tus:"YOK",tepki_suresi:basin_tus!==null?tepki:AKTOR_SURE});
   aktorIndex++;
-
-  setTimeout(() => {
-    if (aktorIndex < aktorSira.length) {
-      aktorGorselGoster();
-    } else {
-      ekranGec('ekran-bystander-aciklama');
-    }
-  }, 400);
+  setTimeout(()=>{ if(aktorIndex<aktorSira.length){aktorGorselGoster();}else{ekranGec('ekran-bystander-aciklama');} },400);
 }
 
-// ================================================================
-// BYSTANDER
-// ================================================================
-
 function bystanderBaslat() {
-  bystanderSira  = karistir(BYSTANDER_SENARYOLARI);
-  bystanderIndex = 0;
-  veri.bystander = [];
-  veri.bystander_sirasi = bystanderSira.map(s => s.id);
+  bystanderSira=karistir(BYSTANDER_SENARYOLARI);bystanderIndex=0;veri.bystander=[];
+  veri.bystander_sirasi=bystanderSira.map(s=>s.id);
   bystanderOncesiGoster();
 }
 
 function bystanderOncesiGoster() {
-  const toplam  = bystanderSira.length;
-  const senaryo = bystanderSira[bystanderIndex];
-
-  document.getElementById('bys-ilerleme-metin').textContent = `Senaryo ${bystanderIndex + 1} / ${toplam}`;
-  document.getElementById('bys-ilerleme-ic').style.width = `${(bystanderIndex / toplam) * 100}%`;
-  document.getElementById('bys-gorsel-once').src = senaryo.once;
-
-  // Öncesi ekranı aktif — hiçbir tuşa yanıt verilmez
-  bystanderOncesiAktif  = true;
-  bystanderSonrasiAktif = false;
-
+  const toplam=bystanderSira.length, senaryo=bystanderSira[bystanderIndex];
+  document.getElementById('bys-ilerleme-metin').textContent=`Senaryo ${bystanderIndex+1} / ${toplam}`;
+  document.getElementById('bys-ilerleme-ic').style.width=`${(bystanderIndex/toplam)*100}%`;
+  document.getElementById('bys-gorsel-once').src=senaryo.once;
+  bystanderOncesiAktif=true; bystanderSonrasiAktif=false;
   ekranGec('ekran-bystander-once');
-
-  // 4 saniye sonra otomatik sonrasına geç
-  bystanderTimerId = setTimeout(() => {
-    bystanderOncesiAktif = false;
-    bystanderSonrasiGoster();
-  }, BYSTANDER_ONCE_SURE * 1000);
+  bystanderTimerId=setTimeout(()=>{
+    bystanderOncesiAktif=false;
+    fixationGoster(()=>bystanderSonrasiGoster());
+  }, BYSTANDER_ONCE_SURE);
 }
 
 function bystanderSonrasiGoster() {
-  const senaryo = bystanderSira[bystanderIndex];
-  document.getElementById('bys-gorsel-sonra').src = senaryo.sonra;
-
-  // Tüm tuş görsellerini sıfırla
-  for (let i = 1; i <= 6; i++) {
-    document.getElementById(`bys-tus-${i}`).classList.remove('secildi');
-  }
-
-  // Sonrası ekranı aktif — klavye 1-6 dinleniyor
-  bystanderSonrasiAktif = true;
-
+  const senaryo=bystanderSira[bystanderIndex];
+  document.getElementById('bys-gorsel-sonra').src=senaryo.sonra;
+  for(let i=1;i<=6;i++) document.getElementById(`bys-n-${i}`).classList.remove('secildi');
+  bystanderSonrasiAktif=true;
   ekranGec('ekran-bystander-sonra');
 }
 
 function bystanderKaydetVeGec(puan) {
-  bystanderSonrasiAktif = false;
-
-  // Seçilen tuşu vurgula
-  for (let i = 1; i <= 6; i++) {
-    document.getElementById(`bys-tus-${i}`).classList.remove('secildi');
-  }
-  document.getElementById(`bys-tus-${puan}`).classList.add('secildi');
-
-  const senaryo = bystanderSira[bystanderIndex];
-  veri.bystander.push({
-    senaryo_id:      senaryo.id,
-    gosterim_sirasi: bystanderIndex + 1,
-    ahlak_puani:     puan,
-  });
-
+  bystanderSonrasiAktif=false;
+  for(let i=1;i<=6;i++) document.getElementById(`bys-n-${i}`).classList.remove('secildi');
+  document.getElementById(`bys-n-${puan}`).classList.add('secildi');
+  const senaryo=bystanderSira[bystanderIndex];
+  veri.bystander.push({senaryo_id:senaryo.id,gosterim_sirasi:bystanderIndex+1,ahlak_puani:puan});
   bystanderIndex++;
-
-  // Kısa bekleme sonrası sonraki çifte geç
-  setTimeout(() => {
-    if (bystanderIndex < bystanderSira.length) {
-      bystanderOncesiGoster();
-    } else {
-      // Bystander bitti → SS eklenince burası değişecek
-      veriGonder();
-    }
-  }, 300);
+  setTimeout(()=>{ if(bystanderIndex<bystanderSira.length){bystanderOncesiGoster();}else{veriGonder();} },300);
 }
-
-// ================================================================
-// KLAVYE DİNLEYİCİ
-// ================================================================
 
 function klavyeDinle(e) {
-  const tus = e.key.toUpperCase();
-
-  // AKTÖR: D veya K
-  if (document.getElementById('ekran-aktor').classList.contains('aktif')) {
-    if ((tus === 'D' || tus === 'K') && !aktorYanitVerildi) {
-      aktorYanitVerildi = true;
-      aktorZamanlamaDurdur();
-      aktorKaydetVeGec(tus);
-    }
+  const tus=e.key.toUpperCase();
+  if(document.getElementById('ekran-aktor').classList.contains('aktif')) {
+    if((tus==='D'||tus==='K')&&!aktorYanitVerildi){aktorYanitVerildi=true;aktorZamanlamaDurdur();aktorKaydetVeGec(tus);}
     return;
   }
-
-  // BYSTANDER ÖNCESİ: hiçbir tuş kabul edilmez
-  if (bystanderOncesiAktif) {
-    e.preventDefault();
-    return;
-  }
-
-  // BYSTANDER SONRASI: sadece 1-6 tuşları
-  if (bystanderSonrasiAktif) {
-    const sayi = parseInt(e.key);
-    if (sayi >= 1 && sayi <= 6) {
-      bystanderKaydetVeGec(sayi);
-    }
-  }
+  if(bystanderOncesiAktif){e.preventDefault();return;}
+  if(bystanderSonrasiAktif){const s=parseInt(e.key);if(s>=1&&s<=6)bystanderKaydetVeGec(s);}
 }
-
-// ================================================================
-// VERİ GÖNDER
-// ================================================================
 
 function veriGonder() {
   ekranGec('ekran-gonderim');
-  veri.zaman    = new Date().toISOString();
-  veri.tarayici = navigator.userAgent;
-
-  fetch(GOOGLE_SCRIPT_URL, {
-    method: 'POST',
-    mode:   'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(veri)
-  })
-  .then(() => ekranGec('ekran-bitis'))
-  .catch(() => ekranGec('ekran-bitis'));
+  veri.zaman=new Date().toISOString(); veri.tarayici=navigator.userAgent;
+  fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(veri)})
+  .then(()=>ekranGec('ekran-bitis')).catch(()=>ekranGec('ekran-bitis'));
 }
-
-
-/*
-================================================================
-GOOGLE APPS SCRIPT KODU
-================================================================
-
-function doPost(e) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  const d = JSON.parse(e.postData.contents);
-
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow([
-      "zaman","tarayici",
-      "takma_isim","yas","cinsiyet","gelir","din","dindarlik",
-      "siyasi_konum","siyasi_baglilik",
-      "kimlik_1","kimlik_2","kimlik_3","kimlik_4","kimlik_5","kimlik_6","kimlik_7",
-      "gges_turk_1","gges_turk_2","gges_turk_3","gges_turk_4",
-      "gges_turk_5","gges_turk_6","gges_turk_7","gges_turk_8",
-      "gges_to_1","gges_to_2","gges_to_3","gges_to_4",
-      "gges_to_5","gges_to_6","gges_to_7","gges_to_8",
-      "aktor_sirasi",
-      "A1_sira","A1_mapping","A1_basin_tus","A1_tepki_suresi",
-      "A2_sira","A2_mapping","A2_basin_tus","A2_tepki_suresi",
-      "A3_sira","A3_mapping","A3_basin_tus","A3_tepki_suresi",
-      "A4_sira","A4_mapping","A4_basin_tus","A4_tepki_suresi",
-      "A5_sira","A5_mapping","A5_basin_tus","A5_tepki_suresi",
-      "A6_sira","A6_mapping","A6_basin_tus","A6_tepki_suresi",
-      "bystander_sirasi",
-      "B1_sira","B1_ahlak",
-      "B2_sira","B2_ahlak",
-      "B3_sira","B3_ahlak",
-      "B4_sira","B4_ahlak",
-      "B5_sira","B5_ahlak",
-      "B6_sira","B6_ahlak",
-      "B7_sira","B7_ahlak",
-      "B8_sira","B8_ahlak",
-      "B9_sira","B9_ahlak",
-      "B10_sira","B10_ahlak",
-      "B11_sira","B11_ahlak",
-      "B12_sira","B12_ahlak",
-    ]);
-  }
-
-  const k   = d.kimlik           || {};
-  const gt  = d.gges_turk        || {};
-  const gto = d.gges_turkolmayan || {};
-
-  const aktor = {};
-  (d.aktor || []).forEach(a => { aktor[a.senaryo_id] = a; });
-  function ac(id, alan) { return aktor[id] ? aktor[id][alan] : ""; }
-
-  const bystander = {};
-  (d.bystander || []).forEach(b => { bystander[b.senaryo_id] = b; });
-  function bc(id, alan) { return bystander[id] ? bystander[id][alan] : ""; }
-
-  sheet.appendRow([
-    d.zaman, d.tarayici,
-    d.takma_isim, d.yas, d.cinsiyet, d.gelir, d.din, d.dindarlik,
-    d.siyasi_konum, d.siyasi_baglilik,
-    k.kimlik_1, k.kimlik_2, k.kimlik_3, k.kimlik_4, k.kimlik_5, k.kimlik_6, k.kimlik_7,
-    gt.gges_turk_gges_1, gt.gges_turk_gges_2, gt.gges_turk_gges_3, gt.gges_turk_gges_4,
-    gt.gges_turk_gges_5, gt.gges_turk_gges_6, gt.gges_turk_gges_7, gt.gges_turk_gges_8,
-    gto.gges_to_gges_1, gto.gges_to_gges_2, gto.gges_to_gges_3, gto.gges_to_gges_4,
-    gto.gges_to_gges_5, gto.gges_to_gges_6, gto.gges_to_gges_7, gto.gges_to_gges_8,
-    (d.aktor_sirasi||[]).join("-"),
-    ac("A1","gosterim_sirasi"),ac("A1","mapping"),ac("A1","basin_tus"),ac("A1","tepki_suresi"),
-    ac("A2","gosterim_sirasi"),ac("A2","mapping"),ac("A2","basin_tus"),ac("A2","tepki_suresi"),
-    ac("A3","gosterim_sirasi"),ac("A3","mapping"),ac("A3","basin_tus"),ac("A3","tepki_suresi"),
-    ac("A4","gosterim_sirasi"),ac("A4","mapping"),ac("A4","basin_tus"),ac("A4","tepki_suresi"),
-    ac("A5","gosterim_sirasi"),ac("A5","mapping"),ac("A5","basin_tus"),ac("A5","tepki_suresi"),
-    ac("A6","gosterim_sirasi"),ac("A6","mapping"),ac("A6","basin_tus"),ac("A6","tepki_suresi"),
-    (d.bystander_sirasi||[]).join("-"),
-    bc("B1","gosterim_sirasi"),bc("B1","ahlak_puani"),
-    bc("B2","gosterim_sirasi"),bc("B2","ahlak_puani"),
-    bc("B3","gosterim_sirasi"),bc("B3","ahlak_puani"),
-    bc("B4","gosterim_sirasi"),bc("B4","ahlak_puani"),
-    bc("B5","gosterim_sirasi"),bc("B5","ahlak_puani"),
-    bc("B6","gosterim_sirasi"),bc("B6","ahlak_puani"),
-    bc("B7","gosterim_sirasi"),bc("B7","ahlak_puani"),
-    bc("B8","gosterim_sirasi"),bc("B8","ahlak_puani"),
-    bc("B9","gosterim_sirasi"),bc("B9","ahlak_puani"),
-    bc("B10","gosterim_sirasi"),bc("B10","ahlak_puani"),
-    bc("B11","gosterim_sirasi"),bc("B11","ahlak_puani"),
-    bc("B12","gosterim_sirasi"),bc("B12","ahlak_puani"),
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({durum:"OK"}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-================================================================
-*/
 </script>
 </body>
 </html>
