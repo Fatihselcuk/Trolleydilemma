@@ -99,9 +99,15 @@
     .klavye-ipucu { text-align:center; font-size:0.82rem; color:#aaa; margin-top:8px; flex-shrink:0; }
 
     /* FİXATİON CROSS */
-    .fixation-ekran { display:none; position:fixed; inset:0; background:#fff; align-items:center; justify-content:center; z-index:9999; }
-    .fixation-ekran.aktif { display:flex; }
-    .fixation-cross { font-size:5rem; font-weight:300; color:#222; line-height:1; user-select:none; }
+    /* Fixation cross — kartın gorsel-sahne alanında gösterilir */
+    #ekran-fixation {
+      min-height: 640px; display: none; flex-direction: column;
+    }
+    #ekran-fixation.aktif { display: flex; }
+    .fixation-cross {
+      font-size: 6rem; font-weight: 200; color: #1a1a2e;
+      line-height: 1; user-select: none; letter-spacing: -4px;
+    }
 
     /* BYSTANDER / SS LİKERT */
     .bys-soru { font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:20px; text-align:center; flex-shrink:0; }
@@ -117,9 +123,18 @@
 <body>
 
 <!-- FİXATİON CROSS -->
-<div class="fixation-ekran" id="fixation-ekran">
-  <span class="fixation-cross">+</span>
-</div>
+<!-- EKRAN FİXATİON — kart içinde, görsel alanında "+" gösterir -->
+<section id="ekran-fixation" class="ekran">
+  <div class="bolum-bant">
+    <div class="bolum-no" id="fix-bolum-no">5</div>
+    <div id="fix-bolum-baslik">Senaryolar</div>
+  </div>
+  <div class="ilerleme-metin" id="fix-ilerleme-metin"></div>
+  <div class="ilerleme-kap"><div class="ilerleme-ic" id="fix-ilerleme-ic" style="width:0%"></div></div>
+  <div class="gorsel-sahne">
+    <span class="fixation-cross">+</span>
+  </div>
+</section>
 
 <!-- EKRAN 0: KARŞILAMA -->
 <section id="ekran-hosgeldin" class="ekran aktif">
@@ -408,7 +423,7 @@ const BYSTANDER_SENARYOLARI = [
   { id:"B11", once:"Bystandergorsel11.png", sonra:"Bystandergorsel11_11.png" },
   { id:"B12", once:"Bystandergorsel12.png", sonra:"Bystandergorsel12_12.png" },
 ];
-// tip: "dk" → D/K tuşu, "likert" → 1-6 Likert
+// tip: "dk" → D/K tuşu (Senaryo 1-2), "likert" → 1-6 Likert (Senaryo 3-6)
 const SS_SENARYOLARI = [
   { id:"SS1", once:"SSsenaryo1.png", sonra:"SSsenaryo1_1.png", tip:"dk"     },
   { id:"SS2", once:"SSsenaryo2.png", sonra:"SSsenaryo2_2.png", tip:"dk"     },
@@ -418,6 +433,7 @@ const SS_SENARYOLARI = [
   { id:"SS6", once:"SSsenaryo6.png", sonra:"SSsenaryo6_6.png", tip:"likert" },
 ];
 
+// ── DURUM ───────────────────────────────────────────────────────
 let veri = {};
 let aktorSira=[], aktorIndex=0, aktorYanitVerildi=false;
 let aktorTimerId=null, aktorIntervalId=null, aktorBaslangicZamani=0;
@@ -427,27 +443,39 @@ let ssSira=[], ssIndex=0;
 let ssOncesiAktif=false, ssSonrasiAktif=false, ssTimerId=null;
 let ssDkYanitVerildi=false, ssDkTimerId=null, ssDkBaslangicZamani=0;
 
+// ── EKRAN GEÇİŞİ ────────────────────────────────────────────────
 function ekranGec(id) {
   document.querySelectorAll('.ekran').forEach(e => e.classList.remove('aktif'));
   document.getElementById(id).classList.add('aktif');
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-function fixationGoster(sonrakiId, gorselEl, gorselSrc, callback) {
-  const fix = document.getElementById('fixation-ekran');
-  fix.classList.add('aktif');
+// ── FİXATİON + GÖRSEL GEÇİŞİ ────────────────────────────────────
+// bolumNo, bolumBaslik, ilerlemeMetin, ilerlemePct: öncesi ekranından kopyalanır
+// Böylece fixation kartının boyutu aynı kalır, sadece görsel alan "+" gösterir.
+function fixationGoster(bolumNo, bolumBaslik, ilerlemeMetin, ilerlemePct, sonrakiId, gorselEl, gorselSrc, callback) {
+  document.getElementById('fix-bolum-no').textContent     = bolumNo;
+  document.getElementById('fix-bolum-baslik').textContent = bolumBaslik;
+  document.getElementById('fix-ilerleme-metin').textContent = ilerlemeMetin;
+  document.getElementById('fix-ilerleme-ic').style.width  = ilerlemePct + '%';
+
+  document.querySelectorAll('.ekran').forEach(e => e.classList.remove('aktif'));
+  document.getElementById('ekran-fixation').classList.add('aktif');
+  window.scrollTo({ top:0, behavior:'instant' });
+
   gorselEl.classList.add('gecis');
   gorselEl.src = gorselSrc;
+
   const doGecis = () => {
     document.querySelectorAll('.ekran').forEach(e => e.classList.remove('aktif'));
     document.getElementById(sonrakiId).classList.add('aktif');
     window.scrollTo({ top:0, behavior:'instant' });
     setTimeout(() => {
-      fix.classList.remove('aktif');
       gorselEl.classList.remove('gecis');
       if (callback) callback();
     }, 50);
   };
+
   if (gorselEl.complete && gorselEl.naturalWidth > 0) {
     setTimeout(doGecis, FIXATION_SURE);
   } else {
@@ -457,6 +485,7 @@ function fixationGoster(sonrakiId, gorselEl, gorselSrc, callback) {
   }
 }
 
+// ── YARDIMCI ────────────────────────────────────────────────────
 function karistir(arr) {
   const a=[...arr];
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
@@ -494,6 +523,7 @@ function ggesGrupVeriTopla(sorular,prefix){
   return r;
 }
 
+// ── INIT ────────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
   olcekUret('kimlik-sorular',KIMLIK_SORULARI,'kimlik',7);
   ggesGrupUret('gges-turk-sorular',GGES_SORULARI,'gges_turk');
@@ -503,6 +533,7 @@ window.addEventListener('load',()=>{
   document.addEventListener('keydown',klavyeDinle);
 });
 
+// ── DEMOGRAFİK ──────────────────────────────────────────────────
 function demografikDogrula(){
   const t=document.getElementById('dem-takma-isim').value.trim();
   const y=document.getElementById('dem-yas').value.trim();
@@ -517,12 +548,16 @@ function demografikDogrula(){
   veri.takma_isim=t;veri.yas=y;veri.cinsiyet=c;veri.gelir=g;veri.din=d;veri.dindarlik=dk;veri.siyasi_konum=sk;veri.siyasi_baglilik=sb;
   ekranGec('ekran-kimlik-aciklama');
 }
+
+// ── KİMLİK ──────────────────────────────────────────────────────
 function kimlikDogrula(){
   const s=olcekVeriTopla(KIMLIK_SORULARI);
   if(!s){document.getElementById('kimlik-hata').style.display='block';return;}
   document.getElementById('kimlik-hata').style.display='none';
   veri.kimlik=s; ekranGec('ekran-gges-aciklama');
 }
+
+// ── GGES ────────────────────────────────────────────────────────
 function ggesTogrula(){
   const s=ggesGrupVeriTopla(GGES_SORULARI,'gges_turk');
   if(!s){document.getElementById('gges-turk-hata').style.display='block';return;}
@@ -536,6 +571,7 @@ function ggesToOgrula(){
   veri.gges_turkolmayan=s; ekranGec('ekran-aktor-aciklama');
 }
 
+// ── AKTÖR ───────────────────────────────────────────────────────
 function aktorZamanlamaBaslat(){
   aktorBaslangicZamani=Date.now();
   aktorTimerId=setTimeout(()=>{aktorZamanlamaDurdur();aktorKaydetVeGec(null);},AKTOR_SURE*1000);
@@ -568,9 +604,13 @@ function aktorKaydetVeGec(basin_tus){
   else if(basin_tus==='K') document.getElementById('tus-k').className='tus-kutu secildi';
   veri.aktor.push({senaryo_id:sn.id,gosterim_sirasi:aktorIndex+1,mapping:sn.mapping,basin_tus:basin_tus!==null?basin_tus:"YOK",tepki_suresi:basin_tus!==null?tepki:AKTOR_SURE});
   aktorIndex++;
-  setTimeout(()=>{ if(aktorIndex<aktorSira.length) aktorGorselGoster(); else ekranGec('ekran-bystander-aciklama'); },400);
+  setTimeout(()=>{
+    if(aktorIndex<aktorSira.length) aktorGorselGoster();
+    else ekranGec('ekran-bystander-aciklama');
+  },400);
 }
 
+// ── BYSTANDER ───────────────────────────────────────────────────
 function bystanderBaslat(){
   bystanderSira=karistir(BYSTANDER_SENARYOLARI);bystanderIndex=0;veri.bystander=[];
   veri.bystander_sirasi=bystanderSira.map(s=>s.id);
@@ -587,7 +627,9 @@ function bystanderOncesiGoster(){
   bystanderTimerId=setTimeout(()=>{
     bystanderOncesiAktif=false;
     const sonraImg=document.getElementById('bys-gorsel-sonra');
-    fixationGoster('ekran-bystander-sonra', sonraImg, sn.sonra, ()=>{
+    const metin=document.getElementById('bys-ilerleme-metin').textContent;
+    const pct=parseFloat(document.getElementById('bys-ilerleme-ic').style.width)||0;
+    fixationGoster(5,'Bystander Senaryoları',metin,pct,'ekran-bystander-sonra', sonraImg, sn.sonra, ()=>{
       for(let i=1;i<=6;i++) document.getElementById(`bys-n-${i}`).classList.remove('secildi');
       bystanderSonrasiAktif=true;
     });
@@ -600,9 +642,13 @@ function bystanderKaydetVeGec(puan){
   const sn=bystanderSira[bystanderIndex];
   veri.bystander.push({senaryo_id:sn.id,gosterim_sirasi:bystanderIndex+1,ahlak_puani:puan});
   bystanderIndex++;
-  setTimeout(()=>{ if(bystanderIndex<bystanderSira.length) bystanderOncesiGoster(); else ekranGec('ekran-ss-aciklama'); },300);
+  setTimeout(()=>{
+    if(bystanderIndex<bystanderSira.length) bystanderOncesiGoster();
+    else ekranGec('ekran-ss-aciklama');
+  },300);
 }
 
+// ── SS ──────────────────────────────────────────────────────────
 function ssBaslat(){
   ssSira=karistir(SS_SENARYOLARI); ssIndex=0; veri.ss=[];
   veri.ss_sirasi=ssSira.map(s=>s.id);
@@ -620,8 +666,11 @@ function ssOncesiGoster(){
   ssTimerId=setTimeout(()=>{
     ssOncesiAktif=false;
     if(sn.tip==='dk'){
+      // D/K ekranı
       const sonraImg=document.getElementById('ss-gorsel-sonra-dk');
-      fixationGoster('ekran-ss-sonra-dk', sonraImg, sn.sonra, ()=>{
+      const metin2=document.getElementById('ss-ilerleme-metin').textContent;
+      const pct2=parseFloat(document.getElementById('ss-ilerleme-ic').style.width)||0;
+      fixationGoster(6,'SS Senaryoları',metin2,pct2,'ekran-ss-sonra-dk', sonraImg, sn.sonra, ()=>{
         document.getElementById('ss-tus-d').className='tus-kutu';
         document.getElementById('ss-tus-k').className='tus-kutu';
         ssDkYanitVerildi=false;
@@ -632,14 +681,18 @@ function ssOncesiGoster(){
         }, SS_DK_SURE*1000);
       });
     } else {
+      // Likert ekranı
       const sonraImg=document.getElementById('ss-gorsel-sonra-likert');
-      fixationGoster('ekran-ss-sonra-likert', sonraImg, sn.sonra, ()=>{
+      const metin3=document.getElementById('ss-ilerleme-metin').textContent;
+      const pct3=parseFloat(document.getElementById('ss-ilerleme-ic').style.width)||0;
+      fixationGoster(6,'SS Senaryoları',metin3,pct3,'ekran-ss-sonra-likert', sonraImg, sn.sonra, ()=>{
         for(let i=1;i<=6;i++) document.getElementById(`ss-n-${i}`).classList.remove('secildi');
         ssSonrasiAktif=true;
       });
     }
   }, SS_ONCE_SURE);
 }
+
 function ssKaydetVeGec(basin_tus, puan){
   ssSonrasiAktif=false;
   if(ssDkTimerId){ clearTimeout(ssDkTimerId); ssDkTimerId=null; }
@@ -649,8 +702,8 @@ function ssKaydetVeGec(basin_tus, puan){
     const tepki=parseFloat(((Date.now()-ssDkBaslangicZamani)/1000).toFixed(3));
     if(basin_tus==='D') document.getElementById('ss-tus-d').className='tus-kutu secildi';
     else if(basin_tus==='K') document.getElementById('ss-tus-k').className='tus-kutu secildi';
-    kayit.basin_tus=basin_tus!==null?basin_tus:"YOK";
-    kayit.tepki_suresi=basin_tus!==null?tepki:SS_DK_SURE;
+    kayit.basin_tus   = basin_tus!==null ? basin_tus : "YOK";
+    kayit.tepki_suresi= basin_tus!==null ? tepki : SS_DK_SURE;
   } else {
     for(let i=1;i<=6;i++) document.getElementById(`ss-n-${i}`).classList.remove('secildi');
     document.getElementById(`ss-n-${puan}`).classList.add('secildi');
@@ -658,9 +711,13 @@ function ssKaydetVeGec(basin_tus, puan){
   }
   veri.ss.push(kayit);
   ssIndex++;
-  setTimeout(()=>{ if(ssIndex<ssSira.length) ssOncesiGoster(); else veriGonder(); },300);
+  setTimeout(()=>{
+    if(ssIndex<ssSira.length) ssOncesiGoster();
+    else veriGonder();
+  },300);
 }
 
+// ── KLAVYE ──────────────────────────────────────────────────────
 function klavyeDinle(e){
   const tus=e.key.toUpperCase();
 
@@ -674,7 +731,7 @@ function klavyeDinle(e){
 
   // BYSTANDER öncesi: engelle
   if(bystanderOncesiAktif){ e.preventDefault(); return; }
-  // BYSTANDER sonrası
+  // BYSTANDER sonrası: 1-6
   if(bystanderSonrasiAktif){ const s=parseInt(e.key); if(s>=1&&s<=6) bystanderKaydetVeGec(s); return; }
 
   // SS öncesi: engelle
@@ -693,12 +750,100 @@ function klavyeDinle(e){
   }
 }
 
+// ── VERİ GÖNDER ─────────────────────────────────────────────────
 function veriGonder(){
   ekranGec('ekran-gonderim');
   veri.zaman=new Date().toISOString(); veri.tarayici=navigator.userAgent;
   fetch(GOOGLE_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(veri)})
   .then(()=>ekranGec('ekran-bitis')).catch(()=>ekranGec('ekran-bitis'));
 }
+
+/*
+================================================================
+GOOGLE APPS SCRIPT – doPost
+================================================================
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const d = JSON.parse(e.postData.contents);
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow([
+      "zaman","tarayici",
+      "takma_isim","yas","cinsiyet","gelir","din","dindarlik","siyasi_konum","siyasi_baglilik",
+      "kimlik_1","kimlik_2","kimlik_3","kimlik_4","kimlik_5","kimlik_6","kimlik_7",
+      "gges_turk_1","gges_turk_2","gges_turk_3","gges_turk_4","gges_turk_5","gges_turk_6","gges_turk_7","gges_turk_8",
+      "gges_to_1","gges_to_2","gges_to_3","gges_to_4","gges_to_5","gges_to_6","gges_to_7","gges_to_8",
+      "aktor_sirasi",
+      "A1_sira","A1_mapping","A1_basin_tus","A1_tepki",
+      "A2_sira","A2_mapping","A2_basin_tus","A2_tepki",
+      "A3_sira","A3_mapping","A3_basin_tus","A3_tepki",
+      "A4_sira","A4_mapping","A4_basin_tus","A4_tepki",
+      "A5_sira","A5_mapping","A5_basin_tus","A5_tepki",
+      "A6_sira","A6_mapping","A6_basin_tus","A6_tepki",
+      "bystander_sirasi",
+      "B1_sira","B1_ahlak","B2_sira","B2_ahlak","B3_sira","B3_ahlak",
+      "B4_sira","B4_ahlak","B5_sira","B5_ahlak","B6_sira","B6_ahlak",
+      "B7_sira","B7_ahlak","B8_sira","B8_ahlak","B9_sira","B9_ahlak",
+      "B10_sira","B10_ahlak","B11_sira","B11_ahlak","B12_sira","B12_ahlak",
+      "ss_sirasi",
+      "SS1_sira","SS1_tip","SS1_basin_tus","SS1_tepki","SS1_ahlak",
+      "SS2_sira","SS2_tip","SS2_basin_tus","SS2_tepki","SS2_ahlak",
+      "SS3_sira","SS3_tip","SS3_basin_tus","SS3_tepki","SS3_ahlak",
+      "SS4_sira","SS4_tip","SS4_basin_tus","SS4_tepki","SS4_ahlak",
+      "SS5_sira","SS5_tip","SS5_basin_tus","SS5_tepki","SS5_ahlak",
+      "SS6_sira","SS6_tip","SS6_basin_tus","SS6_tepki","SS6_ahlak",
+    ]);
+  }
+
+  const k=d.kimlik||{}, gt=d.gges_turk||{}, gto=d.gges_turkolmayan||{};
+
+  const aktor={};
+  (d.aktor||[]).forEach(a=>{aktor[a.senaryo_id]=a;});
+  function ac(id,f){return aktor[id]?aktor[id][f]:"";}
+
+  const bystander={};
+  (d.bystander||[]).forEach(b=>{bystander[b.senaryo_id]=b;});
+  function bc(id,f){return bystander[id]?bystander[id][f]:"";}
+
+  const ss={};
+  (d.ss||[]).forEach(s=>{ss[s.senaryo_id]=s;});
+  function sc(id,f){return ss[id]?ss[id][f]:"";}
+
+  sheet.appendRow([
+    d.zaman,d.tarayici,
+    d.takma_isim,d.yas,d.cinsiyet,d.gelir,d.din,d.dindarlik,d.siyasi_konum,d.siyasi_baglilik,
+    k.kimlik_1,k.kimlik_2,k.kimlik_3,k.kimlik_4,k.kimlik_5,k.kimlik_6,k.kimlik_7,
+    gt.gges_turk_gges_1,gt.gges_turk_gges_2,gt.gges_turk_gges_3,gt.gges_turk_gges_4,
+    gt.gges_turk_gges_5,gt.gges_turk_gges_6,gt.gges_turk_gges_7,gt.gges_turk_gges_8,
+    gto.gges_to_gges_1,gto.gges_to_gges_2,gto.gges_to_gges_3,gto.gges_to_gges_4,
+    gto.gges_to_gges_5,gto.gges_to_gges_6,gto.gges_to_gges_7,gto.gges_to_gges_8,
+    (d.aktor_sirasi||[]).join("-"),
+    ac("A1","gosterim_sirasi"),ac("A1","mapping"),ac("A1","basin_tus"),ac("A1","tepki_suresi"),
+    ac("A2","gosterim_sirasi"),ac("A2","mapping"),ac("A2","basin_tus"),ac("A2","tepki_suresi"),
+    ac("A3","gosterim_sirasi"),ac("A3","mapping"),ac("A3","basin_tus"),ac("A3","tepki_suresi"),
+    ac("A4","gosterim_sirasi"),ac("A4","mapping"),ac("A4","basin_tus"),ac("A4","tepki_suresi"),
+    ac("A5","gosterim_sirasi"),ac("A5","mapping"),ac("A5","basin_tus"),ac("A5","tepki_suresi"),
+    ac("A6","gosterim_sirasi"),ac("A6","mapping"),ac("A6","basin_tus"),ac("A6","tepki_suresi"),
+    (d.bystander_sirasi||[]).join("-"),
+    bc("B1","gosterim_sirasi"),bc("B1","ahlak_puani"),bc("B2","gosterim_sirasi"),bc("B2","ahlak_puani"),
+    bc("B3","gosterim_sirasi"),bc("B3","ahlak_puani"),bc("B4","gosterim_sirasi"),bc("B4","ahlak_puani"),
+    bc("B5","gosterim_sirasi"),bc("B5","ahlak_puani"),bc("B6","gosterim_sirasi"),bc("B6","ahlak_puani"),
+    bc("B7","gosterim_sirasi"),bc("B7","ahlak_puani"),bc("B8","gosterim_sirasi"),bc("B8","ahlak_puani"),
+    bc("B9","gosterim_sirasi"),bc("B9","ahlak_puani"),bc("B10","gosterim_sirasi"),bc("B10","ahlak_puani"),
+    bc("B11","gosterim_sirasi"),bc("B11","ahlak_puani"),bc("B12","gosterim_sirasi"),bc("B12","ahlak_puani"),
+    (d.ss_sirasi||[]).join("-"),
+    sc("SS1","gosterim_sirasi"),sc("SS1","tip"),sc("SS1","basin_tus"),sc("SS1","tepki_suresi"),sc("SS1","ahlak_puani"),
+    sc("SS2","gosterim_sirasi"),sc("SS2","tip"),sc("SS2","basin_tus"),sc("SS2","tepki_suresi"),sc("SS2","ahlak_puani"),
+    sc("SS3","gosterim_sirasi"),sc("SS3","tip"),sc("SS3","basin_tus"),sc("SS3","tepki_suresi"),sc("SS3","ahlak_puani"),
+    sc("SS4","gosterim_sirasi"),sc("SS4","tip"),sc("SS4","basin_tus"),sc("SS4","tepki_suresi"),sc("SS4","ahlak_puani"),
+    sc("SS5","gosterim_sirasi"),sc("SS5","tip"),sc("SS5","basin_tus"),sc("SS5","tepki_suresi"),sc("SS5","ahlak_puani"),
+    sc("SS6","gosterim_sirasi"),sc("SS6","tip"),sc("SS6","basin_tus"),sc("SS6","tepki_suresi"),sc("SS6","ahlak_puani"),
+  ]);
+
+  return ContentService.createTextOutput(JSON.stringify({durum:"OK"})).setMimeType(ContentService.MimeType.JSON);
+}
+================================================================
+*/
 </script>
 </body>
 </html>
