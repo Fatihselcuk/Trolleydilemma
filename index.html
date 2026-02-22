@@ -799,7 +799,7 @@ function veriGonder() {
   veri.tarayici = navigator.userAgent;
   fetch(GOOGLE_SCRIPT_URL, {
     method:'POST', mode:'no-cors',
-    headers:{'Content-Type':'application/json'},
+    headers:{'Content-Type':'text/plain'},
     body:JSON.stringify(veri)
   }).then(function(){ ekranGec('ekran-bitis'); })
     .catch(function(){ ekranGec('ekran-bitis'); });
