@@ -19,35 +19,26 @@
     }
     .ekran.aktif { display: block; }
 
-    /* Bystander öncesi/sonrası: sabit yükseklik — layout hiç değişmez */
-    #ekran-bystander-once,
-    #ekran-bystander-sonra {
-      min-height: 640px;
-      display: none;
-      flex-direction: column;
+    /* Bystander ve SS öncesi/sonrası: sabit yükseklik */
+    #ekran-bystander-once, #ekran-bystander-sonra,
+    #ekran-ss-once, #ekran-ss-sonra-dk, #ekran-ss-sonra-likert {
+      min-height: 640px; display: none; flex-direction: column;
     }
-    #ekran-bystander-once.aktif,
-    #ekran-bystander-sonra.aktif {
+    #ekran-bystander-once.aktif, #ekran-bystander-sonra.aktif,
+    #ekran-ss-once.aktif, #ekran-ss-sonra-dk.aktif, #ekran-ss-sonra-likert.aktif {
       display: flex;
     }
 
-    /* Görsel alanı esnetilir, kart boyutu değişmez */
     .gorsel-sahne {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      min-height: 380px;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; min-height: 380px;
     }
     .gorsel-sahne img {
       max-width: 100%; max-height: 380px;
       border-radius: 10px; border: 2px solid #e5e7eb;
-      object-fit: contain;
-      transition: opacity 0.15s ease;
+      object-fit: contain; transition: opacity 0.15s ease;
     }
     .gorsel-sahne img.gecis { opacity: 0; }
-
     #ekran-aktor .gorsel-sahne { flex: none; min-height: auto; margin-bottom: 24px; }
     #ekran-aktor .gorsel-sahne img { max-height: 420px; }
 
@@ -61,7 +52,6 @@
     .btn-primary:hover { background:#4338ca; }
     .btn-gray { background:#e5e7eb; color:#333; }
     .btn-gray:hover { background:#d1d5db; }
-    .btn:disabled { opacity:0.5; cursor:not-allowed; }
     .btn-satir { margin-top:28px; display:flex; gap:12px; justify-content:flex-end; flex-wrap:wrap; }
     .form-grup { margin-bottom:22px; }
     .form-grup label { display:block; font-weight:600; margin-bottom:8px; font-size:0.95rem; }
@@ -101,31 +91,24 @@
     .ilerleme-kap { background:#e5e7eb; border-radius:999px; height:8px; margin-bottom:8px; overflow:hidden; flex-shrink:0; }
     .ilerleme-ic { background:#4f46e5; height:100%; border-radius:999px; transition:width 0.4s ease; }
     .ilerleme-metin { font-size:0.82rem; color:#888; text-align:right; margin-bottom:12px; flex-shrink:0; }
-    .tus-alani { display:flex; gap:16px; justify-content:center; margin:20px 0; }
+    .tus-alani { display:flex; gap:16px; justify-content:center; margin:20px 0; flex-shrink:0; }
     .tus-kutu { border:3px solid #d1d5db; border-radius:12px; padding:20px 40px; text-align:center; min-width:160px; user-select:none; pointer-events:none; }
     .tus-kutu.secildi { border-color:#4f46e5; background:#eef2ff; }
     .tus-harf { font-size:2.2rem; font-weight:900; display:block; margin-bottom:6px; color:#1a1a2e; }
     .tus-aciklama { font-size:0.9rem; color:#555; font-weight:600; }
-    .klavye-ipucu { text-align:center; font-size:0.82rem; color:#aaa; margin-top:8px; }
+    .klavye-ipucu { text-align:center; font-size:0.82rem; color:#aaa; margin-top:8px; flex-shrink:0; }
 
     /* FİXATİON CROSS */
-    .fixation-ekran {
-      display:none; position:fixed; inset:0;
-      background:#fff; align-items:center; justify-content:center; z-index:9999;
-    }
+    .fixation-ekran { display:none; position:fixed; inset:0; background:#fff; align-items:center; justify-content:center; z-index:9999; }
     .fixation-ekran.aktif { display:flex; }
     .fixation-cross { font-size:5rem; font-weight:300; color:#222; line-height:1; user-select:none; }
 
-    /* BYSTANDER LİKERT */
+    /* BYSTANDER / SS LİKERT */
     .bys-soru { font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:20px; text-align:center; flex-shrink:0; }
     .bys-likert-dis { pointer-events:none; user-select:none; display:flex; justify-content:center; flex-shrink:0; }
     .bys-likert-ic { display:inline-flex; flex-direction:column; align-items:stretch; gap:8px; }
     .bys-sayilar-satir { display:flex; align-items:center; gap:12px; }
-    .bys-numara {
-      width:52px; height:52px; border:3px solid #d1d5db; border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      font-size:1.1rem; font-weight:800; color:#555; transition:all 0.15s; flex-shrink:0;
-    }
+    .bys-numara { width:52px; height:52px; border:3px solid #d1d5db; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:800; color:#555; transition:all 0.15s; flex-shrink:0; }
     .bys-numara.secildi { background:#4f46e5; border-color:#4f46e5; color:#fff; }
     .bys-etiket-satir { display:flex; justify-content:space-between; font-size:0.72rem; color:#888; }
     .bys-klavye-ipucu { text-align:center; font-size:0.82rem; color:#aaa; margin-top:12px; flex-shrink:0; }
@@ -290,17 +273,13 @@
   <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
   <div class="ilerleme-metin" id="bys-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="bys-ilerleme-ic" style="width:0%"></div></div>
-  <div class="gorsel-sahne">
-    <img id="bys-gorsel-once" src="" alt="Senaryo öncesi" />
-  </div>
+  <div class="gorsel-sahne"><img id="bys-gorsel-once" src="" alt="Senaryo öncesi" /></div>
 </section>
 
 <!-- EKRAN 5c: BYSTANDER SONRASI + LİKERT -->
 <section id="ekran-bystander-sonra" class="ekran">
   <div class="bolum-bant"><div class="bolum-no">5</div><div>Bystander Senaryoları</div></div>
-  <div class="gorsel-sahne">
-    <img id="bys-gorsel-sonra" src="" alt="Senaryo sonrası" />
-  </div>
+  <div class="gorsel-sahne"><img id="bys-gorsel-sonra" src="" alt="Senaryo sonrası" /></div>
   <p class="bys-soru">Bu senaryoda verilen kararı ne kadar ahlaki buldunuz?</p>
   <div class="bys-likert-dis">
     <div class="bys-likert-ic">
@@ -312,10 +291,60 @@
         <div class="bys-numara" id="bys-n-5">5</div>
         <div class="bys-numara" id="bys-n-6">6</div>
       </div>
-      <div class="bys-etiket-satir">
-        <span>Hiç ahlaki değil</span>
-        <span>Tamamen ahlaki</span>
+      <div class="bys-etiket-satir"><span>Hiç ahlaki değil</span><span>Tamamen ahlaki</span></div>
+    </div>
+  </div>
+  <p class="bys-klavye-ipucu">Klavyeden 1, 2, 3, 4, 5 veya 6 tuşuna basın.</p>
+</section>
+
+<!-- EKRAN 6a: SS AÇIKLAMA -->
+<section id="ekran-ss-aciklama" class="ekran">
+  <div class="bolum-bant"><div class="bolum-no">6</div><div>SS Senaryoları</div></div>
+  <p>Birazdan size bir dizi senaryo gösterilecektir. Her senaryo iki aşamadan oluşmaktadır.</p>
+  <p style="margin-top:12px;">İlk aşamada durumu göreceksiniz. Bu görsel birkaç saniye ekranda kalacak ve otomatik olarak geçecektir.</p>
+  <p style="margin-top:12px;">Bazı senaryolarda klavyenizdeki <strong>D</strong> veya <strong>K</strong> tuşuyla karar vereceksiniz. Diğer senaryolarda ise <strong>1–6</strong> tuşlarından birine basarak değerlendirme yapacaksınız.</p>
+  <p style="margin-top:12px; font-style:italic; color:#666;">Lütfen yalnızca klavye tuşlarını kullanın.</p>
+  <div class="btn-satir">
+    <button class="btn btn-gray" onclick="ekranGec('ekran-bystander-aciklama')">← Geri</button>
+    <button class="btn btn-primary" onclick="ssBaslat()">Başla →</button>
+  </div>
+</section>
+
+<!-- EKRAN 6b: SS ÖNCESİ -->
+<section id="ekran-ss-once" class="ekran">
+  <div class="bolum-bant"><div class="bolum-no">6</div><div>SS Senaryoları</div></div>
+  <div class="ilerleme-metin" id="ss-ilerleme-metin"></div>
+  <div class="ilerleme-kap"><div class="ilerleme-ic" id="ss-ilerleme-ic" style="width:0%"></div></div>
+  <div class="gorsel-sahne"><img id="ss-gorsel-once" src="" alt="Senaryo öncesi" /></div>
+</section>
+
+<!-- EKRAN 6c: SS SONRASI – D/K (Senaryo 1-2) -->
+<section id="ekran-ss-sonra-dk" class="ekran">
+  <div class="bolum-bant"><div class="bolum-no">6</div><div>SS Senaryoları</div></div>
+  <div class="gorsel-sahne"><img id="ss-gorsel-sonra-dk" src="" alt="Senaryo sonrası" /></div>
+  <div class="tus-alani">
+    <div class="tus-kutu" id="ss-tus-d"><span class="tus-harf">D</span><span class="tus-aciklama">Atlarım</span></div>
+    <div class="tus-kutu" id="ss-tus-k"><span class="tus-harf">K</span><span class="tus-aciklama">Atlamam</span></div>
+  </div>
+  <p class="klavye-ipucu">Yalnızca klavye ile D veya K tuşuna basın.</p>
+</section>
+
+<!-- EKRAN 6d: SS SONRASI – LİKERT (Senaryo 3-6) -->
+<section id="ekran-ss-sonra-likert" class="ekran">
+  <div class="bolum-bant"><div class="bolum-no">6</div><div>SS Senaryoları</div></div>
+  <div class="gorsel-sahne"><img id="ss-gorsel-sonra-likert" src="" alt="Senaryo sonrası" /></div>
+  <p class="bys-soru">Bu senaryoda verilen kararı ne kadar ahlaki buldunuz?</p>
+  <div class="bys-likert-dis">
+    <div class="bys-likert-ic">
+      <div class="bys-sayilar-satir">
+        <div class="bys-numara" id="ss-n-1">1</div>
+        <div class="bys-numara" id="ss-n-2">2</div>
+        <div class="bys-numara" id="ss-n-3">3</div>
+        <div class="bys-numara" id="ss-n-4">4</div>
+        <div class="bys-numara" id="ss-n-5">5</div>
+        <div class="bys-numara" id="ss-n-6">6</div>
       </div>
+      <div class="bys-etiket-satir"><span>Hiç ahlaki değil</span><span>Tamamen ahlaki</span></div>
     </div>
   </div>
   <p class="bys-klavye-ipucu">Klavyeden 1, 2, 3, 4, 5 veya 6 tuşuna basın.</p>
@@ -338,6 +367,8 @@
 const GOOGLE_SCRIPT_URL   = "https://script.google.com/macros/s/BURAYA_URL_GIRIN/exec";
 const AKTOR_SURE          = 8;
 const BYSTANDER_ONCE_SURE = 4000;
+const SS_ONCE_SURE        = 4000;
+const SS_DK_SURE          = 8;
 const FIXATION_SURE       = 250;
 
 const KIMLIK_SORULARI = [
@@ -377,12 +408,24 @@ const BYSTANDER_SENARYOLARI = [
   { id:"B11", once:"Bystandergorsel11.png", sonra:"Bystandergorsel11_11.png" },
   { id:"B12", once:"Bystandergorsel12.png", sonra:"Bystandergorsel12_12.png" },
 ];
+// tip: "dk" → D/K tuşu, "likert" → 1-6 Likert
+const SS_SENARYOLARI = [
+  { id:"SS1", once:"SSsenaryo1.png", sonra:"SSsenaryo1_1.png", tip:"dk"     },
+  { id:"SS2", once:"SSsenaryo2.png", sonra:"SSsenaryo2_2.png", tip:"dk"     },
+  { id:"SS3", once:"SSsenaryo3.png", sonra:"SSsenaryo3_3.png", tip:"likert" },
+  { id:"SS4", once:"SSsenaryo4.png", sonra:"SSsenaryo4_4.png", tip:"likert" },
+  { id:"SS5", once:"SSsenaryo5.png", sonra:"SSsenaryo5_5.png", tip:"likert" },
+  { id:"SS6", once:"SSsenaryo6.png", sonra:"SSsenaryo6_6.png", tip:"likert" },
+];
 
 let veri = {};
 let aktorSira=[], aktorIndex=0, aktorYanitVerildi=false;
 let aktorTimerId=null, aktorIntervalId=null, aktorBaslangicZamani=0;
 let bystanderSira=[], bystanderIndex=0;
 let bystanderOncesiAktif=false, bystanderSonrasiAktif=false, bystanderTimerId=null;
+let ssSira=[], ssIndex=0;
+let ssOncesiAktif=false, ssSonrasiAktif=false, ssTimerId=null;
+let ssDkYanitVerildi=false, ssDkTimerId=null, ssDkBaslangicZamani=0;
 
 function ekranGec(id) {
   document.querySelectorAll('.ekran').forEach(e => e.classList.remove('aktif'));
@@ -390,14 +433,11 @@ function ekranGec(id) {
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-// Fixation cross göster → arka planda görsel yükle → ekranı değiştir → fade-in
 function fixationGoster(sonrakiId, gorselEl, gorselSrc, callback) {
   const fix = document.getElementById('fixation-ekran');
   fix.classList.add('aktif');
-
   gorselEl.classList.add('gecis');
   gorselEl.src = gorselSrc;
-
   const doGecis = () => {
     document.querySelectorAll('.ekran').forEach(e => e.classList.remove('aktif'));
     document.getElementById(sonrakiId).classList.add('aktif');
@@ -408,7 +448,6 @@ function fixationGoster(sonrakiId, gorselEl, gorselSrc, callback) {
       if (callback) callback();
     }, 50);
   };
-
   if (gorselEl.complete && gorselEl.naturalWidth > 0) {
     setTimeout(doGecis, FIXATION_SURE);
   } else {
@@ -529,10 +568,7 @@ function aktorKaydetVeGec(basin_tus){
   else if(basin_tus==='K') document.getElementById('tus-k').className='tus-kutu secildi';
   veri.aktor.push({senaryo_id:sn.id,gosterim_sirasi:aktorIndex+1,mapping:sn.mapping,basin_tus:basin_tus!==null?basin_tus:"YOK",tepki_suresi:basin_tus!==null?tepki:AKTOR_SURE});
   aktorIndex++;
-  setTimeout(()=>{
-    if(aktorIndex<aktorSira.length) aktorGorselGoster();
-    else ekranGec('ekran-bystander-aciklama');
-  },400);
+  setTimeout(()=>{ if(aktorIndex<aktorSira.length) aktorGorselGoster(); else ekranGec('ekran-bystander-aciklama'); },400);
 }
 
 function bystanderBaslat(){
@@ -547,10 +583,7 @@ function bystanderOncesiGoster(){
   document.getElementById('bys-gorsel-once').src=sn.once;
   bystanderOncesiAktif=true; bystanderSonrasiAktif=false;
   ekranGec('ekran-bystander-once');
-
-  // Sonrası görselini arka planda preload et
   const preload=new Image(); preload.src=sn.sonra;
-
   bystanderTimerId=setTimeout(()=>{
     bystanderOncesiAktif=false;
     const sonraImg=document.getElementById('bys-gorsel-sonra');
@@ -567,22 +600,97 @@ function bystanderKaydetVeGec(puan){
   const sn=bystanderSira[bystanderIndex];
   veri.bystander.push({senaryo_id:sn.id,gosterim_sirasi:bystanderIndex+1,ahlak_puani:puan});
   bystanderIndex++;
-  setTimeout(()=>{
-    if(bystanderIndex<bystanderSira.length) bystanderOncesiGoster();
-    else veriGonder();
-  },300);
+  setTimeout(()=>{ if(bystanderIndex<bystanderSira.length) bystanderOncesiGoster(); else ekranGec('ekran-ss-aciklama'); },300);
+}
+
+function ssBaslat(){
+  ssSira=karistir(SS_SENARYOLARI); ssIndex=0; veri.ss=[];
+  veri.ss_sirasi=ssSira.map(s=>s.id);
+  ssOncesiGoster();
+}
+function ssOncesiGoster(){
+  const toplam=ssSira.length, sn=ssSira[ssIndex];
+  document.getElementById('ss-ilerleme-metin').textContent=`Senaryo ${ssIndex+1} / ${toplam}`;
+  document.getElementById('ss-ilerleme-ic').style.width=`${(ssIndex/toplam)*100}%`;
+  document.getElementById('ss-gorsel-once').src=sn.once;
+  ssOncesiAktif=true; ssSonrasiAktif=false;
+  ekranGec('ekran-ss-once');
+  const preload=new Image(); preload.src=sn.sonra;
+
+  ssTimerId=setTimeout(()=>{
+    ssOncesiAktif=false;
+    if(sn.tip==='dk'){
+      const sonraImg=document.getElementById('ss-gorsel-sonra-dk');
+      fixationGoster('ekran-ss-sonra-dk', sonraImg, sn.sonra, ()=>{
+        document.getElementById('ss-tus-d').className='tus-kutu';
+        document.getElementById('ss-tus-k').className='tus-kutu';
+        ssDkYanitVerildi=false;
+        ssSonrasiAktif=true;
+        ssDkBaslangicZamani=Date.now();
+        ssDkTimerId=setTimeout(()=>{
+          if(!ssDkYanitVerildi){ ssDkYanitVerildi=true; ssKaydetVeGec(null,null); }
+        }, SS_DK_SURE*1000);
+      });
+    } else {
+      const sonraImg=document.getElementById('ss-gorsel-sonra-likert');
+      fixationGoster('ekran-ss-sonra-likert', sonraImg, sn.sonra, ()=>{
+        for(let i=1;i<=6;i++) document.getElementById(`ss-n-${i}`).classList.remove('secildi');
+        ssSonrasiAktif=true;
+      });
+    }
+  }, SS_ONCE_SURE);
+}
+function ssKaydetVeGec(basin_tus, puan){
+  ssSonrasiAktif=false;
+  if(ssDkTimerId){ clearTimeout(ssDkTimerId); ssDkTimerId=null; }
+  const sn=ssSira[ssIndex];
+  const kayit={ senaryo_id:sn.id, gosterim_sirasi:ssIndex+1, tip:sn.tip };
+  if(sn.tip==='dk'){
+    const tepki=parseFloat(((Date.now()-ssDkBaslangicZamani)/1000).toFixed(3));
+    if(basin_tus==='D') document.getElementById('ss-tus-d').className='tus-kutu secildi';
+    else if(basin_tus==='K') document.getElementById('ss-tus-k').className='tus-kutu secildi';
+    kayit.basin_tus=basin_tus!==null?basin_tus:"YOK";
+    kayit.tepki_suresi=basin_tus!==null?tepki:SS_DK_SURE;
+  } else {
+    for(let i=1;i<=6;i++) document.getElementById(`ss-n-${i}`).classList.remove('secildi');
+    document.getElementById(`ss-n-${puan}`).classList.add('secildi');
+    kayit.ahlak_puani=puan;
+  }
+  veri.ss.push(kayit);
+  ssIndex++;
+  setTimeout(()=>{ if(ssIndex<ssSira.length) ssOncesiGoster(); else veriGonder(); },300);
 }
 
 function klavyeDinle(e){
   const tus=e.key.toUpperCase();
+
+  // AKTÖR
   if(document.getElementById('ekran-aktor').classList.contains('aktif')){
     if((tus==='D'||tus==='K')&&!aktorYanitVerildi){
       aktorYanitVerildi=true; aktorZamanlamaDurdur(); aktorKaydetVeGec(tus);
     }
     return;
   }
+
+  // BYSTANDER öncesi: engelle
   if(bystanderOncesiAktif){ e.preventDefault(); return; }
-  if(bystanderSonrasiAktif){ const s=parseInt(e.key); if(s>=1&&s<=6) bystanderKaydetVeGec(s); }
+  // BYSTANDER sonrası
+  if(bystanderSonrasiAktif){ const s=parseInt(e.key); if(s>=1&&s<=6) bystanderKaydetVeGec(s); return; }
+
+  // SS öncesi: engelle
+  if(ssOncesiAktif){ e.preventDefault(); return; }
+  // SS sonrası D/K
+  if(ssSonrasiAktif && ssSira[ssIndex] && ssSira[ssIndex].tip==='dk'){
+    if((tus==='D'||tus==='K')&&!ssDkYanitVerildi){
+      ssDkYanitVerildi=true; ssKaydetVeGec(tus,null);
+    }
+    return;
+  }
+  // SS sonrası Likert
+  if(ssSonrasiAktif && ssSira[ssIndex] && ssSira[ssIndex].tip==='likert'){
+    const s=parseInt(e.key); if(s>=1&&s<=6) ssKaydetVeGec(null,s);
+    return;
+  }
 }
 
 function veriGonder(){
