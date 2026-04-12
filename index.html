@@ -200,9 +200,10 @@
   <div class="ilerleme-metin" id="aktor-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div></div>
   <div class="video-kap">
-    <video id="aktor-video" style="max-height:400px">
+    <video id="aktor-video" style="max-height:400px" onerror="aktorVideoHata()">
       <source id="aktor-video-src" src="" type="video/mp4"/>
     </video>
+    <button class="btn btn-primary" id="aktor-ileri-btn" onclick="aktorManuelIleri()" style="display:none">Sonraki Senaryo</button>
     <div class="tehlike-bilgi" id="aktor-tehlike-bilgi"></div>
     <div class="tus-alani">
       <div class="tus-kutu" id="tus-d"><span class="tus-harf">D</span><span class="tus-aciklama" id="tus-d-label">Cekerim</span></div>
@@ -232,9 +233,10 @@
   <div class="ilerleme-metin" id="ss-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="ss-ilerleme-ic" style="width:0%"></div></div>
   <div class="video-kap">
-    <video id="ss-video" style="max-height:400px">
+    <video id="ss-video" style="max-height:400px" onerror="ssVideoHata()">
       <source id="ss-video-src" src="" type="video/mp4"/>
     </video>
+    <button class="btn btn-primary" id="ss-ileri-btn" onclick="ssManuelIleri()" style="display:none">Sonraki Senaryo</button>
     <div class="tehlike-bilgi" id="ss-tehlike-bilgi"></div>
     <div class="tus-alani">
       <div class="tus-kutu" id="ss-tus-d"><span class="tus-harf">D</span><span class="tus-aciklama">Atlarim</span></div>
@@ -422,15 +424,26 @@ function aktorVideoYukle() {
   document.getElementById('tus-d').className='tus-kutu';
   document.getElementById('tus-k').className='tus-kutu';
   document.getElementById('aktor-tehlike-bilgi').innerHTML='⚠️ '+sn.tehlike;
+  document.getElementById('aktor-ileri-btn').style.display='none';
   var vid=document.getElementById('aktor-video');
   document.getElementById('aktor-video-src').src=sn.video;
   vid.load();
-  vid.play().catch(function(){});
-  aktorT0=Date.now(); aktorOnset=new Date().toISOString();
+  vid.onplaying = function() {
+    aktorT0=Date.now(); aktorOnset=new Date().toISOString();
+    vid.onplaying=null;
+  };
+  vid.play().catch(function(){ aktorVideoHata(); });
 }
 function aktorVideoBitti() {
   if (!aktorYanitVerildi) aktorKaydet(null);
   else aktorSonraki();
+}
+function aktorVideoHata() {
+  document.getElementById('aktor-ileri-btn').style.display='inline-block';
+}
+function aktorManuelIleri() {
+  if (!aktorYanitVerildi) aktorKaydet(null);
+  aktorSonraki();
 }
 function aktorKaydet(basin_tus) {
   aktorYanitVerildi=true;
@@ -465,15 +478,26 @@ function ssVideoYukle() {
   document.getElementById('ss-tus-d').className='tus-kutu';
   document.getElementById('ss-tus-k').className='tus-kutu';
   document.getElementById('ss-tehlike-bilgi').innerHTML='⚠️ '+sn.tehlike;
+  document.getElementById('ss-ileri-btn').style.display='none';
   var vid=document.getElementById('ss-video');
   document.getElementById('ss-video-src').src=sn.video;
   vid.load();
-  vid.play().catch(function(){});
-  ssT0=Date.now(); ssOnset=new Date().toISOString();
+  vid.onplaying = function() {
+    ssT0=Date.now(); ssOnset=new Date().toISOString();
+    vid.onplaying=null;
+  };
+  vid.play().catch(function(){ ssVideoHata(); });
 }
 function ssVideoBitti() {
   if (!ssYanitVerildi) ssKaydet(null);
   else ssSonraki();
+}
+function ssVideoHata() {
+  document.getElementById('ss-ileri-btn').style.display='inline-block';
+}
+function ssManuelIleri() {
+  if (!ssYanitVerildi) ssKaydet(null);
+  ssSonraki();
 }
 function ssKaydet(basin_tus) {
   ssYanitVerildi=true;
