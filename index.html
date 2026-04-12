@@ -182,12 +182,18 @@
 <!-- AKTOR ACIKLAMA -->
 <section id="ekran-aktor-aciklama" class="ekran">
   <div class="bolum-bant"><div class="bolum-no">4</div><div>Aktor Senaryolari</div></div>
-  <p>Birazdan kisa video senaryolari izleyeceksiniz. Her senaryoda siz karar vericinin yerindesiniz.</p>
-  <p style="margin-top:12px">Tren raylarinda Turk veya Turk olmayan bireyler bulunmaktadir. Kolu cekerseniz treni yan raya kaydirirsiniz. Video oynarken kararinizi <strong>D</strong> veya <strong>K</strong> tusuna basarak bildirin.</p>
-  <div class="tus-alani" style="pointer-events:none;margin-top:16px">
-    <div class="tus-kutu"><span class="tus-harf">D</span><span class="tus-aciklama">Cekerim</span></div>
-    <div class="tus-kutu"><span class="tus-harf">K</span><span class="tus-aciklama">Cekmem</span></div>
+  <p>Bu bolumde bir tramvay kazasinin onlenmesinde <strong>karar verici</strong> rolundesiniz.</p>
+  <p style="margin-top:10px">Her senaryoda kontrolden cikan bir tramvay, raylarda bulunan bireylere dogru ilerlemektedir. Onunuzdeki kol, tramvayi yan raya yonlendirmenizi saglamaktadir:</p>
+  <ul style="margin:10px 0 10px 24px;color:#444;font-size:.95rem;line-height:2">
+    <li>Kolu <strong>C</strong>ekerseniz tramvay yan raya kayar — ana raydaki bireyler kurtulur, yan raydakiler tehlikeye girer.</li>
+    <li>Kolu <strong>C</strong>ekmezseniz tramvay mevcut yolunda devam eder — ana raydaki bireyler tehlikededir.</li>
+  </ul>
+  <p style="margin-top:4px">Video oynarken <strong>istediginiz an</strong> kararinizi klavyeden bildirin. Kararinizi verdikten sonra video tamamlanmaya devam edecektir.</p>
+  <div class="tus-alani" style="pointer-events:none;margin-top:20px">
+    <div class="tus-kutu"><span class="tus-harf">D</span><span class="tus-aciklama">Kolu Cekerim</span></div>
+    <div class="tus-kutu"><span class="tus-harf">K</span><span class="tus-aciklama">Kolu Cekmem</span></div>
   </div>
+  <p style="margin-top:16px;font-size:.85rem;color:#888;text-align:center">Toplam 6 senaryo gosterilecektir. Sirasi rastgele belirlenmistir.</p>
   <div class="btn-row">
     <button class="btn btn-gray" onclick="ekranGec('ekran-gges-to')">Geri</button>
     <button class="btn btn-primary" onclick="aktorBaslat()">Basla</button>
@@ -200,7 +206,7 @@
   <div class="ilerleme-metin" id="aktor-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div></div>
   <div class="video-kap">
-    <video id="aktor-video" style="max-height:400px" onerror="aktorVideoHata()">
+    <video id="aktor-video" tabindex="-1" style="max-height:400px" onerror="aktorVideoHata()">
       <source id="aktor-video-src" src="" type="video/mp4"/>
     </video>
     <button class="btn btn-primary" id="aktor-ileri-btn" onclick="aktorManuelIleri()" style="display:none">Sonraki Senaryo</button>
@@ -215,13 +221,19 @@
 
 <!-- SS ACIKLAMA -->
 <section id="ekran-ss-aciklama" class="ekran">
-  <div class="bolum-bant"><div class="bolum-no">5</div><div>SS Senaryolari</div></div>
-  <p>Birazdan yeni senaryolar izleyeceksiniz. Bu senaryolarda siz bir yaya koprusunun uzerindesiniz.</p>
-  <p style="margin-top:12px">Eger koprudan atlarsaniz tramvay duracak ve raylardaki kisiler kurtulacaktir. Video oynarken kararinizi <strong>D</strong> veya <strong>K</strong> tusuna basarak bildirin.</p>
-  <div class="tus-alani" style="pointer-events:none;margin-top:16px">
+  <div class="bolum-bant"><div class="bolum-no">5</div><div>Oz Fedakarlik Senaryolari</div></div>
+  <p>Bu bolumde yine bir tramvay kazasinin onlenmesinde <strong>karar verici</strong> rolundesiniz; ancak bu kez senaryo farklilasacaktir.</p>
+  <p style="margin-top:10px">Bir yaya koprusunun uzerinde durmaktasiniz. Raylarda kontrolden cikan bir tramvay bireylere dogru ilerlemektedir. Tramvayi durdurmak icin yapabileceginiz tek sey <strong>koprudan atlayarak tramvayin onune gecmektir.</strong></p>
+  <ul style="margin:10px 0 10px 24px;color:#444;font-size:.95rem;line-height:2">
+    <li><strong>A</strong>tlarsaniz tramvay durur — raylardaki bireyler kurtulur, siz hayatinizi kaybedersiniz.</li>
+    <li><strong>A</strong>tlamazsiniz — tramvay yoluna devam eder, raylardaki bireyler hayatini kaybeder.</li>
+  </ul>
+  <p style="margin-top:4px">Video oynarken <strong>istediginiz an</strong> kararinizi klavyeden bildirin. Kararinizi verdikten sonra video tamamlanmaya devam edecektir.</p>
+  <div class="tus-alani" style="pointer-events:none;margin-top:20px">
     <div class="tus-kutu"><span class="tus-harf">D</span><span class="tus-aciklama">Atlarim</span></div>
     <div class="tus-kutu"><span class="tus-harf">K</span><span class="tus-aciklama">Atlamam</span></div>
   </div>
+  <p style="margin-top:16px;font-size:.85rem;color:#888;text-align:center">Toplam 2 senaryo gosterilecektir. Sirasi rastgele belirlenmistir.</p>
   <div class="btn-row">
     <button class="btn btn-primary" onclick="ssBaslat()">Basla</button>
   </div>
@@ -233,7 +245,7 @@
   <div class="ilerleme-metin" id="ss-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="ss-ilerleme-ic" style="width:0%"></div></div>
   <div class="video-kap">
-    <video id="ss-video" style="max-height:400px" onerror="ssVideoHata()">
+    <video id="ss-video" tabindex="-1" style="max-height:400px" onerror="ssVideoHata()">
       <source id="ss-video-src" src="" type="video/mp4"/>
     </video>
     <button class="btn btn-primary" id="ss-ileri-btn" onclick="ssManuelIleri()" style="display:none">Sonraki Senaryo</button>
@@ -427,10 +439,12 @@ function aktorVideoYukle() {
   document.getElementById('aktor-ileri-btn').style.display='none';
   var vid=document.getElementById('aktor-video');
   document.getElementById('aktor-video-src').src=sn.video;
+  aktorT0=Date.now(); aktorOnset=new Date().toISOString();
   vid.load();
   vid.onplaying = function() {
     aktorT0=Date.now(); aktorOnset=new Date().toISOString();
     vid.onplaying=null;
+    vid.blur();
   };
   vid.play().catch(function(){ aktorVideoHata(); });
 }
@@ -481,10 +495,12 @@ function ssVideoYukle() {
   document.getElementById('ss-ileri-btn').style.display='none';
   var vid=document.getElementById('ss-video');
   document.getElementById('ss-video-src').src=sn.video;
+  ssT0=Date.now(); ssOnset=new Date().toISOString();
   vid.load();
   vid.onplaying = function() {
     ssT0=Date.now(); ssOnset=new Date().toISOString();
     vid.onplaying=null;
+    vid.blur();
   };
   vid.play().catch(function(){ ssVideoHata(); });
 }
