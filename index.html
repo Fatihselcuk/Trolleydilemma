@@ -63,6 +63,11 @@
   </style>
 </head>
 <body>
+<input id="klavye-tuzak" type="text"
+  style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none"
+  readonly
+  onkeydown="klavyeDinle(event)"
+/>
 
 <!-- ONAM -->
 <section id="ekran-hosgeldin" class="ekran aktif">
@@ -319,7 +324,7 @@ window.addEventListener('load', function() {
   }
   document.getElementById('aktor-video').addEventListener('ended', function(){ aktorVideoBitti(); });
   document.getElementById('ss-video').addEventListener('ended', function(){ ssVideoBitti(); });
-  window.addEventListener('keydown', klavyeDinle);
+  /* klavye-tuzak input kullaniliyor */
 });
 
 function ekranGec(id) {
@@ -424,10 +429,11 @@ function ggesToOgrula() {
 function aktorBaslat() {
   aktorSira=karistir(AKTOR_SENARYOLARI); aktorIndex=0; veri.aktor=[];
   veri.aktor_sirasi=aktorSira.map(function(s){ return s.id; });
-  aktifBolum='aktor'; ekranGec('ekran-aktor'); document.body.focus(); aktorVideoYukle();
+  aktifBolum='aktor'; ekranGec('ekran-aktor'); aktorVideoYukle();
 }
 function aktorVideoYukle() {
   aktorYanitVerildi=false;
+  document.getElementById('klavye-tuzak').focus();
   var toplam=aktorSira.length, sn=aktorSira[aktorIndex];
   document.getElementById('aktor-ilerleme-metin').textContent='Senaryo '+(aktorIndex+1)+' / '+toplam;
   document.getElementById('aktor-ilerleme-ic').style.width=((aktorIndex/toplam)*100)+'%';
@@ -444,7 +450,7 @@ function aktorVideoYukle() {
   vid.onplaying = function() {
     aktorT0=Date.now(); aktorOnset=new Date().toISOString();
     vid.onplaying=null;
-    document.body.focus();
+    document.getElementById('klavye-tuzak').focus();
   };
   vid.play().catch(function(){ aktorVideoHata(); });
 }
@@ -482,10 +488,11 @@ function aktorSonraki() {
 function ssBaslat() {
   ssSira=karistir(SS_SENARYOLARI); ssIndex=0; veri.ss=[];
   veri.ss_sirasi=ssSira.map(function(s){ return s.id; });
-  aktifBolum='ss'; ekranGec('ekran-ss'); document.body.focus(); ssVideoYukle();
+  aktifBolum='ss'; ekranGec('ekran-ss'); ssVideoYukle();
 }
 function ssVideoYukle() {
   ssYanitVerildi=false;
+  document.getElementById('klavye-tuzak').focus();
   var toplam=ssSira.length, sn=ssSira[ssIndex];
   document.getElementById('ss-ilerleme-metin').textContent='Senaryo '+(ssIndex+1)+' / '+toplam;
   document.getElementById('ss-ilerleme-ic').style.width=((ssIndex/toplam)*100)+'%';
@@ -500,7 +507,7 @@ function ssVideoYukle() {
   vid.onplaying = function() {
     ssT0=Date.now(); ssOnset=new Date().toISOString();
     vid.onplaying=null;
-    document.body.focus();
+    document.getElementById('klavye-tuzak').focus();
   };
   vid.play().catch(function(){ ssVideoHata(); });
 }
@@ -536,13 +543,16 @@ function ssSonraki() {
 }
 
 function klavyeDinle(e) {
-  var tus=e.key.toUpperCase();
-  if ((aktifBolum==='aktor'||aktifBolum==='ss') && (tus==='D'||tus==='K')) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (aktifBolum==='aktor' && !aktorYanitVerildi) { aktorKaydet(tus); return; }
-    if (aktifBolum==='ss'    && !ssYanitVerildi)    { ssKaydet(tus); }
+  var tus = e.key ? e.key.toUpperCase() : '';
+  if (tus !== 'D' && tus !== 'K') return;
+  e.preventDefault();
+  e.stopPropagation();
+  if (aktifBolum==='aktor' && !aktorYanitVerildi) {
+    aktorKaydet(tus);
+  } else if (aktifBolum==='ss' && !ssYanitVerildi) {
+    ssKaydet(tus);
   }
+  document.getElementById('klavye-tuzak').focus();
 }
 
 function veriGonder() {
