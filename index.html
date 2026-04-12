@@ -206,7 +206,7 @@
   <div class="ilerleme-metin" id="aktor-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="aktor-ilerleme-ic" style="width:0%"></div></div>
   <div class="video-kap">
-    <video id="aktor-video" tabindex="-1" style="max-height:400px" onerror="aktorVideoHata()">
+    <video id="aktor-video" tabindex="-1" style="max-height:400px;pointer-events:none" onerror="aktorVideoHata()">
       <source id="aktor-video-src" src="" type="video/mp4"/>
     </video>
     <button class="btn btn-primary" id="aktor-ileri-btn" onclick="aktorManuelIleri()" style="display:none">Sonraki Senaryo</button>
@@ -245,7 +245,7 @@
   <div class="ilerleme-metin" id="ss-ilerleme-metin"></div>
   <div class="ilerleme-kap"><div class="ilerleme-ic" id="ss-ilerleme-ic" style="width:0%"></div></div>
   <div class="video-kap">
-    <video id="ss-video" tabindex="-1" style="max-height:400px" onerror="ssVideoHata()">
+    <video id="ss-video" tabindex="-1" style="max-height:400px;pointer-events:none" onerror="ssVideoHata()">
       <source id="ss-video-src" src="" type="video/mp4"/>
     </video>
     <button class="btn btn-primary" id="ss-ileri-btn" onclick="ssManuelIleri()" style="display:none">Sonraki Senaryo</button>
@@ -319,7 +319,7 @@ window.addEventListener('load', function() {
   }
   document.getElementById('aktor-video').addEventListener('ended', function(){ aktorVideoBitti(); });
   document.getElementById('ss-video').addEventListener('ended', function(){ ssVideoBitti(); });
-  document.addEventListener('keydown', klavyeDinle);
+  window.addEventListener('keydown', klavyeDinle);
 });
 
 function ekranGec(id) {
@@ -424,7 +424,7 @@ function ggesToOgrula() {
 function aktorBaslat() {
   aktorSira=karistir(AKTOR_SENARYOLARI); aktorIndex=0; veri.aktor=[];
   veri.aktor_sirasi=aktorSira.map(function(s){ return s.id; });
-  aktifBolum='aktor'; ekranGec('ekran-aktor'); aktorVideoYukle();
+  aktifBolum='aktor'; ekranGec('ekran-aktor'); document.body.focus(); aktorVideoYukle();
 }
 function aktorVideoYukle() {
   aktorYanitVerildi=false;
@@ -444,7 +444,7 @@ function aktorVideoYukle() {
   vid.onplaying = function() {
     aktorT0=Date.now(); aktorOnset=new Date().toISOString();
     vid.onplaying=null;
-    vid.blur();
+    document.body.focus();
   };
   vid.play().catch(function(){ aktorVideoHata(); });
 }
@@ -482,7 +482,7 @@ function aktorSonraki() {
 function ssBaslat() {
   ssSira=karistir(SS_SENARYOLARI); ssIndex=0; veri.ss=[];
   veri.ss_sirasi=ssSira.map(function(s){ return s.id; });
-  aktifBolum='ss'; ekranGec('ekran-ss'); ssVideoYukle();
+  aktifBolum='ss'; ekranGec('ekran-ss'); document.body.focus(); ssVideoYukle();
 }
 function ssVideoYukle() {
   ssYanitVerildi=false;
@@ -500,7 +500,7 @@ function ssVideoYukle() {
   vid.onplaying = function() {
     ssT0=Date.now(); ssOnset=new Date().toISOString();
     vid.onplaying=null;
-    vid.blur();
+    document.body.focus();
   };
   vid.play().catch(function(){ ssVideoHata(); });
 }
@@ -537,11 +537,11 @@ function ssSonraki() {
 
 function klavyeDinle(e) {
   var tus=e.key.toUpperCase();
-  if (aktifBolum==='aktor' && (tus==='D'||tus==='K') && !aktorYanitVerildi) {
-    aktorKaydet(tus); return;
-  }
-  if (aktifBolum==='ss' && (tus==='D'||tus==='K') && !ssYanitVerildi) {
-    ssKaydet(tus);
+  if ((aktifBolum==='aktor'||aktifBolum==='ss') && (tus==='D'||tus==='K')) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (aktifBolum==='aktor' && !aktorYanitVerildi) { aktorKaydet(tus); return; }
+    if (aktifBolum==='ss'    && !ssYanitVerildi)    { ssKaydet(tus); }
   }
 }
 
