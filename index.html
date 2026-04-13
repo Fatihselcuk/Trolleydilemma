@@ -310,8 +310,10 @@ var SS_SENARYOLARI = [
 var veri = {};
 var aktorSira=[], aktorIndex=0, aktorYanitVerildi=false;
 var aktorT0=0, aktorOnset='';
+var aktorTimerId=null;
 var ssSira=[], ssIndex=0, ssYanitVerildi=false;
 var ssT0=0, ssOnset='';
+var ssTimerId=null;
 var aktifBolum='';
 
 window.addEventListener('load', function() {
@@ -433,6 +435,7 @@ function aktorBaslat() {
 }
 function aktorVideoYukle() {
   aktorYanitVerildi=false;
+  if (aktorTimerId) { clearTimeout(aktorTimerId); aktorTimerId=null; }
   focusTuzak();
   var toplam=aktorSira.length, sn=aktorSira[aktorIndex];
   document.getElementById('aktor-ilerleme-metin').textContent='Senaryo '+(aktorIndex+1)+' / '+toplam;
@@ -451,12 +454,18 @@ function aktorVideoYukle() {
     aktorT0=Date.now(); aktorOnset=new Date().toISOString();
     vid.onplaying=null;
     focusTuzak();
+    /* 8 saniye timer: dolunca YOK kaydet ve sonraki */
+    aktorTimerId = setTimeout(function() {
+      if (!aktorYanitVerildi) {
+        aktorKaydet(null);
+        aktorSonraki();
+      }
+    }, 8000);
   };
   vid.play().catch(function(){ aktorVideoHata(); });
 }
 function aktorVideoBitti() {
-  if (!aktorYanitVerildi) aktorKaydet(null);
-  else aktorSonraki();
+  /* Video bitti ama 8 saniye timer hâlâ bekliyor — katılımcı hâlâ yanıt verebilir */
 }
 function aktorVideoHata() {
   document.getElementById('aktor-ileri-btn').style.display='inline-block';
@@ -466,7 +475,9 @@ function aktorManuelIleri() {
   aktorSonraki();
 }
 function aktorKaydet(basin_tus) {
+  if (aktorYanitVerildi) return;
   aktorYanitVerildi=true;
+  if (aktorTimerId) { clearTimeout(aktorTimerId); aktorTimerId=null; }
   var sn=aktorSira[aktorIndex];
   var rt_ms=Date.now()-aktorT0, rt_sn=parseFloat((rt_ms/1000).toFixed(3));
   if (basin_tus==='D') document.getElementById('tus-d').className='tus-kutu secildi';
@@ -478,6 +489,11 @@ function aktorKaydet(basin_tus) {
     tepki_suresi_ms:basin_tus!==null?rt_ms:null,
     tepki_suresi_sn:basin_tus!==null?rt_sn:null
   });
+  /* Video durdur */
+  var vid=document.getElementById('aktor-video');
+  vid.pause(); vid.currentTime=0;
+  /* Hemen sonraki senaryoya geç */
+  if (basin_tus!==null) aktorSonraki();
 }
 function aktorSonraki() {
   aktorIndex++;
@@ -492,6 +508,7 @@ function ssBaslat() {
 }
 function ssVideoYukle() {
   ssYanitVerildi=false;
+  if (ssTimerId) { clearTimeout(ssTimerId); ssTimerId=null; }
   focusTuzak();
   var toplam=ssSira.length, sn=ssSira[ssIndex];
   document.getElementById('ss-ilerleme-metin').textContent='Senaryo '+(ssIndex+1)+' / '+toplam;
@@ -508,12 +525,17 @@ function ssVideoYukle() {
     ssT0=Date.now(); ssOnset=new Date().toISOString();
     vid.onplaying=null;
     focusTuzak();
+    ssTimerId = setTimeout(function() {
+      if (!ssYanitVerildi) {
+        ssKaydet(null);
+        ssSonraki();
+      }
+    }, 8000);
   };
   vid.play().catch(function(){ ssVideoHata(); });
 }
 function ssVideoBitti() {
-  if (!ssYanitVerildi) ssKaydet(null);
-  else ssSonraki();
+  /* Video bitti ama 8 saniye timer hâlâ bekliyor */
 }
 function ssVideoHata() {
   document.getElementById('ss-ileri-btn').style.display='inline-block';
@@ -523,7 +545,9 @@ function ssManuelIleri() {
   ssSonraki();
 }
 function ssKaydet(basin_tus) {
+  if (ssYanitVerildi) return;
   ssYanitVerildi=true;
+  if (ssTimerId) { clearTimeout(ssTimerId); ssTimerId=null; }
   var sn=ssSira[ssIndex];
   var rt_ms=Date.now()-ssT0, rt_sn=parseFloat((rt_ms/1000).toFixed(3));
   if (basin_tus==='D') document.getElementById('ss-tus-d').className='tus-kutu secildi';
@@ -535,6 +559,9 @@ function ssKaydet(basin_tus) {
     tepki_suresi_ms:basin_tus!==null?rt_ms:null,
     tepki_suresi_sn:basin_tus!==null?rt_sn:null
   });
+  var vid=document.getElementById('ss-video');
+  vid.pause(); vid.currentTime=0;
+  if (basin_tus!==null) ssSonraki();
 }
 function ssSonraki() {
   ssIndex++;
