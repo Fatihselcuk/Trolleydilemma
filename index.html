@@ -64,8 +64,8 @@
 </head>
 <body>
 <input id="klavye-tuzak" type="text"
-  style="position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none"
-  readonly
+  style="position:fixed;top:0;left:0;width:2px;height:2px;opacity:0;border:none;outline:none;background:transparent;color:transparent;caret-color:transparent;"
+  autocomplete="off"
   onkeydown="klavyeDinle(event)"
 />
 
@@ -429,11 +429,11 @@ function ggesToOgrula() {
 function aktorBaslat() {
   aktorSira=karistir(AKTOR_SENARYOLARI); aktorIndex=0; veri.aktor=[];
   veri.aktor_sirasi=aktorSira.map(function(s){ return s.id; });
-  aktifBolum='aktor'; ekranGec('ekran-aktor'); aktorVideoYukle();
+  aktifBolum='aktor'; ekranGec('ekran-aktor'); focusBaslat(); aktorVideoYukle();
 }
 function aktorVideoYukle() {
   aktorYanitVerildi=false;
-  document.getElementById('klavye-tuzak').focus();
+  focusTuzak();
   var toplam=aktorSira.length, sn=aktorSira[aktorIndex];
   document.getElementById('aktor-ilerleme-metin').textContent='Senaryo '+(aktorIndex+1)+' / '+toplam;
   document.getElementById('aktor-ilerleme-ic').style.width=((aktorIndex/toplam)*100)+'%';
@@ -450,7 +450,7 @@ function aktorVideoYukle() {
   vid.onplaying = function() {
     aktorT0=Date.now(); aktorOnset=new Date().toISOString();
     vid.onplaying=null;
-    document.getElementById('klavye-tuzak').focus();
+    focusTuzak();
   };
   vid.play().catch(function(){ aktorVideoHata(); });
 }
@@ -482,17 +482,17 @@ function aktorKaydet(basin_tus) {
 function aktorSonraki() {
   aktorIndex++;
   if (aktorIndex < aktorSira.length) { setTimeout(aktorVideoYukle, 300); }
-  else { aktifBolum=''; ekranGec('ekran-ss-aciklama'); }
+  else { aktifBolum=''; focusDurdur(); ekranGec('ekran-ss-aciklama'); }
 }
 
 function ssBaslat() {
   ssSira=karistir(SS_SENARYOLARI); ssIndex=0; veri.ss=[];
   veri.ss_sirasi=ssSira.map(function(s){ return s.id; });
-  aktifBolum='ss'; ekranGec('ekran-ss'); ssVideoYukle();
+  aktifBolum='ss'; ekranGec('ekran-ss'); focusBaslat(); ssVideoYukle();
 }
 function ssVideoYukle() {
   ssYanitVerildi=false;
-  document.getElementById('klavye-tuzak').focus();
+  focusTuzak();
   var toplam=ssSira.length, sn=ssSira[ssIndex];
   document.getElementById('ss-ilerleme-metin').textContent='Senaryo '+(ssIndex+1)+' / '+toplam;
   document.getElementById('ss-ilerleme-ic').style.width=((ssIndex/toplam)*100)+'%';
@@ -507,7 +507,7 @@ function ssVideoYukle() {
   vid.onplaying = function() {
     ssT0=Date.now(); ssOnset=new Date().toISOString();
     vid.onplaying=null;
-    document.getElementById('klavye-tuzak').focus();
+    focusTuzak();
   };
   vid.play().catch(function(){ ssVideoHata(); });
 }
@@ -539,21 +539,46 @@ function ssKaydet(basin_tus) {
 function ssSonraki() {
   ssIndex++;
   if (ssIndex < ssSira.length) { setTimeout(ssVideoYukle, 300); }
-  else { aktifBolum=''; veriGonder(); }
+  else { aktifBolum=''; focusDurdur(); veriGonder(); }
+}
+
+var focusInterval = null;
+
+function focusTuzak() {
+  var el = document.getElementById('klavye-tuzak');
+  if (el && document.activeElement !== el) el.focus();
+}
+
+function focusBaslat() {
+  focusTuzak();
+  if (focusInterval) clearInterval(focusInterval);
+  focusInterval = setInterval(focusTuzak, 100);
+}
+
+function focusDurdur() {
+  if (focusInterval) { clearInterval(focusInterval); focusInterval = null; }
 }
 
 function klavyeDinle(e) {
-  var tus = e.key ? e.key.toUpperCase() : '';
+  var tus = (e.key || '').toUpperCase();
   if (tus !== 'D' && tus !== 'K') return;
   e.preventDefault();
-  e.stopPropagation();
   if (aktifBolum==='aktor' && !aktorYanitVerildi) {
     aktorKaydet(tus);
   } else if (aktifBolum==='ss' && !ssYanitVerildi) {
     ssKaydet(tus);
   }
-  document.getElementById('klavye-tuzak').focus();
 }
+
+window.addEventListener('keydown', function(e) {
+  var tus = (e.key || '').toUpperCase();
+  if (tus !== 'D' && tus !== 'K') return;
+  if (aktifBolum==='aktor' && !aktorYanitVerildi) {
+    e.preventDefault(); aktorKaydet(tus);
+  } else if (aktifBolum==='ss' && !ssYanitVerildi) {
+    e.preventDefault(); ssKaydet(tus);
+  }
+});
 
 function veriGonder() {
   ekranGec('ekran-gonderim');
